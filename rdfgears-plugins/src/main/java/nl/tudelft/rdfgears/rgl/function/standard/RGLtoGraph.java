@@ -138,6 +138,9 @@ class ValueToRDFVisitor implements RGLValueVisitor {
 		lazyValue.accept(this);
 	}
 
-
+	@Override
+	public void visit(Model model) {
+		/* nothing to do */
+	}
 
 }

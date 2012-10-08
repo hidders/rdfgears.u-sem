@@ -82,6 +82,15 @@ public class ValueFactory {
 	public static RDFValue createURI(String uri){
 		return factory.createURI(uri);
 	}
+	
+	/**
+	 * Create an RDF value given a Jena Model object. 
+	 * @param node
+	 * @return
+	 */
+	public static RDFValue createRDFModelValue(Model model){
+		return factory.createRDFModelValue(model);
+	}
 
 	/***********************************************************************
 	 * Literal methods

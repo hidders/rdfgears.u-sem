@@ -5,6 +5,7 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BooleanValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.GraphValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.LiteralValue;
+import nl.tudelft.rdfgears.rgl.datamodel.value.RDFModelValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RDFValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RecordValue;
@@ -37,6 +38,8 @@ public interface ValueFactoryIface {
 	public ModifiableRecord createModifiableRecordValue(FieldIndexMap map);
 	
 	public RDFValue createRDFValue(RDFNode node);
+	
+	public RDFModelValue createRDFModelValue(Model model);
 	
 	public LiteralValue createLiteralTyped(Object value, RDFDatatype dtype);
 	

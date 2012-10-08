@@ -26,4 +26,6 @@ nl.tudelft.rdfgears.rgl.function.imreal.TwitterLanguageDetector
 nl.tudelft.rdfgears.rgl.function.imreal.CoordinatesToCountry
 nl.tudelft.rdfgears.rgl.function.imreal.FlickrPhotoLocator
 
+nl.tudelft.rdfgears.rgl.function.imreal.uuid.StoreUUIDFunction
+nl.tudelft.rdfgears.rgl.function.imreal.uuid.RetrieveUUIDFunction
 

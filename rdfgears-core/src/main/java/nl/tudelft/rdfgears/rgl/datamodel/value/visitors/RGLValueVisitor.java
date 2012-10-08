@@ -1,5 +1,7 @@
 package nl.tudelft.rdfgears.rgl.datamodel.value.visitors;
 
+import com.hp.hpl.jena.rdf.model.Model;
+
 import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BooleanValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.GraphValue;
@@ -20,6 +22,7 @@ public interface RGLValueVisitor {
     void visit(URIValue uri);
     void visit(LazyRGLValue lazyValue);
 	void visit(RGLNull rglError);
+	void visit(Model model);
 
     
 }

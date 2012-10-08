@@ -3,11 +3,11 @@ package nl.tudelft.rdfgears.engine.valuefactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.tudelft.rdfgears.engine.diskvalues.DiskList;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BooleanValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.GraphValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.LiteralValue;
+import nl.tudelft.rdfgears.rgl.datamodel.value.RDFModelValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RDFValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLNull;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
@@ -72,6 +72,11 @@ public class MemoryValueFactory implements ValueFactoryIface {
 		
 		assert(false): "Fixme, not implemented";
 		return null;
+	}
+	
+	@Override
+	public RDFModelValue createRDFModelValue(Model model) {
+		return new RDFModelValue(model);
 	}
 	
 	@Override

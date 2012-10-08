@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.Set;
@@ -29,8 +30,10 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.URIValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.impl.MemoryLiteralValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.serialization.rglxml.ValueXMLSerializer;
 import nl.tudelft.rdfgears.rgl.workflow.LazyRGLValue;
+import nl.tudelft.rdfgears.util.XMLUtil;
 
 import com.hp.hpl.jena.n3.N3JenaWriter;
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFWriter;
 
 
@@ -253,6 +256,16 @@ public class ImRealXMLSerializer extends ValueSerializer {
 		// we cannot deal with this value, let the value evaluate itself and call this visitor 
 		// again with right method signature for OO-dispatching
 		lazyValue.accept(this);
+	}
+	
+	@Override
+	public void visit(Model model) {
+		try {
+		    XMLUtil.writeModel2XML(model, xmlwriter);
+		} catch (Exception e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
 	}
 
 }
