@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>imreal/countCountries</id>
+      <description/>
+      <password>semweb</password>
+   </metadata>
+   <workflow>
+      <workflowInputList x="42" y="110">
+         <workflowInputPort name="bagOfRecords"/>
+      </workflowInputList>
+      <network output="node_129" x="492" y="185">
+         <processor id="node_129" x="485" y="43">
+            <function type="record-create">
+               <config param="fields">country;count;</config>
+            </function>
+            <inputPort iterate="false" name="country">
+               <source processor="node_128"/>
+            </inputPort>
+            <inputPort iterate="false" name="count">
+               <source processor="node_126"/>
+            </inputPort>
+         </processor>
+         <processor id="node_128" x="336" y="47">
+            <function type="record-project">
+               <config param="projectField">country</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source processor="node_127"/>
+            </inputPort>
+         </processor>
+         <processor id="node_127" x="190" y="22">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.standard.ArbitraryBagElement</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source workflowInputPort="bagOfRecords"/>
+            </inputPort>
+         </processor>
+         <processor id="node_126" x="268" y="165">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.standard.BagSize</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source workflowInputPort="bagOfRecords"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

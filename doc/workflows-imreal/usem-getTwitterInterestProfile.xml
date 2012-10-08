@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>usem-getTwitterInterestProfile</id>
+      <description/>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="9" y="194">
+         <workflowInputPort name="username"/>
+         <workflowInputPort name="profileType"/>
+      </workflowInputList>
+      <network output="node_55" x="568" y="242">
+         <processor id="node_55" x="602" y="52">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.standard.FetchRDF</config>
+            </function>
+            <inputPort iterate="false" name="uri">
+               <source processor="node_2"/>
+            </inputPort>
+         </processor>
+         <processor id="node_2" x="408" y="42">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.standard.BuildURL</config>
+            </function>
+            <inputPort iterate="false" name="base_url">
+               <source processor="node_3"/>
+            </inputPort>
+            <inputPort iterate="false" name="get_params">
+               <source processor="node_5"/>
+            </inputPort>
+         </processor>
+         <processor id="node_3" x="178" y="10">
+            <function type="constant">
+               <config param="value">&lt;http://wisserver.st.ewi.tudelft.nl:8080/um-twitter-service/profile/&gt;</config>
+            </function>
+         </processor>
+         <processor id="node_5" x="226" y="151">
+            <function type="record-create">
+               <config param="fields">format;username;profileType;</config>
+            </function>
+            <inputPort iterate="false" name="format">
+               <source processor="node_6"/>
+            </inputPort>
+            <inputPort iterate="false" name="username">
+               <source workflowInputPort="username"/>
+            </inputPort>
+            <inputPort iterate="false" name="profileType">
+               <source workflowInputPort="profileType"/>
+            </inputPort>
+         </processor>
+         <processor id="node_6" x="30" y="106">
+            <function type="constant">
+               <config param="value">"rdf"</config>
+            </function>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

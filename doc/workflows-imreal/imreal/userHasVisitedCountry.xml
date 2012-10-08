@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>imreal/userHasVisitedCountry</id>
+      <description/>
+      <password>semweb</password>
+   </metadata>
+   <workflow>
+      <workflowInputList x="23" y="92">
+         <workflowInputPort name="flickrUser"/>
+         <workflowInputPort name="country"/>
+      </workflowInputList>
+      <network output="node_149" x="513" y="325">
+         <processor id="node_149" x="575" y="189">
+            <function type="comparator">
+               <config param="operator">OP_GREATER</config>
+            </function>
+            <inputPort iterate="false" name="a">
+               <source processor="node_148"/>
+            </inputPort>
+            <inputPort iterate="false" name="b">
+               <source processor="node_150"/>
+            </inputPort>
+         </processor>
+         <processor id="node_148" x="646" y="38">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.standard.BagSize</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source processor="node_102"/>
+            </inputPort>
+         </processor>
+         <processor id="node_102" x="487" y="34">
+            <function type="filter">
+               <config param="implementation">workflow:imreal/countryVisited</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source processor="node_110"/>
+            </inputPort>
+         </processor>
+         <processor id="node_110" x="342" y="45">
+            <function type="record-create">
+               <config param="fields">countCountry;searchCountry;</config>
+            </function>
+            <inputPort iterate="true" name="countCountry">
+               <source processor="node_59"/>
+            </inputPort>
+            <inputPort iterate="false" name="searchCountry">
+               <source workflowInputPort="country"/>
+            </inputPort>
+         </processor>
+         <processor id="node_59" x="179" y="23">
+            <function type="custom-java">
+               <config param="implementation">workflow:imreal/countCountriesForUser</config>
+            </function>
+            <inputPort iterate="false" name="flickrUser">
+               <source workflowInputPort="flickrUser"/>
+            </inputPort>
+         </processor>
+         <processor id="node_150" x="367" y="231">
+            <function type="constant">
+               <config param="value">"0"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt;</config>
+            </function>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

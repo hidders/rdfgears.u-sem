@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>silkCat/createLink</id>
+      <description>Determine a similarity value and whether it exceed threshold</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="29" y="181">
+         <workflowInputPort name="mov_dir"/>
+      </workflowInputList>
+      <network output="node_285" x="712" y="218">
+         <processor id="node_285" x="569" y="78">
+            <function type="record-create">
+               <config param="fields">s;p;o;</config>
+            </function>
+            <inputPort iterate="false" name="s">
+               <source processor="projectLabelDbpedia"/>
+            </inputPort>
+            <inputPort iterate="false" name="p">
+               <source processor="node_286"/>
+            </inputPort>
+            <inputPort iterate="false" name="o">
+               <source processor="projectDirName"/>
+            </inputPort>
+         </processor>
+         <processor id="projectLabelDbpedia" x="351" y="38">
+            <function type="record-project">
+               <config param="projectField">mov</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source processor="projectDbpedia"/>
+            </inputPort>
+         </processor>
+         <processor id="projectDbpedia" x="178" y="39">
+            <function type="record-project">
+               <config param="projectField">dbpedia</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="mov_dir"/>
+            </inputPort>
+         </processor>
+         <processor id="node_286" x="308" y="151">
+            <function type="constant">
+               <config param="value">&lt;http://dbpedia.org/ontology/director&gt;</config>
+            </function>
+         </processor>
+         <processor id="projectDirName" x="348" y="244">
+            <function type="record-project">
+               <config param="projectField">dir</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source processor="projectLMDB"/>
+            </inputPort>
+         </processor>
+         <processor id="projectLMDB" x="187" y="248">
+            <function type="record-project">
+               <config param="projectField">lmdb</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="mov_dir"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

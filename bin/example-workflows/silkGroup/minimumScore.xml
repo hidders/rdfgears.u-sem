@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>silkGroup/minimumScore</id>
+      <name/>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="10" y="100">
+         <workflowInputPort name="input1"/>
+      </workflowInputList>
+      <network output="node_276" x="352" y="182">
+         <processor id="node_276" x="315" y="58">
+            <function type="comparator">
+               <config param="operator">OP_GREATER_EQUAL</config>
+            </function>
+            <inputPort iterate="false" name="a">
+               <source processor="node_275"/>
+            </inputPort>
+            <inputPort iterate="false" name="b">
+               <source processor="node_277"/>
+            </inputPort>
+         </processor>
+         <processor id="node_275" x="140" y="14">
+            <function type="record-project">
+               <config param="projectField">score</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="input1"/>
+            </inputPort>
+         </processor>
+         <processor id="node_277" x="144" y="170">
+            <function type="constant">
+               <config param="value">"0.9"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt;</config>
+            </function>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

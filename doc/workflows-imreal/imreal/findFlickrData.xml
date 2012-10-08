@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>imreal/findFlickrData</id>
+      <description>Find and enrich flickr photo data</description>
+      <password>semweb</password>
+   </metadata>
+   <workflow>
+      <workflowInputList x="10" y="100">
+         <workflowInputPort name="username"/>
+      </workflowInputList>
+      <network output="node_43" x="394" y="359">
+         <processor id="node_43" x="318" y="42">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.FlickrPhotoLocator</config>
+            </function>
+            <inputPort iterate="false" name="flickrUser">
+               <source workflowInputPort="username"/>
+            </inputPort>
+            <inputPort iterate="false" name="serviceHost">
+               <source processor="node_45"/>
+            </inputPort>
+            <inputPort iterate="false" name="servicePort">
+               <source processor="node_44"/>
+            </inputPort>
+         </processor>
+         <processor id="node_45" x="150" y="179">
+            <function type="constant">
+               <config param="value">"apstwo.st.ewi.tudelft.nl"</config>
+            </function>
+         </processor>
+         <processor id="node_44" x="163" y="263">
+            <function type="constant">
+               <config param="value">"5555"</config>
+            </function>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

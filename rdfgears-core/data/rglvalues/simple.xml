@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rgl xmlns:rgl="http://wis.ewi.tudelft.nl/rgl/datamodel#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <record>
+    <field name="nullField">
+        <null message="just for testing" />
+    </field>
+    <field name="other">
+      <bag>
+        <literal>Apple</literal>
+        <literal>Pear</literal>
+      </bag>
+    </field>
+  </record>
+</rgl>
+

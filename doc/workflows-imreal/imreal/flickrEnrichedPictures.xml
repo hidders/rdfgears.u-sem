@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>imreal/flickrEnrichedPictures</id>
+      <description>Determine a users favorite photography locations.</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="22" y="30">
+         <workflowInputPort name="flickrUser"/>
+      </workflowInputList>
+      <network output="node_447" x="374" y="166">
+         <processor id="node_447" x="373" y="19">
+            <function type="custom-java">
+               <config param="implementation">workflow:imreal/photoAttachCountry</config>
+            </function>
+            <inputPort iterate="true" name="photo">
+               <source processor="node_446"/>
+            </inputPort>
+         </processor>
+         <processor id="node_446" x="194" y="8">
+            <function type="custom-java">
+               <config param="implementation">workflow:imreal/findFlickrData</config>
+            </function>
+            <inputPort iterate="false" name="username">
+               <source workflowInputPort="flickrUser"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

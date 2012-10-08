@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>imreal/countCountriesForUser</id>
+      <description>Determine a users favorite photography locations.</description>
+      <password>semweb</password>
+   </metadata>
+   <workflow>
+      <workflowInputList x="22" y="30">
+         <workflowInputPort name="flickrUser"/>
+      </workflowInputList>
+      <network output="node_140" x="448" y="372">
+         <processor id="node_140" x="450" y="147">
+            <function type="custom-java">
+               <config param="implementation">workflow:imreal/countCountries</config>
+            </function>
+            <inputPort iterate="true" name="bagOfRecords">
+               <source processor="node_125"/>
+            </inputPort>
+         </processor>
+         <processor id="node_125" x="296" y="170">
+            <function type="record-project">
+               <config param="projectField">group</config>
+            </function>
+            <inputPort iterate="true" name="record">
+               <source processor="node_418"/>
+            </inputPort>
+         </processor>
+         <processor id="node_418" x="123" y="165">
+            <function type="bag-groupby">
+               <config param="groupByField">country</config>
+            </function>
+            <inputPort iterate="false" name="bag_of_records">
+               <source processor="node_235"/>
+            </inputPort>
+         </processor>
+         <processor id="node_235" x="552" y="22">
+            <function type="custom-java">
+               <config param="implementation">workflow:imreal/takeCountryGuess</config>
+            </function>
+            <inputPort iterate="true" name="flickEnrichedPic">
+               <source processor="node_447"/>
+            </inputPort>
+         </processor>
+         <processor id="node_447" x="373" y="19">
+            <function type="custom-java">
+               <config param="implementation">workflow:imreal/photoAttachCountry</config>
+            </function>
+            <inputPort iterate="true" name="photo">
+               <source processor="node_446"/>
+            </inputPort>
+         </processor>
+         <processor id="node_446" x="194" y="8">
+            <function type="custom-java">
+               <config param="implementation">workflow:imreal/findFlickrData</config>
+            </function>
+            <inputPort iterate="false" name="username">
+               <source workflowInputPort="flickrUser"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

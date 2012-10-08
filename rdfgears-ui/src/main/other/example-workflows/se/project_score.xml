@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>se/project_score</id>
+      <description>Dependency for silk example</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="28" y="65">
+         <workflowInputPort name="record"/>
+      </workflowInputList>
+      <network output="node_1" x="195" y="146">
+         <processor id="node_1" x="165" y="35">
+            <function type="record-project">
+               <config param="projectField">score</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="record"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>imreal/findFlickrData_dummy</id>
+      <description>Dummy function to generate Flick foto list. Input is ignored. </description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="10" y="100">
+         <workflowInputPort name="username"/>
+      </workflowInputList>
+      <network output="node_386" x="612" y="465">
+         <processor id="node_386" x="864" y="97">
+            <function type="bag-union"/>
+            <inputPort iterate="false" name="bag1">
+               <source processor="node_37"/>
+            </inputPort>
+            <inputPort iterate="false" name="bag2">
+               <source processor="node_37"/>
+            </inputPort>
+         </processor>
+         <processor id="node_37" x="784" y="258">
+            <function type="bag-union"/>
+            <inputPort iterate="false" name="bag1">
+               <source processor="node_9"/>
+            </inputPort>
+            <inputPort iterate="false" name="bag2">
+               <source processor="node_36"/>
+            </inputPort>
+         </processor>
+         <processor id="node_9" x="656" y="164">
+            <function type="bag-union"/>
+            <inputPort iterate="false" name="bag1">
+               <source processor="node_7"/>
+            </inputPort>
+            <inputPort iterate="false" name="bag2">
+               <source processor="node_8"/>
+            </inputPort>
+         </processor>
+         <processor id="node_7" x="522" y="126">
+            <function type="bag-singleton"/>
+            <inputPort iterate="false" name="value">
+               <source processor="node_5"/>
+            </inputPort>
+         </processor>
+         <processor id="node_5" x="339" y="65">
+            <function type="record-create">
+               <config param="fields">longitude;latitude;photoId;</config>
+            </function>
+            <inputPort iterate="false" name="longitude">
+               <source processor="node_3"/>
+            </inputPort>
+            <inputPort iterate="false" name="latitude">
+               <source processor="node_4"/>
+            </inputPort>
+            <inputPort iterate="false" name="photoId">
+               <source processor="node_16"/>
+            </inputPort>
+         </processor>
+         <processor id="node_3" x="161" y="61">
+            <function type="constant">
+               <config param="value">"4"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt;</config>
+            </function>
+         </processor>
+         <processor id="node_4" x="164" y="147">
+            <function type="constant">
+               <config param="value">"57.3"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt;</config>
+            </function>
+         </processor>
+         <processor id="node_16" x="158" y="210">
+            <function type="constant">
+               <config param="value">"photo453"</config>
+            </function>
+         </processor>
+         <processor id="node_8" x="512" y="238">
+            <function type="bag-singleton"/>
+            <inputPort iterate="false" name="value">
+               <source processor="node_6"/>
+            </inputPort>
+         </processor>
+         <processor id="node_6" x="335" y="262">
+            <function type="record-create">
+               <config param="fields">longitude;latitude;photoId;</config>
+            </function>
+            <inputPort iterate="false" name="longitude">
+               <source processor="node_1"/>
+            </inputPort>
+            <inputPort iterate="false" name="latitude">
+               <source processor="node_2"/>
+            </inputPort>
+            <inputPort iterate="false" name="photoId">
+               <source processor="node_17"/>
+            </inputPort>
+         </processor>
+         <processor id="node_1" x="164" y="296">
+            <function type="constant">
+               <config param="value">"20.2"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt;</config>
+            </function>
+         </processor>
+         <processor id="node_2" x="165" y="356">
+            <function type="constant">
+               <config param="value">"12"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt;</config>
+            </function>
+         </processor>
+         <processor id="node_17" x="159" y="440">
+            <function type="constant">
+               <config param="value">"photo23"</config>
+            </function>
+         </processor>
+         <processor id="node_36" x="506" y="334">
+            <function type="bag-singleton"/>
+            <inputPort iterate="false" name="value">
+               <source processor="node_6"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

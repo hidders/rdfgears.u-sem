@@ -1,0 +1,7 @@
+# list of workflows to copy in when using an
+# empty temporary folder for workflow storage.
+silkGroup/attachSimilarity.xml
+silkGroup/findBestMatch.xml
+silkGroup/mainRDF-all.xml
+silkGroup/mainRDF.xml
+silkGroup/minimumScore.xml

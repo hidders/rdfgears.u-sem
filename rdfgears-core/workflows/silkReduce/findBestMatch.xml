@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>silkReduce/findBestMatch</id>
+      <description>Runnable silk directors-example, reducing the number of results per movie to 1</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="30" y="73">
+         <workflowInputPort name="lmdb_bag"/>
+         <workflowInputPort name="dbpedia"/>
+      </workflowInputList>
+      <network output="node_6" x="545" y="263">
+         <processor id="node_6" x="529" y="95">
+            <function type="select-top-scorer">
+               <config param="scoringFunction">workflow:util/project_score</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source processor="node_164"/>
+            </inputPort>
+         </processor>
+         <processor id="node_164" x="212" y="65">
+            <function type="custom-java">
+               <config param="implementation">workflow:silkReduce/attachSimilarity</config>
+            </function>
+            <inputPort iterate="true" name="lmdb">
+               <source workflowInputPort="lmdb_bag"/>
+            </inputPort>
+            <inputPort iterate="false" name="dbpedia">
+               <source workflowInputPort="dbpedia"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

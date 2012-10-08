@@ -1,0 +1,13 @@
+#
+# Functions listed here will be loadable by RDF Gears. 
+#
+#
+
+# core
+nl.tudelft.rdfgears.rgl.function.core.Identity
+#nl.tudelft.rdfgears.rgl.function.core.BagToGraph
+
+#ImREAL:
+nl.tudelft.rdfgears.rgl.function.imreal.FlickrPhotoLocator
+nl.tudelft.rdfgears.rgl.function.imreal.CoordinatesToCountry
+nl.tudelft.rdfgears.rgl.function.imreal.TwitterLanguageDetector

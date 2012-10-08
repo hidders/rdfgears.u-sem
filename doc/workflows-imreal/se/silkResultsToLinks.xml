@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>se/silkResultsToLinks</id>
+      <description/>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="5" y="112">
+         <workflowInputPort name="results"/>
+         <workflowInputPort name="linkProperty"/>
+      </workflowInputList>
+      <network output="node_710" x="420" y="228">
+         <processor id="node_710" x="459" y="58">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.standard.BagToGraph</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source processor="node_708"/>
+            </inputPort>
+         </processor>
+         <processor id="node_708" x="289" y="42">
+            <function type="custom-java">
+               <config param="implementation">workflow:se/createLink</config>
+            </function>
+            <inputPort iterate="true" name="silkResults">
+               <source processor="node_709"/>
+            </inputPort>
+            <inputPort iterate="false" name="linkProperty">
+               <source workflowInputPort="linkProperty"/>
+            </inputPort>
+         </processor>
+         <processor id="node_709" x="143" y="32">
+            <function type="record-project">
+               <config param="projectField">accept</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="results"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>
