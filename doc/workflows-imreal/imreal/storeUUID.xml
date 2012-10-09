@@ -8,44 +8,44 @@
    <workflow>
       <workflowInputList x="10" y="100">
          <workflowInputPort name="uuid"/>
-		 <workflowInputPort name="webid"/>
-		 <workflowInputPort name="provider"/>
+         <workflowInputPort name="webid"/>
+         <workflowInputPort name="provider"/>
       </workflowInputList>
-      <network output="node_1" x="336" y="281">
-         <processor id="node_1" x="203" y="84">
+      <network output="node_1" x="535" y="324">
+         <processor id="node_1" x="357" y="80">
             <function type="custom-java">
                <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.uuid.StoreUUIDFunction</config>
             </function>
             <inputPort iterate="false" name="uuid">
                <source workflowInputPort="uuid"/>
             </inputPort>
-			<inputPort iterate="false" name="webid">
+            <inputPort iterate="false" name="webid">
                <source workflowInputPort="webid"/>
             </inputPort>
-			<inputPort iterate="false" name="provider">
+            <inputPort iterate="false" name="provider">
                <source workflowInputPort="provider"/>
             </inputPort>
-			<inputPort iterate="false" name="db">
+            <inputPort iterate="false" name="db">
                <source processor="node_2"/>
             </inputPort>
-			<inputPort iterate="false" name="db_username">
+            <inputPort iterate="false" name="db_username">
                <source processor="node_3"/>
             </inputPort>
-			<inputPort iterate="false" name="db_password">
+            <inputPort iterate="false" name="db_password">
                <source processor="node_4"/>
             </inputPort>
          </processor>
-		 <processor id="node_2" x="249" y="298">
+         <processor id="node_2" x="9" y="228">
             <function type="constant">
                <config param="value">"localhost/imreal"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt;</config>
             </function>
          </processor>
-		 <processor id="node_3" x="249" y="298">
+         <processor id="node_3" x="9" y="295">
             <function type="constant">
                <config param="value">"root"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt;</config>
             </function>
          </processor>
-		 <processor id="node_4" x="249" y="298">
+         <processor id="node_4" x="10" y="366">
             <function type="constant">
                <config param="value">"SECRET123"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt;</config>
             </function>
