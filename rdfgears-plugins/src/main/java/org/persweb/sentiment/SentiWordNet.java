@@ -18,7 +18,7 @@ import java.util.Vector;
  * 
  */
 public class SentiWordNet {
-	private String pathToSWN = "lexicon/SentiWordNet_3.0.0_20120510.txt";
+	private String pathToSWN = "../temp/rdfgears/lexicon/SentiWordNet_3.0.0_20120510.txt";
 	private HashMap<String, Double> _dict;
 
 	public SentiWordNet() {
