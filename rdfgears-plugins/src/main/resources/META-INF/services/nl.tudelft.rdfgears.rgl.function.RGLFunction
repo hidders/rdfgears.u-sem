@@ -29,3 +29,5 @@ nl.tudelft.rdfgears.rgl.function.imreal.FlickrPhotoLocator
 nl.tudelft.rdfgears.rgl.function.imreal.uuid.StoreUUIDFunction
 nl.tudelft.rdfgears.rgl.function.imreal.uuid.RetrieveUUIDFunction
 
+nl.tudelft.rdfgears.rgl.function.imreal.sentiment_analysis.SentimentAnalysisFunction
+
