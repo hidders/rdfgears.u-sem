@@ -89,11 +89,17 @@
 		</form>
 		
 		<br/><br/>
-		Examples inputs: <br/>
-		&lt;http://dbpedia.org/resource/Delft&gt; <br/>
-		"an apple" <br/>
-		"la pomme"@fr <br/>
-		"1.2"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt; <br/>
+		<p>On this page you can enter the input parameters for a service. All inputs must be specified using RDF types. Which type is needed depends on the parameter of the service.<br />
+To specify a URI use the following format &lt;###&gt;<br />
+<i>Example: &lt;http://dbpedia.org/resource/Delft&gt; </i><br />
+To specify text use "###" <br />
+to specify text in a particular language append the text with '@' and the language code. <br />
+<i>Example: "la pomme"@fr </i><br />
+Numbers can be specified in two ways. Numbers can be typed normally, so without quotes, which works for almost all services.
+Numbers can also be specified with their fully qualified type. <br />
+<i>Example: "1.2"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt; </i><br />
+<i>Example: "10"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</i>
+</p>
 	
 		
     
