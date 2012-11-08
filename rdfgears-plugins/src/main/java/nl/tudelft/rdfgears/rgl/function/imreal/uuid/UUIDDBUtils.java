@@ -31,6 +31,11 @@ public class UUIDDBUtils {
 	 * provided email address
 	 */
 	private static final String FIND_UUID_BY_EMAIL_STATEMENT = "SELECT uuid FROM uuid WHERE email = ?";
+	
+	/**
+	 * Select statement to retrieve the email of already existing UUID
+	 */
+	private static final String FIND_EMAIL_BY_UUID_STATEMENT = "SELECT email FROM uuid WHERE uuid = ?";
 
 	/**
 	 * Select statement to find if there is already an uuid for the provided
@@ -137,6 +142,46 @@ public class UUIDDBUtils {
 					.prepareStatement(FIND_UUID_BY_EMAIL_STATEMENT);
 
 			stmt.setString(1, email);
+
+			ResultSet resultSet = stmt.executeQuery();
+
+			if (resultSet.next()) { // process results one row at a time
+				return resultSet.getString(1);
+			}
+
+			return null;
+
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}// end finally try
+		}// end try
+	}
+	
+	/**
+	 * Looks for the email for the provided uuid.
+	 * 
+	 * @return null if no uuid was found
+	 */
+	public static String findEmailbyUUID(String dbURL, String username,
+			String password, String uuid) throws SQLException,
+			ClassNotFoundException {
+		Connection conn = null;
+		try {
+			// STEP 2: Register JDBC driver
+			Class.forName(JDBC_DRIVER);
+
+			// STEP 3: Open a connection
+			conn = DriverManager.getConnection(dbURL, username, password);
+
+			// STEP 4: Execute a query
+			PreparedStatement stmt = conn
+					.prepareStatement(FIND_EMAIL_BY_UUID_STATEMENT);
+
+			stmt.setString(1, uuid);
 
 			ResultSet resultSet = stmt.executeQuery();
 
