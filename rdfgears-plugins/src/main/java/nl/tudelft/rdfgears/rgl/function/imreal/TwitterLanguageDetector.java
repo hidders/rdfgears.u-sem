@@ -1,6 +1,7 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -220,9 +221,8 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 	 */
 	private HashMap<String, Integer> detectLanguage(String twitterUser)
 			throws LangDetectException, IOException {
-
-		String getTweetsURL = "https://api.twitter.com/1/statuses/user_timeline.xml?include_entities=false&include_rts=true&screen_name="
-				+ twitterUser + "&count=200";
+		
+		HashMap<String,String> tweets = TweetCollector.getTweetTextWithDateAsKey(twitterUser, true, 200);//include retweets, 200 hours 'oldness'
 
 		/* *************
 		 * The dir with the language profiles is assumed to be stored in the
@@ -240,41 +240,26 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 			profilesLoaded = true;
 		}
 
-		URL url = new URL(getTweetsURL);
-		Engine.getLogger().debug("Attempting to retrieve " + url.toString());
-
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				url.openStream()));
-
-		String inputLine;
-
-		// TODO: xml parser
-
 		HashMap<String, Integer> languageMap = new HashMap<String, Integer>();
+		
+	
+		for(String key : tweets.keySet())
+		{
+			String tweetText = tweets.get(key);
 
-		while ((inputLine = in.readLine()) != null) {
-			if (inputLine.contains("<text>")) {
-				String tweet = inputLine;
-				tweet = tweet.replace("<tweet>", "");
-				tweet = tweet.replace("</text>", "");
-
-				// language of the tweet
-				Detector detect = DetectorFactory.create();
-				detect.append(inputLine);
-				String lang = detect.detect();
-
-				if (languageMap.containsKey(lang) == true) {
-					int val = languageMap.get(lang) + 1;
-					languageMap.put(lang, val);
-				} else
-					languageMap.put(lang, 1);
-			}
+			// language of the tweet
+			Detector detect = DetectorFactory.create();
+			detect.append(tweetText);
+			String lang = detect.detect();
+			if (languageMap.containsKey(lang) == true) 
+			{
+				int val = languageMap.get(lang) + 1;
+				languageMap.put(lang, val);
+			} 
+			else
+				languageMap.put(lang, 1);
 		}
-
-		in.close();
-
 		return languageMap;
-
 	}
 
 }
