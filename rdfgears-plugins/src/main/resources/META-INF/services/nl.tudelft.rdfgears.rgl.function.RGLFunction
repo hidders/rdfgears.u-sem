@@ -30,5 +30,9 @@ nl.tudelft.rdfgears.rgl.function.imreal.uuid.ListSocialIDsFunction
 nl.tudelft.rdfgears.rgl.function.imreal.uuid.RegisterSocialIDFunction
 nl.tudelft.rdfgears.rgl.function.imreal.uuid.RegisterUUIDFunction
 
+nl.tudelft.rdfgears.rgl.function.imreal.userprofile.SetUserProfileEntryFunction
+nl.tudelft.rdfgears.rgl.function.imreal.userprofile.GetUserProfileEntryFunction
+
 nl.tudelft.rdfgears.rgl.function.imreal.sentiment_analysis.SentimentAnalysisFunction
+nl.tudelft.rdfgears.rgl.function.imreal.HofstedeIndex
 
