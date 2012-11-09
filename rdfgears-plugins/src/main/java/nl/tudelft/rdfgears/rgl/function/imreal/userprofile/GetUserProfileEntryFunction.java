@@ -51,6 +51,7 @@ public class GetUserProfileEntryFunction extends SimplyTypedRGLFunction {
 
 	public GetUserProfileEntryFunction() {
 		this.requireInputType(INPUT_UUID, RDFType.getInstance());
+		this.requireInputType(INPUT_TOPIC, RDFType.getInstance());
 
 		this.requireInputType(INPUT_DB, RDFType.getInstance());
 		this.requireInputType(INPUT_USERNAME, RDFType.getInstance());
