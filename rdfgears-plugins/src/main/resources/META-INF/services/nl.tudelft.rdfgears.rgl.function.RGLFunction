@@ -29,6 +29,7 @@ nl.tudelft.rdfgears.rgl.function.imreal.FlickrPhotoLocator
 nl.tudelft.rdfgears.rgl.function.imreal.uuid.ListSocialIDsFunction
 nl.tudelft.rdfgears.rgl.function.imreal.uuid.RegisterSocialIDFunction
 nl.tudelft.rdfgears.rgl.function.imreal.uuid.RegisterUUIDFunction
+nl.tudelft.rdfgears.rgl.function.imreal.uuid.GetSocialIDFromUUIDFunction
 
 nl.tudelft.rdfgears.rgl.function.imreal.userprofile.SetUserProfileEntryFunction
 nl.tudelft.rdfgears.rgl.function.imreal.userprofile.GetUserProfileEntryFunction

@@ -50,6 +50,12 @@ public class UUIDDBUtils {
 	public static final String SELECT_UUID_DETAILS_STATEMENT = "SELECT webid, provider FROM uuid_webid LEFT JOIN uuid ON uuid_webid.uuid_id=uuid.id WHERE uuid.uuid = ?";
 
 	/**
+	 * Select statement that is used to retrieve the social id for uuid and provider
+	 */
+	public static final String SELECT_SOCIALID_FROM_UUID_STATEMENT = "SELECT webid FROM uuid_webid LEFT JOIN uuid ON uuid_webid.uuid_id=uuid.id WHERE uuid.uuid = ? AND provider = ?";
+
+	
+	/**
 	 * Stores (web ID, provider) pair for a given UUID
 	 */
 	public static void storeWebid(String dbURL, String username,
@@ -285,4 +291,44 @@ public class UUIDDBUtils {
 		return result;
 	}
 
+	/**
+	 * Retrieves the web IDs and providers for the provided uuid
+	 */
+	public static String retrieve(String dbURL,
+			String username, String password, String uuid, String provider) throws SQLException,
+			ClassNotFoundException {
+
+		Connection conn = null;
+
+		try {
+			// STEP 2: Register JDBC driver
+			Class.forName(JDBC_DRIVER);
+
+			// STEP 3: Open a connection
+			conn = DriverManager.getConnection(dbURL, username, password);
+
+			// STEP 4: Execute a query
+			PreparedStatement stmt = conn
+					.prepareStatement(SELECT_SOCIALID_FROM_UUID_STATEMENT);
+
+			stmt.setString(1, uuid);
+			stmt.setString(2, provider);
+
+			ResultSet resultSet = stmt.executeQuery();
+
+			if (resultSet.next()) { // process results one row at a time
+				return resultSet.getString(1);
+			}
+
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}// end finally try
+		}// end try
+
+		return null;
+	}
 }
