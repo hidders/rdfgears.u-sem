@@ -16,22 +16,21 @@ public class UserProfileDBUtils {
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 
 	/**
-	 * Insert statement used to store (uuid, Dimension, Value, Provider) triples
+	 * Insert statement used to store (uuid, Dimension, Topic, Value) triples
 	 */
-	private static final String INSERT_USER_PROFILE_ENTRY_STATEMENT = "INSERT INTO userProfile (uuid_id, dimension, scope, dvalue, provider) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE dvalue=?";
+	private static final String INSERT_USER_PROFILE_ENTRY_STATEMENT = "INSERT INTO userProfile (uuid_id, topic, dvalue) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE dvalue=?";
 
 	/**
-	 * Select statement to retrieve entries based on uuid, dimension and
-	 * provider
+	 * Select statement to retrieve entries based on uuid and dimension
 	 */
-	private static final String FIND_ENTRY_BY_DIMENTION_PROVIDER_STATEMENT = "SELECT scope, dvalue, provider FROM userProfile LEFT JOIN uuid ON userProfile.uuid_id=uuid.id WHERE uuid.uuid = ? AND dimension = ? AND provider = ? ";
+	private static final String FIND_ENTRY_BY_TOPIC_STATEMENT = "SELECT topic, dvalue FROM userProfile LEFT JOIN uuid ON userProfile.uuid_id=uuid.id WHERE uuid.uuid = ? AND topic = ? ";
 
 	/**
 	 * Stores new profile entry
 	 */
 	public static void storeProfileEntry(String dbURL, String username,
-			String password, String uuid, String dimension, String scope, String value,
-			String provider) throws Exception {
+			String password, String uuid, String topic,
+			String value) throws Exception {
 
 		int uuidID = UUIDDBUtils
 				.findUUIDbyName(dbURL, username, password, uuid);
@@ -53,11 +52,9 @@ public class UserProfileDBUtils {
 					.prepareStatement(INSERT_USER_PROFILE_ENTRY_STATEMENT);
 
 			stmt.setInt(1, uuidID);
-			stmt.setString(2, dimension);
-			stmt.setString(3, scope);
+			stmt.setString(2, topic);
+			stmt.setString(3, value);
 			stmt.setString(4, value);
-			stmt.setString(5, provider);
-			stmt.setString(6, value);
 
 			stmt.executeUpdate();
 
@@ -76,7 +73,7 @@ public class UserProfileDBUtils {
 	 */
 	public static UserProfile retrieveUserProfile(String dbURL,
 			String username, String password, String filterUUID,
-			String filterDimension, String filterProvider) throws SQLException,
+			String filterTopic) throws SQLException,
 			ClassNotFoundException {
 
 		Connection conn = null;
@@ -91,25 +88,24 @@ public class UserProfileDBUtils {
 			// STEP 4: Execute a query
 			PreparedStatement stmt = null;
 			stmt = conn
-					.prepareStatement(FIND_ENTRY_BY_DIMENTION_PROVIDER_STATEMENT);
+					.prepareStatement(FIND_ENTRY_BY_TOPIC_STATEMENT);
 			stmt.setString(1, filterUUID);
-			stmt.setString(2, filterDimension);
-			stmt.setString(3, filterProvider);
+			stmt.setString(2, filterTopic);
 
 			ResultSet resultSet = stmt.executeQuery();
 
 			List<Dimension.DimensionEntry> dimensionEntries = new ArrayList<Dimension.DimensionEntry>();
 
 			while (resultSet.next()) { // process results one row at a time
-				String scope = resultSet.getString(1);
+				String topic = resultSet.getString(1);
 				String value = resultSet.getString(2);
-				String provider = resultSet.getString(3);
 
-				dimensionEntries.add(new Dimension.DimensionEntry(scope, value, provider));
+				dimensionEntries
+						.add(new Dimension.DimensionEntry(topic, value));
 			}
 			List<Dimension> dimensions = new ArrayList<Dimension>();
-			dimensions.add(new Dimension(filterDimension, dimensionEntries));
-			
+			dimensions.add(new Dimension(filterTopic, dimensionEntries));
+
 			return new UserProfile(filterUUID, dimensions);
 
 		} finally {

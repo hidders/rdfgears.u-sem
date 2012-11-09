@@ -19,23 +19,23 @@ import nl.tudelft.rdfgears.util.row.ValueRow;
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
 import com.hp.hpl.jena.sparql.vocabulary.FOAF;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
- * A function to detect twitter languages based on a twitter username
+ * Based on the number of languages detected in tweets, a cultural awareness value is returned
+ * 
+ * 0 if only 1 language is detected
+ * 1 if 2 languages are detected
+ * 2 if 3+ languages are detected
+ * 
+ * (since the language detection library has "stray" values, we consider a language as discovered if 5 tweets occured in it)
  * 
  */
-public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
+public class CulturalAwarenessLng extends SimplyTypedRGLFunction {
 
 	public static final String INPUT_USERNAME = "username";
 	public static final int MAXHOURS = 2*24; /* number of hours 'old' data (i.e. tweets retrieved earlier on) are still considered a valid substitute */
@@ -46,7 +46,7 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 	 */
 	public static boolean profilesLoaded = false;
 
-	public TwitterLanguageDetector() {
+	public CulturalAwarenessLng() {
 		this.requireInputType(INPUT_USERNAME, RDFType.getInstance());
 
 	}
@@ -56,7 +56,8 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 	}
 
 	@Override
-	public RGLValue simpleExecute(ValueRow inputRow) {
+	public RGLValue simpleExecute(ValueRow inputRow) 
+	{
 		/*
 		 * - typechecking guarantees it is an RDFType - simpleExecute guarantees
 		 * it is non-null SanityCheck: we must still check whether it is URI or
@@ -81,15 +82,17 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 					+ e.getMessage());
 		}
 
-		/*
-		 * We must now convert the languageMap, that was the result of the
-		 * external 'component', to an RGL value.
-		 */
+		int numLanguages = 0;
+		for(String language : languageMap.keySet())
+		{
+			if( languageMap.get(language) >= 5)
+				numLanguages++;
+		}
 
 		RGLValue userProfile = null;
 		try 
 		{
-			userProfile = constructProfile(username, languageMap);
+			userProfile = constructProfile(username, numLanguages);
 		} 
 		catch (Exception e) 
 		{
@@ -105,85 +108,50 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 	 * 
 	 */
 	private RGLValue constructProfile(String username,
-			HashMap<String, Integer> languageMap) throws Exception {
-
+		int numLanguages) throws Exception 
+		{
 		String userURI = "http://" + username + ".myopenid.com";
-
+	
 		// create an empty Model
 		Model model = ModelFactory.createDefaultModel();
-
+	
 		model.setNsPrefix("foaf", FOAF.getURI());
 		model.setNsPrefix("usem", USEM.getURI());
 		model.setNsPrefix("wo", WO.getURI());
 		model.setNsPrefix("wi", WI.getURI());
-		model.setNsPrefix("dbpedia", "http://dbpedia.org/resource/");
-
+		//model.setNsPrefix("dbpedia", "http://dbpedia.org/resource/");
+	
 		// create the resources
 		Resource user = model.createResource(userURI);
-
+	
 		user.addProperty(RDF.type, FOAF.Person);
 		user.addProperty(FOAF.name, username);
-
-		for (String lang : languageMap.keySet()) {
-
+	
+		double awarenessScore = 1.0;
+		if(numLanguages==2)
+			awarenessScore = 2.0;
+		if(numLanguages>=3)
+			awarenessScore = 3.0;
+	
 			Resource knowledgeResource = model.createResource().addProperty(
 					RDF.type, USEM.WeightedKnowledge);
-
+	
 			user.addProperty(USEM.knowledge, knowledgeResource);
-
+	
 			knowledgeResource.addProperty(WI.topic,
-					model.createResource(getDbpediaLanguage(lang)))
+					model.createResource("http://dbpedia.org/resource/Cultural_competence"))
 					.addProperty(
 							WO.weight,
 							model.createResource()
 									.addProperty(RDF.type, WO.Weight)
 									.addLiteral(WO.weight_value,
-											languageMap.get(lang))
+											awarenessScore)
 									.addProperty(WO.scale, USEM.DefaultScale));
-		}
-
+		
+	
 		return ValueFactory.createRDFModelValue(model);
 	}
 
-	/**
-	 * Executes sparql request to dbpedia in order to get the dbpedia uri for
-	 * the provided language iso.
-	 */
-	private String getDbpediaLanguage(String iso) throws Exception {
-		String sparqlService = "http://dbpedia.org/sparql";
-
-		String query = "PREFIX dbpprop: <http://dbpedia.org/property/> "
-				+ "PREFIX dbo: <http://dbpedia.org/ontology/> "
-				+ "select ?language ?isocode" + "where { "
-				+ "?language dbpprop:iso ?isocode. "
-				+ "?language a dbo:Language. " + "FILTER (?isocode = \"" + iso
-				+ "\"@en) " + "}";
-
-		ResultSet results = executeQuery(query, sparqlService);
-
-		// returns the first entry in the result set
-		for (; results.hasNext();) {
-			QuerySolution soln = results.nextSolution();
-			Resource name = soln.getResource("language");
-			return name.getURI();
-		}
-
-		return null;
-	}
-
-	/**
-	 * Executes Jena query
-	 */
-	private ResultSet executeQuery(String queryString, String service)
-			throws Exception {
-		Query query = QueryFactory.create(queryString);
-
-		QueryEngineHTTP qexec = QueryExecutionFactory.createServiceRequest(
-				service, query);
-		ResultSet results = qexec.execSelect();
-		return results;
-
-	}
 
 	/**
 	 * will throw Exception on failure

@@ -22,26 +22,21 @@ public class Dimension {
 	}
 
 	public static class DimensionEntry {
-		private String scope;
+		private String topic;
 		private String value;
-		private String provider;
 
-		public DimensionEntry(String scope, String value, String provider) {
-			this.scope = scope;
+		public DimensionEntry(String topic, String value) {
+			this.topic = topic;
 			this.value = value;
-			this.provider = provider;
 		}
 
-		public String getScope() {
-			return scope;
+		public String getTopic() {
+			return topic;
 		}
 
 		public String getValue() {
 			return value;
 		}
 
-		public String getProvider() {
-			return provider;
-		}
 	}
 }

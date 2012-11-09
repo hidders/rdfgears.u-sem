@@ -43,21 +43,14 @@ public class GetUserProfileEntryFunction extends SimplyTypedRGLFunction {
 	 * The name of the input field providing the uuid
 	 */
 	public static final String INPUT_UUID = "uuid";
-
+	
 	/**
-	 * The name of the input field providing the dimension
+	 * The name of the input field providing the topic
 	 */
-	public static final String INPUT_DIMENSION = "dimension";
-
-	/**
-	 * The name of the input field providing the value provider
-	 */
-	public static final String INPUT_PROVIDER = "provider";
+	public static final String INPUT_TOPIC = "topic";
 
 	public GetUserProfileEntryFunction() {
 		this.requireInputType(INPUT_UUID, RDFType.getInstance());
-		this.requireInputType(INPUT_DIMENSION, RDFType.getInstance());
-		this.requireInputType(INPUT_PROVIDER, RDFType.getInstance());
 
 		this.requireInputType(INPUT_DB, RDFType.getInstance());
 		this.requireInputType(INPUT_USERNAME, RDFType.getInstance());
@@ -78,26 +71,6 @@ public class GetUserProfileEntryFunction extends SimplyTypedRGLFunction {
 					+ getFullName());
 
 		String uuid = rdfValue.asLiteral().getValueString();
-
-		// /////////////////////////////////////////////////////////////////
-
-		// typechecking the input
-		rdfValue = inputRow.get(INPUT_DIMENSION);
-		if (!rdfValue.isLiteral())
-			return ValueFactory.createNull("Cannot handle URI input in "
-					+ getFullName());
-
-		String dimension = rdfValue.asLiteral().getValueString();
-
-		// ////////////////////////////////////////////////////////////////
-
-		// typechecking the input
-		rdfValue = inputRow.get(INPUT_PROVIDER);
-		if (!rdfValue.isLiteral())
-			return ValueFactory.createNull("Cannot handle URI input in "
-					+ getFullName());
-
-		String provider = rdfValue.asLiteral().getValueString();
 
 		// ////////////////////////////////////////////////////////////////
 
@@ -128,13 +101,23 @@ public class GetUserProfileEntryFunction extends SimplyTypedRGLFunction {
 					+ getFullName());
 
 		String password = rdfValue.asLiteral().getValueString();
+		
+		// ////////////////////////////////////////////////////////////////
+
+		// typechecking the input
+		rdfValue = inputRow.get(INPUT_TOPIC);
+		if (!rdfValue.isLiteral())
+			return ValueFactory.createNull("Cannot handle URI input in "
+					+ getFullName());
+
+		String topic = rdfValue.asLiteral().getValueString();
 
 		try {
 			String email = UUIDDBUtils.findEmailbyUUID(db_url, username,
 					password, uuid);
 			return constructProfile(email,
 					UserProfileDBUtils.retrieveUserProfile(db_url, username,
-							password, uuid, dimension, provider));
+							password, uuid, topic));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ValueFactory.createNull("Error in "
@@ -185,15 +168,11 @@ public class GetUserProfileEntryFunction extends SimplyTypedRGLFunction {
 
 			user.addProperty(USEM.knowledge, knowledgeResource);
 
-			knowledgeResource
-					.addLiteral(WI.topic, dimensionEntry.getScope())
-					.addLiteral(USEM.provider, dimensionEntry.getProvider())
-					.addProperty(
-							WO.weight,
-							model.createResource()
-									.addProperty(RDF.type, WO.Weight)
-									.addLiteral(WO.weight_value,
-											dimensionEntry.getValue()));
+			knowledgeResource.addLiteral(WI.topic, dimensionEntry.getTopic()).addProperty(
+					WO.weight,
+					model.createResource().addProperty(RDF.type, WO.Weight)
+							.addLiteral(WO.weight_value, dimensionEntry.getValue())
+							.addProperty(WO.scale, USEM.DefaultScale));
 		}
 		return model;
 	}
@@ -202,7 +181,7 @@ public class GetUserProfileEntryFunction extends SimplyTypedRGLFunction {
 		Model buildRDF = new GetUserProfileEntryFunction().buildRDF(
 				"test@abv.bg", UserProfileDBUtils.retrieveUserProfile(
 						"jdbc:mysql://localhost/imreal", "root", "SECRET123",
-						"Test", "dimension", "provider"));
+						"Test", "scope"));
 
 		buildRDF.write(System.out, "RDF/XML-ABBREV", null);
 	}

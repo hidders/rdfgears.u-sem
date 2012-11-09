@@ -35,4 +35,6 @@ nl.tudelft.rdfgears.rgl.function.imreal.userprofile.GetUserProfileEntryFunction
 
 nl.tudelft.rdfgears.rgl.function.imreal.sentiment_analysis.SentimentAnalysisFunction
 nl.tudelft.rdfgears.rgl.function.imreal.HofstedeIndex
+nl.tudelft.rdfgears.rgl.function.imreal.CulturalAwarenessLng
+nl.tudelft.rdfgears.rgl.function.imreal.TweetSentiments
 

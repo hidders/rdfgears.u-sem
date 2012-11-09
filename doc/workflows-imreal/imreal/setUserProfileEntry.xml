@@ -8,10 +8,8 @@
    <workflow>
       <workflowInputList x="10" y="100">
          <workflowInputPort name="uuid"/>
-         <workflowInputPort name="dimension"/>
-		 <workflowInputPort name="scope"/>
+		 <workflowInputPort name="topic"/>
 		 <workflowInputPort name="value"/>
-         <workflowInputPort name="provider"/>
       </workflowInputList>
       <network output="node_1" x="535" y="324">
          <processor id="node_1" x="357" y="80">
@@ -21,17 +19,11 @@
             <inputPort iterate="false" name="uuid">
                <source workflowInputPort="uuid"/>
             </inputPort>
-            <inputPort iterate="false" name="dimension">
-               <source workflowInputPort="dimension"/>
-            </inputPort>
-			<inputPort iterate="false" name="scope">
-               <source workflowInputPort="scope"/>
+			<inputPort iterate="false" name="topic">
+               <source workflowInputPort="topic"/>
             </inputPort>
 			<inputPort iterate="false" name="value">
                <source workflowInputPort="value"/>
-            </inputPort>
-            <inputPort iterate="false" name="provider">
-               <source workflowInputPort="provider"/>
             </inputPort>
             <inputPort iterate="false" name="db">
                <source processor="node_2"/>

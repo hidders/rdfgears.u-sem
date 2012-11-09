@@ -19,10 +19,8 @@ CREATE TABLE IF NOT EXISTS uuid_webid (
 CREATE TABLE IF NOT EXISTS userProfile (
 	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	uuid_id int NOT NULL,
-	dimension VARCHAR(100),
-	scope VARCHAR(100),
+	topic VARCHAR(100),
 	dvalue TEXT,
-	provider VARCHAR(100),
 	FOREIGN KEY (uuid_id) REFERENCES uuid (id),
-	UNIQUE KEY (uuid_id, dimension, scope, provider)
+	UNIQUE KEY (uuid_id, topic)
 ) ENGINE=InnoDB;

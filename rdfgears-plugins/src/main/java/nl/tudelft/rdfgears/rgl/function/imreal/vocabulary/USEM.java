@@ -27,5 +27,4 @@ public class USEM {
 			+ "DefaultScale");
 	public static final Property knowledge = m.createProperty(uri, "knowledge");
 
-	public static final Property provider = m.createProperty(uri, "provider");
 }

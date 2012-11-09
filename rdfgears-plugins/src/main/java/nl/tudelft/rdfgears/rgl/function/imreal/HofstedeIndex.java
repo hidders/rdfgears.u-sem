@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.HashMap;
 
+import nl.tudelft.rdfgears.engine.Config;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
@@ -21,7 +22,7 @@ public class HofstedeIndex extends SimplyTypedRGLFunction {
 	public static final String INPUT_COUNTRY = "country";
 	public static final String INPUT_DIMENSION = "dimension";
 
-	private static final String HOFSTEDE_FILE = "../temp/rdfgears/hofstede_index";// in
+	private static final String HOFSTEDE_FILE = Config.getWritableDir() + "/hofstede_index";// in
 																					// case
 																					// the
 	// file is
