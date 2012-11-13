@@ -39,3 +39,5 @@ nl.tudelft.rdfgears.rgl.function.imreal.HofstedeIndex
 nl.tudelft.rdfgears.rgl.function.imreal.CulturalAwarenessLng
 nl.tudelft.rdfgears.rgl.function.imreal.TweetSentiments
 
+nl.tudelft.rdfgears.rgl.function.imreal.ExpressionEvaluation
+
