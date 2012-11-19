@@ -14,21 +14,6 @@ import nl.tudelft.rdfgears.util.row.ValueRow;
 public class GetSocialIDFromUUIDFunction extends SimplyTypedRGLFunction {
 
 	/**
-	 * The name of the input field providing the database url
-	 */
-	public static final String INPUT_DB = "db";
-
-	/**
-	 * The name of the input field providing the database username
-	 */
-	public static final String INPUT_USERNAME = "db_username";
-
-	/**
-	 * The name of the input field providing the database password
-	 */
-	public static final String INPUT_PASSWORD = "db_password";
-
-	/**
 	 * The name of the input field providing the uuid
 	 */
 	public static final String INPUT_UUID = "uuid";
@@ -36,15 +21,11 @@ public class GetSocialIDFromUUIDFunction extends SimplyTypedRGLFunction {
 	/**
 	 * The name of the input field providing the webid provider
 	 */
-	public static final String INPUT_PROVIDER = "provider";
+	public static final String WEBID_TYPE = "type";
 
 	public GetSocialIDFromUUIDFunction() {
 		this.requireInputType(INPUT_UUID, RDFType.getInstance());
-		this.requireInputType(INPUT_PROVIDER, RDFType.getInstance());
-
-		this.requireInputType(INPUT_DB, RDFType.getInstance());
-		this.requireInputType(INPUT_USERNAME, RDFType.getInstance());
-		this.requireInputType(INPUT_PASSWORD, RDFType.getInstance());
+		this.requireInputType(WEBID_TYPE, RDFType.getInstance());
 	}
 
 	@Override
@@ -63,53 +44,19 @@ public class GetSocialIDFromUUIDFunction extends SimplyTypedRGLFunction {
 		// extracting the twitter username from the input
 		String uuid = rdfValue.asLiteral().getValueString();
 
-		// ////////////////////////////////////////////////////////////////
-
 		// typechecking the input
-		rdfValue = inputRow.get(INPUT_PROVIDER);
+		rdfValue = inputRow.get(WEBID_TYPE);
 		if (!rdfValue.isLiteral())
 			return ValueFactory.createNull("Cannot handle URI input in "
 					+ getFullName());
 
 		// extracting the twitter username from the input
-		String provider = rdfValue.asLiteral().getValueString();
+		String webidType = rdfValue.asLiteral().getValueString();
 
-		// ////////////////////////////////////////////////////////////////
-
-		// typechecking the input
-		rdfValue = inputRow.get(INPUT_DB);
-		if (!rdfValue.isLiteral())
-			return ValueFactory.createNull("Cannot handle URI input in "
-					+ getFullName());
-
-		// extracting the twitter username from the input
-		String db_url = "jdbc:mysql://" + rdfValue.asLiteral().getValueString();
-
-		// ////////////////////////////////////////////////////////////////
-
-		// typechecking the input
-		rdfValue = inputRow.get(INPUT_USERNAME);
-		if (!rdfValue.isLiteral())
-			return ValueFactory.createNull("Cannot handle URI input in "
-					+ getFullName());
-
-		// extracting the twitter username from the input
-		String username = rdfValue.asLiteral().getValueString();
-
-		// ////////////////////////////////////////////////////////////////
-
-		// typechecking the input
-		rdfValue = inputRow.get(INPUT_PASSWORD);
-		if (!rdfValue.isLiteral())
-			return ValueFactory.createNull("Cannot handle URI input in "
-					+ getFullName());
-
-		// extracting the twitter username from the input
-		String password = rdfValue.asLiteral().getValueString();
-
+		
+		System.err.println("uuid: "+uuid+", webidType: "+webidType);
 		try {
-			return ValueFactory.createLiteralPlain(UUIDDBUtils.retrieve(db_url,
-					username, password, uuid, provider), "null");
+			return ValueFactory.createLiteralPlain(UUIDDBUtils.retrieve(uuid, webidType), "null");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ValueFactory.createNull("Error in "

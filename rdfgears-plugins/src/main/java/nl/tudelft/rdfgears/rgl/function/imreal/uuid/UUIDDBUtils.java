@@ -1,6 +1,8 @@
 package nl.tudelft.rdfgears.rgl.function.imreal.uuid;
 
 import java.sql.Connection;
+
+import nl.tudelft.rdfgears.engine.Config;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +12,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.AbstractMap.SimpleEntry;
+import java.io.*;
 
 public class UUIDDBUtils {
+	
+	//PATH to the DB login information
+	private static final String PATH_TO_LOGIN_INFO = Config.DB_LOGIN;
+	public static String dbURL = null;
+	public static String username = null;
+	public static String password = null;
+	
+	static
+	{
+		getLoginInformation();
+	}
+	
+	public static void printLoginInformation()
+	{
+		System.err.println("dbURL: "+dbURL);
+		System.err.println("username: "+username);
+	}
+	
 
 	// JDBC driver name and database URL
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -19,7 +40,7 @@ public class UUIDDBUtils {
 	/**
 	 * Insert statement used to store (UUID, web ID, provider) triples
 	 */
-	private static final String INSERT_WEBID_STATEMENT = "INSERT INTO uuid_webid VALUES (?, ?, ?)";
+	private static final String INSERT_WEBID_STATEMENT = "INSERT IGNORE INTO uuid_webid VALUES (?, ?, ?)";
 
 	/**
 	 * Insert statement used to store (uuid, email) pairs
@@ -55,11 +76,44 @@ public class UUIDDBUtils {
 	public static final String SELECT_SOCIALID_FROM_UUID_STATEMENT = "SELECT webid FROM uuid_webid LEFT JOIN uuid ON uuid_webid.uuid_id=uuid.id WHERE uuid.uuid = ? AND provider = ?";
 
 	
+	/*
+	 * reads information from a local file
+	 */
+	public static void getLoginInformation()
+	{
+		try
+		{
+			BufferedReader br = new BufferedReader(new FileReader(PATH_TO_LOGIN_INFO));
+			String line;
+			int lineNum=0;
+			while ((line = br.readLine() )!=null )
+			{
+				switch(lineNum)
+				{
+				case 0: 
+					dbURL = "jdbc:mysql://" + line;
+					break;
+				case 1:
+					username = line;
+					break;
+				case 2:
+					password = line;
+					break;
+				}
+				lineNum++;
+			}
+			br.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Stores (web ID, provider) pair for a given UUID
 	 */
-	public static void storeWebid(String dbURL, String username,
-			String password, int uuid, String webid, String provider)
+	public static void storeWebid(int uuid, String webid, String provider)
 			throws SQLException, ClassNotFoundException {
 
 		Connection conn = null;
@@ -77,7 +131,9 @@ public class UUIDDBUtils {
 			stmt.setInt(1, uuid);
 			stmt.setString(2, webid);
 			stmt.setString(3, provider);
-
+			
+			System.err.println("SQL statement: "+stmt.toString());
+			
 			stmt.executeUpdate();
 
 		} finally {
@@ -93,8 +149,7 @@ public class UUIDDBUtils {
 	/**
 	 * Generates new uuid and stores the (uuid, email) pair.
 	 */
-	public static String storeNewUUID(String dbURL, String username,
-			String password, String email) throws SQLException,
+	public static String storeNewUUID(String email) throws SQLException,
 			ClassNotFoundException {
 
 		Connection conn = null;
@@ -112,7 +167,7 @@ public class UUIDDBUtils {
 			String uuid = UUID.randomUUID().toString();
 			stmt.setString(1, uuid);
 			stmt.setString(2, email);
-
+			System.err.println("SQL statement: "+stmt.toString());
 			stmt.executeUpdate();
 
 			return uuid;
@@ -132,8 +187,7 @@ public class UUIDDBUtils {
 	 * 
 	 * @return null if no uuid was found
 	 */
-	public static String findUUIDbyEmail(String dbURL, String username,
-			String password, String email) throws SQLException,
+	public static String findUUIDbyEmail(String email) throws SQLException,
 			ClassNotFoundException {
 		Connection conn = null;
 		try {
@@ -148,7 +202,7 @@ public class UUIDDBUtils {
 					.prepareStatement(FIND_UUID_BY_EMAIL_STATEMENT);
 
 			stmt.setString(1, email);
-
+			System.err.println("SQL statement: "+stmt.toString());
 			ResultSet resultSet = stmt.executeQuery();
 
 			if (resultSet.next()) { // process results one row at a time
@@ -172,8 +226,7 @@ public class UUIDDBUtils {
 	 * 
 	 * @return null if no uuid was found
 	 */
-	public static String findEmailbyUUID(String dbURL, String username,
-			String password, String uuid) throws SQLException,
+	public static String findEmailbyUUID(String uuid) throws SQLException,
 			ClassNotFoundException {
 		Connection conn = null;
 		try {
@@ -188,7 +241,7 @@ public class UUIDDBUtils {
 					.prepareStatement(FIND_EMAIL_BY_UUID_STATEMENT);
 
 			stmt.setString(1, uuid);
-
+			System.err.println("SQL statement: "+stmt.toString());
 			ResultSet resultSet = stmt.executeQuery();
 
 			if (resultSet.next()) { // process results one row at a time
@@ -212,8 +265,7 @@ public class UUIDDBUtils {
 	 * 
 	 * @return 0 if no uuid was found
 	 */
-	public static int findUUIDbyName(String dbURL, String username,
-			String password, String uuid) throws SQLException,
+	public static int findUUIDbyName(String uuid) throws SQLException,
 			ClassNotFoundException {
 		Connection conn = null;
 		try {
@@ -228,7 +280,7 @@ public class UUIDDBUtils {
 					.prepareStatement(FIND_UUID_BY_NAME);
 
 			stmt.setString(1, uuid);
-
+			System.err.println("SQL statement: "+stmt.toString());
 			ResultSet resultSet = stmt.executeQuery();
 
 			if (resultSet.next()) { // process results one row at a time
@@ -250,8 +302,7 @@ public class UUIDDBUtils {
 	/**
 	 * Retrieves the web IDs and providers for the provided uuid
 	 */
-	public static List<SimpleEntry<String, String>> retrieve(String dbURL,
-			String username, String password, String uuid) throws SQLException,
+	public static List<SimpleEntry<String, String>> retrieve(String uuid) throws SQLException,
 			ClassNotFoundException {
 
 		Connection conn = null;
@@ -269,7 +320,7 @@ public class UUIDDBUtils {
 					.prepareStatement(SELECT_UUID_DETAILS_STATEMENT);
 
 			stmt.setString(1, uuid);
-
+			System.err.println("SQL statement: "+stmt.toString());
 			ResultSet resultSet = stmt.executeQuery();
 
 			while (resultSet.next()) { // process results one row at a time
@@ -294,8 +345,7 @@ public class UUIDDBUtils {
 	/**
 	 * Retrieves the web IDs and providers for the provided uuid
 	 */
-	public static String retrieve(String dbURL,
-			String username, String password, String uuid, String provider) throws SQLException,
+	public static String retrieve(String uuid, String provider) throws SQLException,
 			ClassNotFoundException {
 
 		Connection conn = null;
@@ -313,6 +363,8 @@ public class UUIDDBUtils {
 
 			stmt.setString(1, uuid);
 			stmt.setString(2, provider);
+			
+			System.err.println("SQL statement: "+stmt.toString());
 
 			ResultSet resultSet = stmt.executeQuery();
 
@@ -320,7 +372,8 @@ public class UUIDDBUtils {
 				return resultSet.getString(1);
 			}
 
-		} finally {
+		} 
+		finally {
 			try {
 				if (conn != null)
 					conn.close();
@@ -328,7 +381,6 @@ public class UUIDDBUtils {
 				se.printStackTrace();
 			}// end finally try
 		}// end try
-
-		return null;
+		return "";
 	}
 }

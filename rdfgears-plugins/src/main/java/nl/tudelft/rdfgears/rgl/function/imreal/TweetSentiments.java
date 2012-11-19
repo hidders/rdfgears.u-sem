@@ -1,7 +1,17 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
-import java.util.HashMap;
+import java.io.BufferedReader;
 
+import org.persweb.sentiment.eval.USemSentimentAnalysis;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import nl.tudelft.rdfgears.engine.Config;
 import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
@@ -14,11 +24,18 @@ import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WI;
 import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WO;
 import nl.tudelft.rdfgears.util.row.ValueRow;
 
-import org.persweb.sentiment.eval.USemSentimentAnalysis;
-
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
 import com.hp.hpl.jena.sparql.vocabulary.FOAF;
 import com.hp.hpl.jena.vocabulary.RDF;
 
@@ -38,15 +55,19 @@ import com.hp.hpl.jena.vocabulary.RDF;
  * - opinion count
  * - overall valency
  * 
+ * If as input the UUID is provided as input well, the RDF output gives the UUID handle, otherwise it outputs the Twitter handle. * 
+ * 
+ * @author Claudia
  */
 public class TweetSentiments extends SimplyTypedRGLFunction {
 
 	public static final String INPUT_USERNAME = "username";
+	public static final String INPUT_UUID = "uuid";
 	public static final int MAXHOURS = 12; /* number of hours 'old' data (i.e. tweets retrieved earlier on) are still considered a valid substitute */
 
 	public TweetSentiments() {
 		this.requireInputType(INPUT_USERNAME, RDFType.getInstance());
-
+		this.requireInputType(INPUT_UUID, RDFType.getInstance());
 	}
 	
 	public RGLType getOutputType() {
@@ -69,6 +90,13 @@ public class TweetSentiments extends SimplyTypedRGLFunction {
 		// we are happy, value can be safely cast with .asLiteral().
 		String username = rdfValue.asLiteral().getValueString();
 		
+		RGLValue rdfValue2 = inputRow.get(INPUT_UUID);
+		if (!rdfValue2.isLiteral())
+			return ValueFactory.createNull("Cannot handle URI input in "
+					+ getFullName());
+		
+		String uuid = rdfValue2.asLiteral().getValueString();
+	
 		HashMap<String,String> tweets = TweetCollector.getTweetTextWithDateAsKey(username, false, MAXHOURS);
 		
 		int positive = 0;
@@ -84,13 +112,21 @@ public class TweetSentiments extends SimplyTypedRGLFunction {
 				negative++;
 			else
 				neutral++;
+			
+			System.err.println("date of tweet: "+date+" -> "+positive+"/"+negative+"/"+neutral);
 		}
 		
 		int total = positive + negative + neutral;
-		
 		double overall_score = (double)(positive-negative)/(double)(total);
-		Engine.getLogger().debug("TweetSentiments: positive: "+positive+", neutral: "+neutral+", negative: "+negative+" => score="+overall_score);
 		
+		HashMap<String, Double> map = new HashMap<String, Double>();
+		//these labels are fixed (MARL ontology)
+		map.put("positiveOpinionsCount",(double)positive);
+		map.put("neutralOpinionCount",(double)neutral);
+		map.put("negativeOpinionCount",(double)negative);
+		map.put("opinionCount",(double)total);
+		map.put("aggregatesOpinion",overall_score);
+
 		/*
 		 * We must now convert the languageMap, that was the result of the
 		 * external 'component', to an RGL value.
@@ -99,10 +135,11 @@ public class TweetSentiments extends SimplyTypedRGLFunction {
 		RGLValue userProfile = null;
 		try 
 		{
-			userProfile = constructProfile(username, positive, negative, neutral, overall_score);
+			userProfile = UserProfileGenerator.generateProfile(this, (uuid.equals("")==true) ? username : uuid, map);
 		} 
 		catch (Exception e) 
 		{
+			e.printStackTrace();
 			return ValueFactory.createNull("Error in "
 					+ this.getClass().getCanonicalName() + ": "
 					+ e.getMessage());
@@ -111,51 +148,5 @@ public class TweetSentiments extends SimplyTypedRGLFunction {
 	}
 	
 	
-	/**
-	 * Constructs user profile in RDF format.
-	 * 
-	 */
-	private RGLValue constructProfile(String username,
-			int positive, int negative, int neutral, double overall_score) throws Exception {
-
-		String userURI = "http://" + username + ".myopenid.com";
-
-		// create an empty Model
-		Model model = ModelFactory.createDefaultModel();
-
-		model.setNsPrefix("foaf", FOAF.getURI());
-		model.setNsPrefix("usem", USEM.getURI());
-		model.setNsPrefix("wo", WO.getURI());
-		model.setNsPrefix("wi", WI.getURI());
-		//model.setNsPrefix("marl", "http://purl.org/marl/ns");
-
-		// create the resources
-		Resource user = model.createResource(userURI);
-
-		user.addProperty(RDF.type, FOAF.Person);
-		user.addProperty(FOAF.name, username);
-
-		String[] labels= {"http://purl.org/marl/ns#positiveOpinionsCount","http://purl.org/marl/ns#neutralOpinionCount","http://purl.org/marl/ns#negativeOpinionCount","http://purl.org/marl/ns#opinionCount","http://purl.org/marl/ns#aggregatesOpinion"};
-		double[] values={positive, neutral, negative, (positive+negative), overall_score};
-		
-		for (int i=0; i<labels.length; i++)
-		{
-			Resource knowledgeResource = model.createResource().addProperty(RDF.type, USEM.WeightedKnowledge);
-
-			user.addProperty(USEM.knowledge, knowledgeResource);
-
-			knowledgeResource.addProperty(WI.topic,
-					model.createResource(labels[i]))
-					.addProperty(
-							WO.weight,
-							model.createResource()
-									.addProperty(RDF.type, WO.Weight)
-									.addLiteral(WO.weight_value,
-											values[i])
-									.addProperty(WO.scale, USEM.DefaultScale));
-		}
-
-		return ValueFactory.createRDFModelValue(model);
-	}
 	
 }

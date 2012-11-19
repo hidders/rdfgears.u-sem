@@ -1,6 +1,7 @@
 package nl.tudelft.rdfgears.rgl.function.imreal.uuid;
 
 import java.util.AbstractMap.SimpleEntry;
+import nl.tudelft.rdfgears.rgl.function.imreal.*;
 import java.util.List;
 
 import nl.tudelft.rdfgears.engine.ValueFactory;
@@ -25,31 +26,12 @@ import com.hp.hpl.jena.vocabulary.RDF;
 public class ListSocialIDsFunction extends SimplyTypedRGLFunction {
 
 	/**
-	 * The name of the input field providing the database url
-	 */
-	public static final String INPUT_DB = "db";
-
-	/**
-	 * The name of the input field providing the database username
-	 */
-	public static final String INPUT_USERNAME = "db_username";
-
-	/**
-	 * The name of the input field providing the database password
-	 */
-	public static final String INPUT_PASSWORD = "db_password";
-
-	/**
 	 * The name of the input field providing the uuid
 	 */
 	public static final String INPUT_UUID = "uuid";
 
 	public ListSocialIDsFunction() {
 		this.requireInputType(INPUT_UUID, RDFType.getInstance());
-
-		this.requireInputType(INPUT_DB, RDFType.getInstance());
-		this.requireInputType(INPUT_USERNAME, RDFType.getInstance());
-		this.requireInputType(INPUT_PASSWORD, RDFType.getInstance());
 	}
 
 	@Override
@@ -68,42 +50,9 @@ public class ListSocialIDsFunction extends SimplyTypedRGLFunction {
 		// extracting the twitter username from the input
 		String uuid = rdfValue.asLiteral().getValueString();
 
-		// ////////////////////////////////////////////////////////////////
-
-		// typechecking the input
-		rdfValue = inputRow.get(INPUT_DB);
-		if (!rdfValue.isLiteral())
-			return ValueFactory.createNull("Cannot handle URI input in "
-					+ getFullName());
-
-		// extracting the twitter username from the input
-		String db_url = "jdbc:mysql://" + rdfValue.asLiteral().getValueString();
-
-		// ////////////////////////////////////////////////////////////////
-
-		// typechecking the input
-		rdfValue = inputRow.get(INPUT_USERNAME);
-		if (!rdfValue.isLiteral())
-			return ValueFactory.createNull("Cannot handle URI input in "
-					+ getFullName());
-
-		// extracting the twitter username from the input
-		String username = rdfValue.asLiteral().getValueString();
-
-		// ////////////////////////////////////////////////////////////////
-
-		// typechecking the input
-		rdfValue = inputRow.get(INPUT_PASSWORD);
-		if (!rdfValue.isLiteral())
-			return ValueFactory.createNull("Cannot handle URI input in "
-					+ getFullName());
-
-		// extracting the twitter username from the input
-		String password = rdfValue.asLiteral().getValueString();
-
 		try {
-			return constructProfile(uuid,
-					UUIDDBUtils.retrieve(db_url, username, password, uuid));
+			return UserProfileGenerator.constructSocialIDListProfile(uuid,
+					UUIDDBUtils.retrieve(uuid));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ValueFactory.createNull("Error in "
@@ -112,33 +61,4 @@ public class ListSocialIDsFunction extends SimplyTypedRGLFunction {
 		}
 
 	}
-
-	/**
-	 * Constructs user profile in RDF format.
-	 * 
-	 */
-	private RGLValue constructProfile(String uuid,
-			List<SimpleEntry<String, String>> list) throws Exception {
-
-		// create an empty Model
-		Model model = ModelFactory.createDefaultModel();
-
-		model.setNsPrefix("foaf", FOAF.getURI());
-		model.setNsPrefix("imreal", IMREAL.getURI());
-
-		// create the resources
-		Resource user = model.createResource(IMREAL.getURI() + uuid);
-
-		user.addProperty(RDF.type, FOAF.Person);
-
-		for (SimpleEntry<String, String> entry : list) {
-
-			user.addProperty(
-					model.createProperty(IMREAL.getURI(), entry.getValue()
-							+ "ID"), entry.getKey());
-		}
-
-		return ValueFactory.createRDFModelValue(model);
-	}
-
 }

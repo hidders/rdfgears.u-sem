@@ -12,6 +12,22 @@ public class Dimension {
 		this.name = name;
 		this.dimensionEntries = dimensionEntries;
 	}
+	
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		for(DimensionEntry de : dimensionEntries)
+		{
+			if(sb.length()>0)
+				sb.append("\n");
+			sb.append("ENTRY (");
+			sb.append(de.topic);
+			sb.append(", ");
+			sb.append(de.value);
+			sb.append(")");
+		}
+		return sb.toString();
+	}
 
 	public String getName() {
 		return name;

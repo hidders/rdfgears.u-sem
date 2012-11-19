@@ -1,10 +1,19 @@
+
 package nl.tudelft.rdfgears.rgl.function.imreal;
+
+import java.io.BufferedReader;
+
+
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
 import nl.tudelft.rdfgears.engine.Config;
+import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
@@ -32,12 +41,17 @@ import com.hp.hpl.jena.sparql.vocabulary.FOAF;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
- * A function to detect twitter languages based on a twitter username
+ * A function to detect twitter languages based on a Twitter username.
  * 
+ * If as input the UUID is provided as input well, the RDF output gives the UUID handle, otherwise it outputs the Twitter handle.
+ * 
+ * @author Claudia
  */
 public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 
 	public static final String INPUT_USERNAME = "username";
+	public static final String INPUT_UUID = "uuid";
+	
 	public static final int MAXHOURS = 2*24; /* number of hours 'old' data (i.e. tweets retrieved earlier on) are still considered a valid substitute */
 
 	/*
@@ -48,7 +62,7 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 
 	public TwitterLanguageDetector() {
 		this.requireInputType(INPUT_USERNAME, RDFType.getInstance());
-
+		this.requireInputType(INPUT_UUID, RDFType.getInstance());
 	}
 
 	public RGLType getOutputType() {
@@ -70,7 +84,13 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 		// we are happy, value can be safely cast with .asLiteral().
 		String username = rdfValue.asLiteral().getValueString();
 
-		HashMap<String, Integer> languageMap;
+		RGLValue rdfValue2 = inputRow.get(INPUT_UUID);
+		if (!rdfValue2.isLiteral())
+			return ValueFactory.createNull("Cannot handle URI input in "
+					+ getFullName());
+		String uuid = rdfValue2.asLiteral().getValueString();
+		
+		HashMap<String, Double> languageMap;
 		try 
 		{
 			languageMap = detectLanguage(username);
@@ -89,7 +109,7 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 		RGLValue userProfile = null;
 		try 
 		{
-			userProfile = constructProfile(username, languageMap);
+			userProfile = UserProfileGenerator.generateProfile(this, (uuid.equals("")==true) ? username : uuid, languageMap);
 		} 
 		catch (Exception e) 
 		{
@@ -100,89 +120,11 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 		return userProfile;
 	}
 
-	/**
-	 * Constructs user profile in RDF format.
-	 * 
-	 */
-	private RGLValue constructProfile(String username,
-			HashMap<String, Integer> languageMap) throws Exception {
 
-		String userURI = "http://" + username + ".myopenid.com";
 
-		// create an empty Model
-		Model model = ModelFactory.createDefaultModel();
-
-		model.setNsPrefix("foaf", FOAF.getURI());
-		model.setNsPrefix("usem", USEM.getURI());
-		model.setNsPrefix("wo", WO.getURI());
-		model.setNsPrefix("wi", WI.getURI());
-		model.setNsPrefix("dbpedia", "http://dbpedia.org/resource/");
-
-		// create the resources
-		Resource user = model.createResource(userURI);
-
-		user.addProperty(RDF.type, FOAF.Person);
-		user.addProperty(FOAF.name, username);
-
-		for (String lang : languageMap.keySet()) {
-
-			Resource knowledgeResource = model.createResource().addProperty(
-					RDF.type, USEM.WeightedKnowledge);
-
-			user.addProperty(USEM.knowledge, knowledgeResource);
-
-			knowledgeResource.addProperty(WI.topic,
-					model.createResource(getDbpediaLanguage(lang)))
-					.addProperty(
-							WO.weight,
-							model.createResource()
-									.addProperty(RDF.type, WO.Weight)
-									.addLiteral(WO.weight_value,
-											languageMap.get(lang))
-									.addProperty(WO.scale, USEM.DefaultScale));
-		}
-
-		return ValueFactory.createRDFModelValue(model);
-	}
-
-	/**
-	 * Executes sparql request to dbpedia in order to get the dbpedia uri for
-	 * the provided language iso.
-	 */
-	private String getDbpediaLanguage(String iso) throws Exception {
-		String sparqlService = "http://dbpedia.org/sparql";
-
-		String query = "PREFIX dbpprop: <http://dbpedia.org/property/> "
-				+ "PREFIX dbo: <http://dbpedia.org/ontology/> "
-				+ "select ?language ?isocode" + "where { "
-				+ "?language dbpprop:iso ?isocode. "
-				+ "?language a dbo:Language. " + "FILTER (?isocode = \"" + iso
-				+ "\"@en) " + "}";
-
-		ResultSet results = executeQuery(query, sparqlService);
-
-		// returns the first entry in the result set
-		for (; results.hasNext();) {
-			QuerySolution soln = results.nextSolution();
-			Resource name = soln.getResource("language");
-			return name.getURI();
-		}
-
-		return null;
-	}
-
-	/**
-	 * Executes Jena query
-	 */
-	private ResultSet executeQuery(String queryString, String service)
-			throws Exception {
-		Query query = QueryFactory.create(queryString);
-
-		QueryEngineHTTP qexec = QueryExecutionFactory.createServiceRequest(
-				service, query);
-		ResultSet results = qexec.execSelect();
-		return results;
-
+	/* get unix timestamp (seconds) */
+	private int getCurrentTimestamp() {
+		return (int) (System.currentTimeMillis() / 1000L);
 	}
 
 	/**
@@ -193,7 +135,7 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 	 * @throws LangDetectException
 	 * @throws IOException
 	 */
-	private HashMap<String, Integer> detectLanguage(String twitterUser)
+	protected HashMap<String, Double> detectLanguage(String twitterUser)
 			throws LangDetectException, IOException {
 		
 		HashMap<String,String> tweets = TweetCollector.getTweetTextWithDateAsKey(twitterUser, true, MAXHOURS);
@@ -214,7 +156,7 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 			profilesLoaded = true;
 		}
 
-		HashMap<String, Integer> languageMap = new HashMap<String, Integer>();
+		HashMap<String, Double> languageMap = new HashMap<String, Double>();
 
 		for(String key : tweets.keySet())
 		{
@@ -226,11 +168,11 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 			String lang = detect.detect();
 			if (languageMap.containsKey(lang) == true) 
 			{
-				int val = languageMap.get(lang) + 1;
+				double val = languageMap.get(lang) + 1;
 				languageMap.put(lang, val);
 			} 
 			else
-				languageMap.put(lang, 1);
+				languageMap.put(lang, 1.0);
 		}
 		return languageMap;
 	}

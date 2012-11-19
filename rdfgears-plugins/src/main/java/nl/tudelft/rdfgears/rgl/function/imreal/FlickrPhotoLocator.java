@@ -1,15 +1,13 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 import nl.tudelft.rdfgears.engine.Config;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
@@ -19,10 +17,16 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.impl.ModifiableRecord;
 import nl.tudelft.rdfgears.rgl.datamodel.value.impl.bags.ListBackedBagValue;
 import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
+
 import nl.tudelft.rdfgears.util.row.FieldIndexMap;
 import nl.tudelft.rdfgears.util.row.FieldIndexMapFactory;
 import nl.tudelft.rdfgears.util.row.TypeRow;
 import nl.tudelft.rdfgears.util.row.ValueRow;
+
+import java.util.*; 
+import java.io.*;
+import java.net.*;
+import java.text.*;
 
 
 /**
@@ -92,7 +96,9 @@ public class FlickrPhotoLocator  extends SimplyTypedRGLFunction  {
 	/* named inputs */ 
 	public static final String INPUT_FLICKR_USERNAME = "flickrUser";
 	public static final String INPUT_TWITTER_USERNAME = "twitterUser";
-	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");//Twitter date parser
+	public static final String INPUT_UUID = "uuid";
+	
+	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");//Twitter date parser
 	
 	/* fieldnames in output records */ 
 	public static final String FIELD_LONGITUDE = "longitude";
@@ -101,12 +107,15 @@ public class FlickrPhotoLocator  extends SimplyTypedRGLFunction  {
 	public static final String FIELD_ESTIM_LATITUDE = "estimatedLat";
 	public static final String FIELD_ESTIM_ERROR = "estimatedErrorKm";
 	public static final String FIELD_DATE_TAKEN= "dateTaken";
+	public static final String FIELD_FLICKR_ACCURACY = "flickrAccuracy";
 
-	private static final String REGION_FILE = Config.getWritableDir() + "/region.out"; /* file in which the training data is stored */
-	private static final ArrayList<Region> worldRegions = new ArrayList<Region>(500);
+	private static final String REGION_FILE = Config.getWritableDir()+"region.out";
+	private static final ArrayList<Region> worldRegions = new ArrayList<Region>();
+	private static boolean regionsRead = false;
+	
 	private static final double MU = 2000.0; /* language model smoothing parameter */
 	private static final HashMap<String, Double> corpusTF = new HashMap<String, Double>();//collection language model is stored here
-	private double corpus_tf = 0.0; //total number of tokens in the corpus
+	private static double corpus_tf = 0.0; //total number of tokens in the corpus
 	private static final double epsilon = 0.0000000001;
 	private static final double MAX_DAYS_DIFFERENCE = 5;/*the maximum number of days the photo date and tweet date may be apart for the tweet to still count towards the photo */
 	
@@ -117,15 +126,14 @@ public class FlickrPhotoLocator  extends SimplyTypedRGLFunction  {
 														FIELD_ESTIM_LONGITUDE, 
 														FIELD_ESTIM_LATITUDE, 
 														FIELD_ESTIM_ERROR, 
-														FIELD_DATE_TAKEN);
-	
-	
-	
+														FIELD_DATE_TAKEN,
+														FIELD_FLICKR_ACCURACY);
 	public FlickrPhotoLocator()
 	{
 		/* required input type is always RDFType */ 
 		requireInputType(INPUT_FLICKR_USERNAME, RDFType.getInstance());
 		requireInputType(INPUT_TWITTER_USERNAME, RDFType.getInstance());
+		requireInputType(INPUT_UUID, RDFType.getInstance());
 	}
 	
 	@Override
@@ -138,6 +146,7 @@ public class FlickrPhotoLocator  extends SimplyTypedRGLFunction  {
 		typeRow.put(FIELD_ESTIM_LATITUDE, RDFType.getInstance());
 		typeRow.put(FIELD_ESTIM_ERROR, RDFType.getInstance());
 		typeRow.put(FIELD_DATE_TAKEN, RDFType.getInstance());
+		typeRow.put(FIELD_FLICKR_ACCURACY, RDFType.getInstance());
 		return BagType.getInstance(RecordType.getInstance(typeRow));
 	}
 
@@ -146,21 +155,23 @@ public class FlickrPhotoLocator  extends SimplyTypedRGLFunction  {
 		/* input values are guaranteed to be non-null, as this is a SimplyTypedRGLFunction */
 		RGLValue inputTwitterUser = inputRow.get(INPUT_TWITTER_USERNAME);
 		RGLValue inputFlickrUser = inputRow.get(INPUT_FLICKR_USERNAME);
+		RGLValue uuid = inputRow.get(INPUT_UUID);
 				
-		if (!inputTwitterUser.isLiteral() || !inputTwitterUser.isLiteral() ){
+		if (!inputTwitterUser.isLiteral() || !inputTwitterUser.isLiteral() || !uuid.isLiteral() ){
 			return ValueFactory.createNull("input to "+getFullName()+" must be all literals");
 		}
 		
 		/* ok, all literals */
 		String twitterUser = inputTwitterUser.asLiteral().getValueString();
 		String flickrUser = inputFlickrUser.asLiteral().getValueString();
+		String uuidUser = uuid.asLiteral().getValueString();
 
 		HashMap<String, String> tweets = (twitterUser.equals("")==true) ? new HashMap<String, String>() : TweetCollector.getTweetTextWithDateAsKey(twitterUser, false, 24*14);//2 week old data is okay
 		ArrayList<Photo> photos = (flickrUser.equals("")==true) ? new ArrayList<Photo>() : ImageCollector.getPhotos(flickrUser, 24*12);
 		
 		try 
 		{ 
-			return getPhotosWithEstimatedLocations(tweets, photos, twitterUser, flickrUser);
+			return getPhotosWithEstimatedLocations(tweets, photos, twitterUser, flickrUser, uuidUser);
 		} 
 		catch (Exception e)
 		{
@@ -174,8 +185,11 @@ public class FlickrPhotoLocator  extends SimplyTypedRGLFunction  {
 	 * file format, one region per line:
 	 * [latitudeCenter] [longitudeCenter] [term1] [tf_in_region1] [tf_in_corpus1] [term2] [tf_in_region2] [tf_in_corpus2] .... [totalTermCountRegion]
 	 */
-	private void readRegionFile()
+	private static void readRegionFile()
 	{
+		if(regionsRead == true)
+			return;
+		
 		try
 		{
 			BufferedReader br = new BufferedReader(new FileReader(REGION_FILE));
@@ -235,121 +249,107 @@ public class FlickrPhotoLocator  extends SimplyTypedRGLFunction  {
 		}
 		
 		System.err.println("Region models read: "+worldRegions.size());
+		regionsRead = true;
 	}
 	
 	 
-	private RGLValue getPhotosWithEstimatedLocations(HashMap<String, String> tweets, ArrayList<Photo> photos, String twitterUser, String flickrUser) throws IOException 
-	{
+	private RGLValue getPhotosWithEstimatedLocations(
+			HashMap<String, String> tweets, ArrayList<Photo> photos,
+			String twitterUser, String flickrUser, String uuid)
+			throws IOException {
 		List<RGLValue> bagList = ValueFactory.createBagBackingList();
-			
-		/*
-		 * read the region file if called for the first time
-		 */
 		readRegionFile();
-			
-		StringBuilder sb = new StringBuilder();
 
-		for(Photo photo : photos)
-		{	
-			/*
-			 * compute the location estimate for each image
-			 */
+		for (Photo photo : photos) {
+			StringBuilder sb = new StringBuilder();
 			Region bestMatch = null;
 			double bestMatchProb = 0.0;
-				
+
 			String[] titleTokens = photo.title.toLowerCase().split("\\s+");
 			String[] tagTokens = photo.tags.toLowerCase().split("\\s+");
 			String[] tweetTokens = {};
-			
-			sb.setLength(0);
-				
 			Date photoDate = photo.getDate();
 			long milliseconds1 = photoDate.getTime();
-			
-			for(String tweetDate : tweets.keySet())
-			{
+
+			for (String tweetDate : tweets.keySet()) {
 				Date d = null;
 				long milliseconds2;
-				try
-				{
+				try {
 					d = simpleDateFormat.parse(tweetDate);
 					milliseconds2 = d.getTime();
-				}
-				catch(Exception e)
-				{
+				} catch (Exception e) {
 					milliseconds2 = 0l;
 				}
-				
-				
-				double diff = Math.abs(milliseconds1-milliseconds2);
-				diff = diff/1000.0;//seconds
-				diff = diff/60.0;//minutes
-				diff = diff/60.0;//hours
-				diff = diff/24.0;//days
-				
-				//System.err.println("Computed difference between Flickr date: "+photoDate.toString()+" and Twitter date: "+d.toString());
-				//System.err.println("difference => "+diff);
-				
-				if(diff<=(double)MAX_DAYS_DIFFERENCE)
+
+				double diff = Math.abs(milliseconds1 - milliseconds2);
+				diff = diff / 1000.0;// seconds
+				diff = diff / 60.0;// minutes diff = diff/60.0;//hours
+				diff = diff / 24.0;// days
+				if (diff <= (double) MAX_DAYS_DIFFERENCE)
 					sb.append(" ").append(tweets.get(tweetDate));
 			}
-			if(sb.length()>0)
-			{
+
+			if (sb.length() > 0)
 				tweetTokens = sb.toString().split("\\s+");
-				System.err.println("Tweet text added: "+tweetTokens.length);
-			}
-				
-			for(Region r : worldRegions)
-			{
-				//compute 'query' likelihood
+
+			for (Region r : worldRegions) {
+				// compute 'query' likelihood
 				double prob = 0.0;
-					
-				//for title and tag tokens!
-				for(int t=0; t<3; t++)
-				{
-					for(String token : ((t==0) ? titleTokens : ( (t==1) ? tagTokens : tweetTokens   )))
-					{	
+
+				// for title and tag tokens!
+				for (int t = 0; t < 3; t++) {
+					for (String token : ((t == 0) ? titleTokens
+							: ((t == 1) ? tagTokens : tweetTokens))) {
 						double tf = 0.0;
-						if(r.terms.containsKey(token))
-							tf = (double)r.terms.get(token);
-						
+						if (r.terms.containsKey(token))
+							tf = (double) r.terms.get(token);
+
 						double tfc = 0.0;
-						if(corpusTF.containsKey(token))
+						if (corpusTF.containsKey(token))
 							tfc = corpusTF.get(token);
-						
+
 						double logProb = Math.log(epsilon);
-						if(tfc>0)
-							logProb = Math.log(  (tf + MU * (tfc/corpus_tf)) / (r.regionLength + MU)    );
+						if (tfc > 0)
+							logProb = Math.log((tf + MU * (tfc / corpus_tf))
+									/ (r.regionLength + MU));
 						else
 							continue;
-						
+
 						prob += logProb;
 					}
 				}
 
-				if(bestMatch==null || prob>bestMatchProb)
-				{
+				if (bestMatch == null || prob > bestMatchProb) {
 					bestMatch = r;
 					bestMatchProb = prob;
 				}
 			}
-				
-			if(bestMatch!=null)
-			{
+
+			if (bestMatch != null) {
 				photo.estLatitude = bestMatch.latCenter;
 				photo.estLongitude = bestMatch.lngCenter;
 			}
-				
-			ModifiableRecord locRecord = ValueFactory.createModifiableRecordValue(fiMap);
-			locRecord.put(FIELD_LONGITUDE, ValueFactory.createLiteralDouble(photo.longitude));  
-			locRecord.put(FIELD_LATITUDE, ValueFactory.createLiteralDouble(photo.latitude));  
-			locRecord.put(FIELD_ESTIM_LATITUDE, ValueFactory.createLiteralDouble(photo.estLatitude));  
-			locRecord.put(FIELD_ESTIM_LONGITUDE, ValueFactory.createLiteralDouble(photo.estLongitude));
-			locRecord.put(FIELD_ESTIM_ERROR, ValueFactory.createLiteralDouble(photo.getErrorInKM()));
-			locRecord.put(FIELD_DATE_TAKEN, ValueFactory.createLiteralPlain(photo.getDate().toString(), null));
+
+			ModifiableRecord locRecord = ValueFactory
+					.createModifiableRecordValue(fiMap);
+			locRecord.put(FIELD_LONGITUDE,
+					ValueFactory.createLiteralDouble(photo.longitude));
+			locRecord.put(FIELD_LATITUDE,
+					ValueFactory.createLiteralDouble(photo.latitude));
+			locRecord.put(FIELD_ESTIM_LATITUDE,
+					ValueFactory.createLiteralDouble(photo.estLatitude));
+			locRecord.put(FIELD_ESTIM_LONGITUDE,
+					ValueFactory.createLiteralDouble(photo.estLongitude));
+			locRecord.put(FIELD_ESTIM_ERROR,
+					ValueFactory.createLiteralDouble(photo.getErrorInKM()));
+			locRecord.put(FIELD_DATE_TAKEN, ValueFactory.createLiteralPlain(
+					photo.getDate().toString(), null));
+			locRecord.put(FIELD_FLICKR_ACCURACY,
+					ValueFactory.createLiteralPlain("" + photo.accuracy, null));
 
 			bagList.add(locRecord);
 		}
 		return new ListBackedBagValue(bagList);
 	}
+		
 }

@@ -2,6 +2,7 @@ package nl.tudelft.rdfgears.rgl.function.imreal;
 
 import java.io.BufferedReader;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,59 +39,61 @@ import com.hp.hpl.jena.sparql.vocabulary.FOAF;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
- * Based on the number of languages detected in tweets, a cultural awareness value is returned
+ * This is a wrapper for UserProfileGenerator, to enable the workflow-based
+ * output be wrapped into the U-Sem format.
  * 
- * 0 if only 1 language is detected
- * 1 if 2 languages are detected
- * 2 if 3+ languages are detected
+ * (has nothing to do with userprofile/UserProfile.java)
+ * 
+ * TODO: change terminology, refactor code
  * 
  * @author Claudia
  */
-public class CulturalAwarenessLng extends TwitterLanguageDetector
-{
-	private static int MIN_NUM_TWEETS_TO_COUNT = 5; /* only languages with at least these many tweets are counted */
+public class UserProfileFunction extends SimplyTypedRGLFunction {
+
+	public static final String INPUT_WEIGHT = "wo:weight";
+	public static final String INPUT_TOPIC = "wi:topic";
+	public static final String INPUT_USERID = "rdf:about";//social ID or UUID
 	
+	public UserProfileFunction() {
+		this.requireInputType(INPUT_USERID, RDFType.getInstance());
+		this.requireInputType(INPUT_TOPIC, RDFType.getInstance());
+		this.requireInputType(INPUT_WEIGHT, RDFType.getInstance());
+	}
+
+	public RGLType getOutputType() {
+		return BagType.getInstance(RDFType.getInstance());
+	}
+
 	@Override
-	public RGLValue simpleExecute(ValueRow inputRow) 
-	{
-		RGLValue rdfValue = inputRow.get(INPUT_USERNAME);
+	public RGLValue simpleExecute(ValueRow inputRow) {
+		/*
+		 * - typechecking guarantees it is an RDFType - simpleExecute guarantees
+		 * it is non-null SanityCheck: we must still check whether it is URI or
+		 * String, because typechecking doesn't distinguish this!
+		 */
+		RGLValue rdfValue = inputRow.get(INPUT_USERID);
 		if (!rdfValue.isLiteral())
 			return ValueFactory.createNull("Cannot handle URI input in "
 					+ getFullName());
 
-		// we are happy, value can be safely cast with .asLiteral().
-		String username = rdfValue.asLiteral().getValueString();
-		
-		String uuid = "";
-		RGLValue rdfValue2 = inputRow.get(INPUT_UUID);
-		if(rdfValue2!=null)
-			uuid = rdfValue2.asLiteral().getValueString();
+		String userid = rdfValue.asLiteral().getValueString();
 
-		HashMap<String, Double> languageMap;
-		try 
-		{
-			languageMap = detectLanguage(username);
-		} catch (Exception e) 
-		{
-			return ValueFactory.createNull("Error in "
-					+ this.getClass().getCanonicalName() + ": "
-					+ e.getMessage());
-		}
-
-		int numLanguages = 0;
-		for(String language : languageMap.keySet())
-		{
-			if( languageMap.get(language) >= MIN_NUM_TWEETS_TO_COUNT)
-				numLanguages++;
-		}
+		RGLValue rdfValue2 = inputRow.get(INPUT_TOPIC);
+		if (!rdfValue2.isLiteral())
+			return ValueFactory.createNull("Cannot handle URI input in "
+					+ getFullName());
+		String topic = rdfValue2.asLiteral().getValueString();
 		
-		HashMap<String, Double> map = new HashMap<String, Double>();
-		map.put("",(double)numLanguages);
- 
+		RGLValue rdfValue3 = inputRow.get(INPUT_WEIGHT);
+		if (!rdfValue3.isLiteral())
+			return ValueFactory.createNull("Cannot handle URI input in "
+					+ getFullName());
+		String weight = rdfValue3.asLiteral().getValueString();
+
 		RGLValue userProfile = null;
 		try 
 		{
-			userProfile = UserProfileGenerator.generateProfile(this, (uuid.equals("")==true) ? username : uuid, map);
+			userProfile = UserProfileGenerator.generateProfile(userid, topic, weight);
 		} 
 		catch (Exception e) 
 		{

@@ -1,10 +1,13 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.lang.*;
+import java.text.*;
+import java.util.*;
 
 /*
  * class represents a single Flickr photo
+ * 
+ *  * @author Claudia
  */
 public class Photo
 {

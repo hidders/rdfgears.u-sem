@@ -1,6 +1,7 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
 import java.io.BufferedReader;
+import nl.tudelft.rdfgears.engine.Config;
 import java.io.FileReader;
 import java.util.HashMap;
 
@@ -22,15 +23,8 @@ public class HofstedeIndex extends SimplyTypedRGLFunction {
 	public static final String INPUT_COUNTRY = "country";
 	public static final String INPUT_DIMENSION = "dimension";
 
-	private static final String HOFSTEDE_FILE = Config.getWritableDir() + "/hofstede_index";// in
-																					// case
-																					// the
-	// file is
-	// moved
-	// elsewhere,
-	// update
-	// the
-	// location
+	private static final String HOFSTEDE_FILE = Config.getWritableDir()+"hofstede_index";
+	
 	private static final String PDI = "pdi";
 	private static final String IDV = "idv";
 	private static final String MAS = "mas";
@@ -69,26 +63,44 @@ public class HofstedeIndex extends SimplyTypedRGLFunction {
 				if (line.startsWith("#"))
 					continue;
 
-				String tokens[] = line.split(",");
+				String tokens[] = line.split("\\s+");
+				
 				// format: Country PDI IDV MAS UAI LTO
-				int ltoVal = 0;
+				int ltoVal = -1;//some countries don't have a value for LTO
 				int uaiVal = 0;
 				int masVal = 0;
 				int idvVal = 0;
 				int pdiVal = 0;
+				
+				//are we dealing with 4 or 5 numbers?
+				int num=0;
+				for(int i=tokens.length-1; i>=0; i--)
+				{
+					try
+					{
+						Integer.parseInt(tokens[i]);
+						num++;
+					}
+					catch(NumberFormatException nfe){break;}
+				}
 
-				if (tokens.length > 1)
-					ltoVal = Integer.parseInt(tokens[1].trim());
-				if (tokens.length > 2)
-					uaiVal = Integer.parseInt(tokens[2].trim());
-				if (tokens.length > 3)
-					masVal = Integer.parseInt(tokens[3].trim());
-				if (tokens.length > 4)
-					idvVal = Integer.parseInt(tokens[4].trim());
-				if (tokens.length > 5)
-					pdiVal = Integer.parseInt(tokens[5].trim());
+				int indexCounter=tokens.length-1;
+				if(num==5)
+					ltoVal = Integer.parseInt(tokens[indexCounter--].trim());
+				
+				uaiVal = Integer.parseInt(tokens[indexCounter--].trim());
+				masVal = Integer.parseInt(tokens[indexCounter--].trim());
+				idvVal = Integer.parseInt(tokens[indexCounter--].trim());
+				pdiVal = Integer.parseInt(tokens[indexCounter--].trim());
 
-				String country = tokens[0].trim();
+				StringBuilder sb = new StringBuilder();
+				for(int i=0; i<=indexCounter; i++)
+				{
+					if(i>0)
+						sb.append(" ");
+					sb.append(tokens[i]);
+				}
+				String country = sb.toString().trim();
 
 				pdi.put(country, pdiVal);
 				idv.put(country, idvVal);
@@ -123,7 +135,7 @@ public class HofstedeIndex extends SimplyTypedRGLFunction {
 			return ValueFactory.createNull("Cannot handle URI input in "
 					+ getFullName());
 
-		String dimension = rdfValueDimension.asLiteral().getValueString();
+		String dimension = rdfValueDimension.asLiteral().getValueString().toLowerCase();
 
 		if (indexLoaded == false)
 			readHofstedeFile();
@@ -139,7 +151,7 @@ public class HofstedeIndex extends SimplyTypedRGLFunction {
 			map = uai;
 		else if (dimension.equals(LTO))
 			map = lto;
-
+		
 		if (map != null && map.containsKey(country)) {
 			int d = map.get(country);
 			return ValueFactory.createLiteralDouble(d);

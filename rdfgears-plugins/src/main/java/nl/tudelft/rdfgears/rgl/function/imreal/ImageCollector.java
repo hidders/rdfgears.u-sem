@@ -1,25 +1,43 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
+import nl.tudelft.rdfgears.engine.Config;
 
+import org.w3c.dom.*;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import java.io.*;
+import java.net.URL;
+import java.util.*;
 
 import nl.tudelft.rdfgears.engine.Config;
 import nl.tudelft.rdfgears.engine.Engine;
+import nl.tudelft.rdfgears.engine.ValueFactory;
+import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
+import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
+import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
+import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
+import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
+import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.USEM;
+import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WI;
+import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WO;
+import nl.tudelft.rdfgears.util.row.ValueRow;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
+import com.hp.hpl.jena.sparql.vocabulary.FOAF;
+import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
  * A class that either retrieves Flickr images from file or from the Flickr stream
@@ -27,28 +45,32 @@ import org.w3c.dom.NodeList;
  * 
  * maxHoursAllowedOld indicates how old in hours the stored data is allowed to be before it is overwritten.
  * 
+ *  * @author Claudia
  */
 
 public class ImageCollector 
 {
 	
-	private static final String FLICKR_DATA_FOLDER = Config.getWritableDir() + "/flickrData"; /*path to the folder where the twitter data is stored */
+	private static final String FLICKR_DATA_FOLDER = Config.getWritableDir()+"flickrData"; 
 	private static final int MAX_NUM_IMAGES = 2000;/* maximum number of images that should be retrieved */
 	private static String FLICKR_API_KEY;
-	private static final String FLICKR_API_KEY_FILE = Config.getWritableDir() + "/flickr_api_key";/* file in which the API key is stored */
-	
+	private static final String FLICKR_API_KEY_FILE = Config.getWritableDir()+"flickr_api_key";
 	
 	public static ArrayList<Photo> getPhotos(String flickrUsername, int maxHoursAllowedOld)
 	{
+		ArrayList<Photo> photos = new ArrayList<Photo>();
+		
 		try
 		{
-			//check if the folder exists
-			File flickrDIR = new File(FLICKR_DATA_FOLDER);
-			if (!flickrDIR.exists())
-				flickrDIR.mkdir();
-			
 			readFlickrKey();
 			String nsid = getNSID(flickrUsername);
+			
+			//if we have no NSID, just return an empty list of photos
+			if(nsid.length()<3)
+			{
+				System.err.println("No NSID found!");
+				return photos;
+			}
 			
 			File f = new File(FLICKR_DATA_FOLDER+"/"+nsid);
 			int hours = -1;
@@ -147,6 +169,8 @@ public class ImageCollector
 					int index = inputLine.indexOf(tofind);
 					if(index>0)
 						nsid = inputLine.substring( index+tofind.length(), inputLine.lastIndexOf('"') );
+					
+					System.err.println("[output] "+inputLine);
 				}
 			
 				/* instead of an error message, return an empty map */
@@ -206,6 +230,11 @@ public class ImageCollector
 					{
 						bw.write(inputLine);
 						bw.newLine();
+					}
+					else if( inputLine.contains("Invalid API Key"))
+					{
+						System.err.println("Flickr API key may be invalid!");
+						System.err.println("=> "+inputLine);
 					}
 					else
 						;

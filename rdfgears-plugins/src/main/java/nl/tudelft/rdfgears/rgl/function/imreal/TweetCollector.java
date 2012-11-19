@@ -1,23 +1,44 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
+import nl.tudelft.rdfgears.engine.Config;
+
+import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
-
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.Map;
 
 import nl.tudelft.rdfgears.engine.Config;
 import nl.tudelft.rdfgears.engine.Engine;
+import nl.tudelft.rdfgears.engine.ValueFactory;
+import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
+import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
+import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
+import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
+import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
+import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.USEM;
+import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WI;
+import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WO;
+import nl.tudelft.rdfgears.util.row.ValueRow;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
+import com.hp.hpl.jena.sparql.vocabulary.FOAF;
+import com.hp.hpl.jena.vocabulary.RDF;
+
+import org.w3c.dom.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * A class that either retrieves tweets from file or from the Twitter stream
@@ -27,22 +48,31 @@ import org.w3c.dom.NodeList;
  * 
  * maxHoursAllowedOld indicates how old in hours the stored data is allowed to be before it is overwritten.
  * 
+ * @author Claudia
+ * 
  */
 public class TweetCollector 
 {
 	
-	private static final String TWITTER_DATA_FOLDER = Config.getWritableDir() + "/twitterData"; /*path to the folder where the twitter data is stored */
+	private static final String TWITTER_DATA_FOLDER = Config.getWritableDir()+"twitterData";
+	private static DocumentBuilder docBuilder;
 	
+	static
+	{
+		try
+		{
+			docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
 	public static HashMap<String,String> getTweetTextWithDateAsKey(String twitterUsername, boolean includeRetweets, int maxHoursAllowedOld)
 	{
 		try
 		{
-			//check if the folder exists
-			File twitterDIR = new File(TWITTER_DATA_FOLDER);
-			if (!twitterDIR.exists())
-				twitterDIR.mkdir();
-			
 			File f = new File(TWITTER_DATA_FOLDER+"/"+twitterUsername);
 			int hours = -1;
 			if(f.exists()==true)
@@ -120,7 +150,7 @@ public class TweetCollector
 		
 		try
 		{
-			Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream(f));
+			Document d = docBuilder.parse(new FileInputStream(f));
 			NodeList statuses = d.getElementsByTagName("status");
 			
 			for(int i=0; i<statuses.getLength(); i++)

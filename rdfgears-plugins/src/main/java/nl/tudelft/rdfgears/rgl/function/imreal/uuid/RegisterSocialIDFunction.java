@@ -15,21 +15,6 @@ import nl.tudelft.rdfgears.util.row.ValueRow;
 public class RegisterSocialIDFunction extends SimplyTypedRGLFunction {
 
 	/**
-	 * The name of the input field providing the database url
-	 */
-	public static final String INPUT_DB = "db";
-
-	/**
-	 * The name of the input field providing the database username
-	 */
-	public static final String INPUT_USERNAME = "db_username";
-
-	/**
-	 * The name of the input field providing the database password
-	 */
-	public static final String INPUT_PASSWORD = "db_password";
-
-	/**
 	 * The name of the input field providing the uuid
 	 */
 	public static final String INPUT_UUID = "uuid";
@@ -42,16 +27,12 @@ public class RegisterSocialIDFunction extends SimplyTypedRGLFunction {
 	/**
 	 * The name of the input field providing the webid provider
 	 */
-	public static final String INPUT_PROVIDER = "provider";
+	public static final String WEBID_TYPE = "type";
 
 	public RegisterSocialIDFunction() {
 		this.requireInputType(INPUT_UUID, RDFType.getInstance());
 		this.requireInputType(INPUT_WEBID, RDFType.getInstance());
-		this.requireInputType(INPUT_PROVIDER, RDFType.getInstance());
-
-		this.requireInputType(INPUT_DB, RDFType.getInstance());
-		this.requireInputType(INPUT_USERNAME, RDFType.getInstance());
-		this.requireInputType(INPUT_PASSWORD, RDFType.getInstance());
+		this.requireInputType(WEBID_TYPE, RDFType.getInstance());
 	}
 
 	@Override
@@ -84,7 +65,7 @@ public class RegisterSocialIDFunction extends SimplyTypedRGLFunction {
 		// ////////////////////////////////////////////////////////////////
 
 		// typechecking the input
-		rdfValue = inputRow.get(INPUT_PROVIDER);
+		rdfValue = inputRow.get(WEBID_TYPE);
 		if (!rdfValue.isLiteral())
 			return ValueFactory.createNull("Cannot handle URI input in "
 					+ getFullName());
@@ -94,41 +75,9 @@ public class RegisterSocialIDFunction extends SimplyTypedRGLFunction {
 
 		// ////////////////////////////////////////////////////////////////
 
-		// typechecking the input
-		rdfValue = inputRow.get(INPUT_DB);
-		if (!rdfValue.isLiteral())
-			return ValueFactory.createNull("Cannot handle URI input in "
-					+ getFullName());
-
-		// extracting the twitter username from the input
-		String db_url = "jdbc:mysql://" + rdfValue.asLiteral().getValueString();
-
-		// ////////////////////////////////////////////////////////////////
-
-		// typechecking the input
-		rdfValue = inputRow.get(INPUT_USERNAME);
-		if (!rdfValue.isLiteral())
-			return ValueFactory.createNull("Cannot handle URI input in "
-					+ getFullName());
-
-		// extracting the twitter username from the input
-		String username = rdfValue.asLiteral().getValueString();
-
-		// ////////////////////////////////////////////////////////////////
-
-		// typechecking the input
-		rdfValue = inputRow.get(INPUT_PASSWORD);
-		if (!rdfValue.isLiteral())
-			return ValueFactory.createNull("Cannot handle URI input in "
-					+ getFullName());
-
-		// extracting the twitter username from the input
-		String password = rdfValue.asLiteral().getValueString();
-
 		int existing_uuid;
 		try {
-			existing_uuid = UUIDDBUtils.findUUIDbyName(db_url, username,
-					password, uuid);
+			existing_uuid = UUIDDBUtils.findUUIDbyName(uuid);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ValueFactory.createNull("Error in "
@@ -141,8 +90,7 @@ public class RegisterSocialIDFunction extends SimplyTypedRGLFunction {
 					.createNull("The service cannot be executed because the provided UUID is not registered in the system. The \"registerUUID\" service can be used for registering new UUID.");
 
 		try {
-			UUIDDBUtils.storeWebid(db_url, username, password, existing_uuid,
-					webid, provider);
+			UUIDDBUtils.storeWebid(existing_uuid,webid, provider);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ValueFactory.createNull("Error in "
@@ -150,7 +98,7 @@ public class RegisterSocialIDFunction extends SimplyTypedRGLFunction {
 					+ e.getMessage());
 		}
 
-		return ValueFactory.createNull("UUID stored successfully.");
+		return ValueFactory.createNull("UUID/WebID stored successfully.");
 	}
 
 }

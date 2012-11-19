@@ -22,8 +22,11 @@ import org.apache.log4j.Level;
  *
  */
 public class Config {
+	
+	public static final String DB_LOGIN = "/root/login.db";
+	
 	public static final String DEFAULT_DB_PATH = "./bdb";
-	public static final String DEFAULT_WORKFLOW_PATHLIST = ".:./workflows/";	
+	public static final String DEFAULT_WORKFLOW_PATHLIST = "./workflows/";	
 	public static final String DEFAULT_CONFIG_FILE = "./rdfgears.config";
 	private static final Level  DEFAULT_LOG_LEVEL = Level.INFO;
 	private static final int DEFAULT_SPARQL_RETRY_MAX = 3;
@@ -220,7 +223,6 @@ public class Config {
 		String path = System.getProperty("java.io.tmpdir")+"/rdfgears/";
 		File dir = new File(path);
 		dir.mkdirs();
-		return dir.getPath();
+		return path;
 	}
-
 }
