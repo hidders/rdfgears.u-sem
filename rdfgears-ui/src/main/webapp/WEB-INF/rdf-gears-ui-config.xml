@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RDFGearsUIConfig>
-	<BasePath>C:\apache-tomcat-7.0.22</BasePath>
-	<RDFGearsRestUrl>http://localhost:8080/rdfgears-rest</RDFGearsRestUrl>
+	<BasePath>../temp/rdfgears/</BasePath>
+	<RDFGearsRestUrl>../rdfgears-rest</RDFGearsRestUrl>
 </RDFGearsUIConfig>
 

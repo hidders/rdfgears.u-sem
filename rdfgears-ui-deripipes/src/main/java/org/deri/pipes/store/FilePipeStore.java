@@ -109,7 +109,7 @@ public class FilePipeStore implements PipeStore {
 //			System.exit(-1);
 //		}
 		
-		String folderName = "workflows";
+		String folderName = "data/workflows";
 //		try {
 //			File tmp = File.createTempFile("pipestore", "xxx");
 //			rootFolder = new File(tmp.getParentFile(),folderName);
