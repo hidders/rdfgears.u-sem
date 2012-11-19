@@ -42,10 +42,5 @@ nl.tudelft.rdfgears.rgl.function.imreal.userprofile.SetUserProfileEntryFunction
 nl.tudelft.rdfgears.rgl.function.imreal.userprofile.GetUserProfileEntryFunction
 nl.tudelft.rdfgears.rgl.function.imreal.userprofile.ContainsUserProfileEntryFunction
 
-nl.tudelft.rdfgears.rgl.function.imreal.uuid.GetSocialIDFromUUIDFunction
-
-nl.tudelft.rdfgears.rgl.function.imreal.userprofile.SetUserProfileEntryFunction
-nl.tudelft.rdfgears.rgl.function.imreal.userprofile.GetUserProfileEntryFunction
-
 nl.tudelft.rdfgears.rgl.function.imreal.sentiment_analysis.SentimentAnalysisFunction
 
