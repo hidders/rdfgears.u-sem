@@ -1,0 +1,62 @@
+<processor label="Tuple Tester" category="Test Nodes">
+<description> test tuple input and output </description>
+<inputs> 
+<function type="tupleTest"> 
+<param name="test" type="string" label="URL"/> 
+</function> 
+<data name="tuple1" label="Tuple 1" iterate="true">
+<type>
+<tuple>
+<field name="a1">
+<var name="t1"/>
+</field>
+<field name="a2">
+<int/>
+</field>
+<field name="a3">
+<bag>
+<var name="t2"/>
+</bag>
+</field>
+</tuple>
+</type>
+</data> 
+<data name="tuple2" label="Tuple 2" iterate="true">
+<type>
+<etuple>
+<field name="b1">
+<var name="y1"/>
+</field>
+<field name="a2">
+<bool/>
+</field>
+<field name="b3">
+<bag>
+<var name="y2"/>
+</bag>
+</field>
+</etuple>
+</type>
+</data>
+</inputs>
+<output>
+<type>
+<tuple>
+<field name="a1">
+<var name="t3"/>
+</field>
+<field name="a2">
+<int/>
+</field>
+<field name="a3">
+<var name="t5"/>
+</field>
+</tuple>
+</type>
+</output>
+<help> 
+	help text
+</help>
+</processor>
+
+

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+  <metadata>
+    <id>nested-s-input</id>
+    <name>nested single input</name>
+    <description/>
+    <category>testNested</category>
+    <password/>
+  </metadata>
+  <workflow>
+    <workflowInputList x="300" y="100">
+      <workflowInputPort name="input0">
+        <type>
+          <etuple>
+            <field name="b1">
+              <var name="a35"/>
+            </field>
+            <field name="a2">
+              <bool/>
+            </field>
+            <field name="b3">
+              <bag>
+                <var name="a36"/>
+              </bag>
+            </field>
+          </etuple>
+        </type>
+      </workflowInputPort>
+    </workflowInputList>
+    <network output="node_24" x="800" y="500">
+      <output-type>
+        <tuple>
+          <field name="a1">
+            <var name="a39"/>
+          </field>
+          <field name="a2">
+            <int/>
+          </field>
+          <field name="a3">
+            <var name="a40"/>
+          </field>
+        </tuple>
+      </output-type>
+      <processor id="node_24" x="606" y="185">
+        <function type="custom-java">
+          <config param="implementation">workflow:nested-wf-ex</config>
+        </function>
+        <inputPort name="input0" iterate="false">
+          <source workflowInputPort="input0"/>
+        </inputPort>
+        <inputPort name="input1" iterate="false"/>
+      </processor>
+    </network>
+  </workflow>
+</rdfgears>

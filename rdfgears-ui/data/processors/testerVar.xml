@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<processor label="var in-out" category="Tester">
+<description> var </description>
+<inputs> 
+<function type="testerVar"/>
+<data name="A" label="var A" iterate="false">
+<type>
+<var name="A"/>
+</type>
+</data> 
+</inputs>
+<output>
+<type>
+<var name="A"/>
+</type>
+</output>
+</processor>
+

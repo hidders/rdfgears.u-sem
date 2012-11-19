@@ -1,0 +1,31 @@
+<processor label="Record project" category="Project">
+<description> Write SPARQL Query </description>
+<inputs>
+<data name="record" label="record" iterate="false">
+<type>
+<bag>
+<bag>
+<var name="beta"/>
+</bag>
+</bag>
+</type>
+</data>
+<function type="RecordProject"> 
+<param name="projectField" label="Field" type="String"/>
+<param name="projectField2" label="Field 2" type="String"> 
+<description>
+this text will be displayed below the textbox as a help text, node designer can add some text to help user to fill the form
+</description>
+</param>
+</function> 
+</inputs>
+<output>
+<type>
+<bag><var name="alpha"/></bag>
+</type>
+</output> 
+<help> 
+	Write SPARQL Query, bind the variables in the query to the input fields
+</help>
+</processor>
+

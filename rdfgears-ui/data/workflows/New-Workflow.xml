@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><rdfgears>
+  <metadata>
+    <id>gwt-uid-35</id>
+    <name>New-Workflow</name>
+    <description/>
+    <password/>
+  </metadata>
+  <workflow>
+    <workflowInputList x="300" y="100"/>
+    <network x="800" y="500"/>
+  </workflow>
+</rdfgears>

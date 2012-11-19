@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><rdfgears>
+  <metadata>
+    <id>wf-with-type</id>
+    <name>wf with type</name>
+    <description/>
+    <category>testType</category>
+    <password/>
+  </metadata>
+  <workflow>
+    <workflowInputList x="300" y="100">
+      <workflowInputPort name="input1">
+        <type>
+          <etuple>
+            <field name="b1">
+              <var name="a3"/>
+            </field>
+            <field name="a2">
+              <bool/>
+            </field>
+            <field name="b3">
+              <bag>
+                <var name="a4"/>
+              </bag>
+            </field>
+          </etuple>
+        </type>
+      </workflowInputPort>
+      <workflowInputPort name="input0">
+        <type>
+          <tuple>
+            <field name="a1">
+              <var name="a1"/>
+            </field>
+            <field name="a2">
+              <int/>
+            </field>
+            <field name="a3">
+              <bag>
+                <var name="a2"/>
+              </bag>
+            </field>
+          </tuple>
+        </type>
+      </workflowInputPort>
+    </workflowInputList>
+    <network output="node-2" x="800" y="500">
+      <output-type>
+        <tuple>
+          <field name="a1">
+            <var name="a5"/>
+          </field>
+          <field name="a2">
+            <int/>
+          </field>
+          <field name="a3">
+            <var name="a6"/>
+          </field>
+        </tuple>
+      </output-type>
+      <processor id="node-2" x="523" y="140">
+        <function type="tupleTest">
+          <config param="test"/>
+        </function>
+        <inputPort name="tuple1" iterate="true">
+          <source workflowInputPort="input0"/>
+        </inputPort>
+        <inputPort name="tuple2" iterate="true">
+          <source workflowInputPort="input1"/>
+        </inputPort>
+      </processor>
+    </network>
+  </workflow>
+</rdfgears>

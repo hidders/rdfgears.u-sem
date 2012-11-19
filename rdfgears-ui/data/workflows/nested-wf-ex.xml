@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+  <metadata>
+    <id>nested-wf-ex</id>
+    <name>nested workflow</name>
+    <description>this is an example of nested workflow</description>
+    <category>testNested</category>
+    <password/>
+  </metadata>
+  <workflow>
+    <workflowInputList x="300" y="100">
+      <workflowInputPort name="input0">
+        <type>
+          <var name="a24"/>
+        </type>
+      </workflowInputPort>
+    </workflowInputList>
+    <network output="node-2" x="800" y="500">
+      <output-type>
+        <var name="a26"/>
+      </output-type>
+      <processor id="node-2" x="688" y="138">
+        <function type="custom-java">
+          <config param="implementation">workflow:wf-with-type</config>
+        </function>
+        <inputPort name="input1" iterate="false">
+          <source workflowInputPort="input0"/>
+        </inputPort>
+        <inputPort name="input0" iterate="false"/>
+      </processor>
+    </network>
+  </workflow>
+</rdfgears>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><rdfgears>
+  <metadata>
+    <id>Workflow1</id>
+    <name>New Workflow</name>
+    <description/>
+    <category>category 1</category>
+    <password/>
+  </metadata>
+  <workflow>
+    <workflowInputList x="300" y="100"/>
+    <network x="800" y="500"/>
+  </workflow>
+</rdfgears>

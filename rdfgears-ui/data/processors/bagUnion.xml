@@ -1,0 +1,33 @@
+<processor label="Bag Union" category="Bag">
+<description> Merges two bags with the same type, into one new bag </description>
+<inputs> 
+<function type="bagUnion"> 
+<param name="test" type="string" label="URL"/> 
+</function> 
+<data name="bag1" label="Bag 1" iterate="false">
+<type>
+<bag>
+<var name="bagType"/>
+</bag>
+</type>
+</data> 
+<data name="bag2" label="Bag 2" iterate="false">
+<type>
+<bag>
+<var name="bagType"/>
+</bag>
+</type>
+</data>
+</inputs>
+<output>
+<type>
+<bag> 
+<var name="bagType"/> 
+</bag>
+</type>
+</output>
+<help> 
+	help text
+</help>
+</processor>
+

@@ -1,0 +1,38 @@
+<processor label="Categorizer" category="Query">
+	<description> Write SPARQL Query </description>
+	<inputs>
+		<function type="Categorizer"> 
+			<param name="categorizer" type="List" label="Categorizer">
+				<source>
+					<option value="abc" label="ABC"/>
+					<option value="def" label="DEF"/>
+				</source>
+				<description>
+					this text will be displayed below the textbox as a help text, node designer can add some text to help user to fill the form
+				</description>
+			</param>
+			<param name="categories" label="Categories" type="Fields">
+				<description>
+					this text will be displayed below the textbox as a help text, node designer can add some text to help user to fill the form
+				</description>
+			</param>
+		</function> 
+		<data name="bag" type="bag" label="bag" iterate="false">
+			<type>
+				<record>
+					<field name="rf"> <int/> </field>
+				</record>
+			</type>
+		</data>
+	</inputs> 
+	<output type="bag">
+		<type>
+			<record>
+				<field name="rf"> <int/> </field>
+			</record>
+		</type>
+	</output> 
+	<help> 
+		Write SPARQL Query, bind the variables in the query to the input fields
+	</help>
+</processor>
