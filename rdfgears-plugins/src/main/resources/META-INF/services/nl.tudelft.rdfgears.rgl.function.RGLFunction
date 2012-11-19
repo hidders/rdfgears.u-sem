@@ -25,19 +25,27 @@ nl.feliksik.rdfgears.BagTopFunction
 nl.tudelft.rdfgears.rgl.function.imreal.TwitterLanguageDetector
 nl.tudelft.rdfgears.rgl.function.imreal.CoordinatesToCountry
 nl.tudelft.rdfgears.rgl.function.imreal.FlickrPhotoLocator
+nl.tudelft.rdfgears.rgl.function.imreal.TweetSentiments
+nl.tudelft.rdfgears.rgl.function.imreal.CulturalAwarenessLng
+nl.tudelft.rdfgears.rgl.function.imreal.HofstedeIndex
+nl.tudelft.rdfgears.rgl.function.imreal.StringInBag
+nl.tudelft.rdfgears.rgl.function.imreal.StringIsEqualTo
+nl.tudelft.rdfgears.rgl.function.imreal.UserProfileFunction
+nl.tudelft.rdfgears.rgl.function.imreal.ExpressionEvaluation
 
 nl.tudelft.rdfgears.rgl.function.imreal.uuid.ListSocialIDsFunction
 nl.tudelft.rdfgears.rgl.function.imreal.uuid.RegisterSocialIDFunction
 nl.tudelft.rdfgears.rgl.function.imreal.uuid.RegisterUUIDFunction
+
+nl.tudelft.rdfgears.rgl.function.imreal.uuid.GetSocialIDFromUUIDFunction
+nl.tudelft.rdfgears.rgl.function.imreal.userprofile.SetUserProfileEntryFunction
+nl.tudelft.rdfgears.rgl.function.imreal.userprofile.GetUserProfileEntryFunction
+nl.tudelft.rdfgears.rgl.function.imreal.userprofile.ContainsUserProfileEntryFunction
+
 nl.tudelft.rdfgears.rgl.function.imreal.uuid.GetSocialIDFromUUIDFunction
 
 nl.tudelft.rdfgears.rgl.function.imreal.userprofile.SetUserProfileEntryFunction
 nl.tudelft.rdfgears.rgl.function.imreal.userprofile.GetUserProfileEntryFunction
 
 nl.tudelft.rdfgears.rgl.function.imreal.sentiment_analysis.SentimentAnalysisFunction
-nl.tudelft.rdfgears.rgl.function.imreal.HofstedeIndex
-nl.tudelft.rdfgears.rgl.function.imreal.CulturalAwarenessLng
-nl.tudelft.rdfgears.rgl.function.imreal.TweetSentiments
-
-nl.tudelft.rdfgears.rgl.function.imreal.ExpressionEvaluation
 
