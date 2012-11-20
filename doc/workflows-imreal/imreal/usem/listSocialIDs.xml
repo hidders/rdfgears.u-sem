@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/usem/listSocialIDs</id>
+	  <name>listSocialIDs</name>
+	  <category>imreal/usem</category>
       <description>Given a UUID, the service lists all social Web IDs associated with that UUID.</description>
       <password>imreal</password>
    </metadata>

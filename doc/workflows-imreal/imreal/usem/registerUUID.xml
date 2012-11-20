@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/usem/registerUUID</id>
+	  <name>registerUUID</name>
+	  <category>imreal/usem</category>
       <description>The service takes an email adress as input and returns a UUID - if the email is not already stored, a new UUID is generated, otherwise the existing one is returned.</description>
       <password>imreal</password>
    </metadata>

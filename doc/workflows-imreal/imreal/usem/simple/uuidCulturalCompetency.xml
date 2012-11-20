@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/usem/simple/uuidCulturalCompetency</id>
+	  <name>uuidCulturalCompetency</name>
+	  <category>imreal/usem/simple</category>
       <description>Given a UUID, the language and image based cultural competency are computed and an average score of the two (or a max or a sum) is returned.</description>
       <password>imreal</password>
    </metadata>

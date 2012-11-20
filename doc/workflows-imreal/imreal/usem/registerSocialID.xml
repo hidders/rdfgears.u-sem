@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/usem/registerSocialID</id>
+	  <name>registerSocialID</name>
+	  <category>imreal/usem</category>
       <description>Given a UUID and a social Web ID (as well as the ID type, e.g. "Twitter"), the service stores the social ID in the user profile of the UUID user.</description>
       <password>imreal</password>
    </metadata>

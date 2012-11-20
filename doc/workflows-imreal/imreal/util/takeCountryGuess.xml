@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/util/takeCountryGuess</id>
+	  <name>takeCountryGuess</name>
+	  <category>imreal/util</category>
       <description>A helper service that determines if the country based on the estimated location or the true location should be chosen. If the image is geo-tagged, the true country is used, otherwise the estimate is used.</description>
       <password>imreal</password>
    </metadata>

@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/util/getTwitterID</id>
+	  <name>getTwitterID</name>
+	  <category>imreal/util</category>
       <description>A helper service that retrieves the Twitter ID from a given UUID.</description>
       <password>imreal</password>
    </metadata>

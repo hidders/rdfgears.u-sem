@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/util/PhotoCountryDetection</id>
+	  <name>PhotoCountryDetection</name>
+	  <category>imreal/util</category>
       <description>The service takes a Flickr id (and a Twitter id if available) as input and determines the country each photo was taken in - it is either an estimate (if the photo contains no latitude/longitude) or, if available, the true location is used.</description>
       <password>imreal</password>
    </metadata>

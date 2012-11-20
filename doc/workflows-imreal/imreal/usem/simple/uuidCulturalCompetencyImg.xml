@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/usem/simple/uuidCulturalCompetencyImg</id>
+	  <name>uuidCulturalCompetencyImg</name>
+	  <category>imreal/usem/simple</category>
       <description>The service computes the cultural competency based on the number of countries visited - one or two countries yield a score of 1.0, up to five countries yields a score of 2.0 and above the score is 3.0. Note that in the service, the count is +1, as "No country" is also in the list.</description>
       <password>imreal</password>
    </metadata>

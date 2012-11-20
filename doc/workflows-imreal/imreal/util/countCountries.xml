@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/util/countCountries</id>
+	  <name>countCountries</name>
+	  <category>imreal/util</category>
       <description>A helper service that counts for each country the number of images located in that country.</description>
       <password>imreal</password>
    </metadata>

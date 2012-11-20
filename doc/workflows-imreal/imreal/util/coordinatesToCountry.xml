@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/util/coordinatesToCountry</id>
+	  <name>coordinatesToCountry</name>
+	  <category>imreal/util</category>
       <description>A helper service that takes a latitude/longitude pair as input and emits the country his point is found in (relies on a web service provided by Geonames).</description>
       <password>
 	imreal

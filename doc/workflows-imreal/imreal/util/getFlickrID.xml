@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/util/getFlickrID</id>
+	  <name>getFlickrID</name>
+	  <category>imreal/util</category>
       <description>A helper service that retrieves the Flickr ID from a given UUID.</description>
       <password>imreal</password>
    </metadata>

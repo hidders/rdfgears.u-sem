@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/usem/getUserProfileEntry</id>
+	  <name>getUserProfileEntry</name>
+	  <category>imreal/usem</category>
       <description>The service allows the user to query the storage for a particular user profile entry. For the adaptive dimensions, the score is computed on the fly if it has not been done so before.</description>
       <password>imreal</password>
    </metadata>

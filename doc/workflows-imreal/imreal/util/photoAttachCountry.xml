@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/util/photoAttachCountry</id>
+	  <name>photoAttachCountry</name>
+	  <category>imreal/util</category>
       <description>This service computes for a photo record the country of its true location (latitude/longitude) and the country of its estimatd location (estLat/estLong).</description>
       <password>imreal</password>
    </metadata>

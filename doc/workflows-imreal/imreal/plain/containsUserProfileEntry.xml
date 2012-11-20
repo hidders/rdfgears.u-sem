@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/plain/containsUserProfileEntry</id>
+	  <name>containsUserProfileEntry</name>
+	  <category>imreal/plain</category>
       <description>A service that takes a UUID and a topic as input and checks if a value is stored in the user profile with respect to the UUID,topic pair.</description>
       <password>imreal</password>
    </metadata>

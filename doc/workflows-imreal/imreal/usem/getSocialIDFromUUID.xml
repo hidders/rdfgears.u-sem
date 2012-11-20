@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/usem/getSocialIDFromUUID</id>
+	  <name>getSocialIDFromUUID</name>
+	  <category>imreal/usem</category>
       <description>Given a UUID and a type of social Web ID wanted, return the social Web identifier associated with that UUID in the database.</description>
       <password>imreal</password>
    </metadata>

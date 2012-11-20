@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/plain/userHasVisitedCountry</id>
+	  <name>userHasVisitedCountry</name>
+	  <category>imreal/plain</category>
       <description>The service takes a Flickr id (and a Twitter id if available) as well as a country. The countries of the most recent 1500 images are determined and if one of them is taken in the input country, true is returned, and false otherwise.</description>
       <password>imreal</password>
    </metadata>

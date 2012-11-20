@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/usem/simple/TwitterLanguageDetection</id>
+	  <name>TwitterLanguageDetection</name>
+	  <category>imreal/usem/simple</category>
       <description>The service collects the user's past 200 tweets and determines the language for each one of them. The output lists all observed languages including their frequency.</description>
       <password>imreal</password>
    </metadata>

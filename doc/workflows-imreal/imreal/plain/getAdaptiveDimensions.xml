@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/plain/getAdaptiveDimensions</id>
+	  <name>getAdaptiveDimensions</name>
+	  <category>imreal/plain</category>
       <description>Returns a list of adaptive dimensions that our services are currently able to produce output for.</description>
       <password>imreal</password>
    </metadata>

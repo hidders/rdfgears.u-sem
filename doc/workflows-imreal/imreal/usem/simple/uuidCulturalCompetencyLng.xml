@@ -2,6 +2,8 @@
 <rdfgears>
    <metadata>
       <id>imreal/usem/simple/uuidCulturalCompetencyLng</id>
+	  <name>uuidCulturalCompetencyLng</name>
+	  <category>imreal/usem/simple</category>
       <description>Given a UUID, the cultural competency of the user is determined based on his tweets (if no Twitter ID is registered with the UUID, the output cannot be computed). Based on the number of languages detected in a user's tweets, a cultural competency score of either 1.0, 2.0 or 3.0 is returned.</description>
       <password>imreal</password>
    </metadata>
