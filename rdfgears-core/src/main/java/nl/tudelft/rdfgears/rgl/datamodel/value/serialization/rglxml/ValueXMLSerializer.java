@@ -18,9 +18,7 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.RecordValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.URIValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.visitors.ValueSerializer;
 import nl.tudelft.rdfgears.rgl.workflow.LazyRGLValue;
-import nl.tudelft.rdfgears.util.XMLUtil;
 
-import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFWriter;
 
 /**
@@ -104,7 +102,7 @@ public class ValueXMLSerializer extends ValueSerializer {
 			xmlwriter.flush(); // flush xmlwriter before writing RDF/XML
 								// directly to bufferedStream
 
-			RDFWriter rdfWriter = new com.hp.hpl.jena.xmloutput.impl.Basic();
+			RDFWriter rdfWriter = graph.getModel().getWriter("RDF/XML-ABBREV");
 			rdfWriter.write(graph.getModel(), bufferedStream, null);
 
 			xmlwriter.writeEndElement();
@@ -235,16 +233,6 @@ public class ValueXMLSerializer extends ValueSerializer {
 		// call this visitor
 		// again with right method signature for OO-dispatching
 		lazyValue.accept(this);
-	}
-
-	@Override
-	public void visit(Model model) {
-		try {
-		    XMLUtil.writeModel2XML(model, xmlwriter);
-		} catch (Exception e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
-		}
 	}
 
 }

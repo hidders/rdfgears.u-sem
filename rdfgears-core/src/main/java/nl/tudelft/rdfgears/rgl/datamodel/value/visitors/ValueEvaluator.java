@@ -1,11 +1,5 @@
 package nl.tudelft.rdfgears.rgl.datamodel.value.visitors;
 
-import java.io.StringWriter;
-
-import javax.xml.stream.XMLStreamException;
-
-import com.hp.hpl.jena.rdf.model.Model;
-
 import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BooleanValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.GraphValue;
@@ -74,11 +68,6 @@ public class ValueEvaluator implements RGLValueVisitor {
 		// call this visitor
 		// again with right method signature for OO-dispatching
 		lazyValue.accept(this);
-	}
-
-	@Override
-	public void visit(Model model) {
-		// nothing to evaluate
 	}
 
 }

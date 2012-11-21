@@ -1,11 +1,6 @@
 package nl.tudelft.rdfgears.rgl.datamodel.value.visitors;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
-import nl.tudelft.rdfgears.util.BufferedIndentedWriter;
 
 
 /**

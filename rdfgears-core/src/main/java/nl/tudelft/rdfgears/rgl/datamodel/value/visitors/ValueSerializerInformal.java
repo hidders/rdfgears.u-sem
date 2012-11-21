@@ -1,14 +1,9 @@
 package nl.tudelft.rdfgears.rgl.datamodel.value.visitors;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Iterator;
-
-import javax.xml.stream.XMLStreamException;
 
 import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BooleanValue;
@@ -22,7 +17,6 @@ import nl.tudelft.rdfgears.rgl.workflow.LazyRGLValue;
 import nl.tudelft.rdfgears.util.BufferedIndentedWriter;
 
 import com.hp.hpl.jena.n3.N3JenaWriter;
-import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFWriter;
 
 
@@ -89,7 +83,7 @@ public class ValueSerializerInformal extends ValueSerializer {
 	
 	@Override
 	public void visit(GraphValue graph) {
-		RDFWriter rdfWriter = new N3JenaWriter();
+		RDFWriter rdfWriter = graph.getModel().getWriter("RDF/XML-ABBREV");
 		rdfWriter.write(graph.getModel(), writer, null);
 	}
 	
@@ -165,19 +159,6 @@ public class ValueSerializerInformal extends ValueSerializer {
 		// we cannot deal with this value, let the value evaluate itself and call this visitor 
 		// again with right method signature for OO-dispatching
 		lazyValue.accept(this);
-	}
-
-	
-	@Override
-	public void visit(Model model) {
-		try {
-			StringWriter sw = new StringWriter();
-			model.write(sw, "RDF/XML-ABBREV");
-			writer.print(sw.toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 }

@@ -8,16 +8,15 @@ import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
 
-import com.hp.hpl.jena.rdf.arp.JenaReader;
-import com.hp.hpl.jena.rdf.model.Model;
-
 import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.TypedValue;
 import nl.tudelft.rdfgears.rgl.datamodel.type.TypedValueImpl;
 import nl.tudelft.rdfgears.rgl.datamodel.value.GraphValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.serialization.rglxml.RGLXMLParser;
 import nl.tudelft.rdfgears.rgl.datamodel.value.serialization.rglxml.ValueXMLSerializer;
-import nl.tudelft.rdfgears.rgl.datamodel.value.serialization.rglxml.ValueXMLSerializerWithExternalGraphs;
+
+import com.hp.hpl.jena.rdf.arp.JenaReader;
+import com.hp.hpl.jena.rdf.model.Model;
 
 
 /**

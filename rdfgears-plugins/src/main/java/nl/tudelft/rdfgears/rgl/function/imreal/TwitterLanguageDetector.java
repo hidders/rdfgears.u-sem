@@ -1,44 +1,22 @@
 
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
-import java.io.BufferedReader;
-
-
-
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
 
 import nl.tudelft.rdfgears.engine.Config;
-import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
-import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
+import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
-import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.USEM;
-import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WI;
-import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WO;
 import nl.tudelft.rdfgears.util.row.ValueRow;
 
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
-import com.hp.hpl.jena.sparql.vocabulary.FOAF;
-import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
  * A function to detect twitter languages based on a Twitter username.
@@ -66,7 +44,7 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 	}
 
 	public RGLType getOutputType() {
-		return BagType.getInstance(RDFType.getInstance());
+		return GraphType.getInstance();
 	}
 
 	@Override
@@ -120,12 +98,6 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 		return userProfile;
 	}
 
-
-
-	/* get unix timestamp (seconds) */
-	private int getCurrentTimestamp() {
-		return (int) (System.currentTimeMillis() / 1000L);
-	}
 
 	/**
 	 * will throw Exception on failure

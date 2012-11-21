@@ -15,6 +15,7 @@ import nl.tudelft.rdfgears.engine.Config;
 import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
+import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
@@ -71,7 +72,7 @@ public class TweetSentiments extends SimplyTypedRGLFunction {
 	}
 	
 	public RGLType getOutputType() {
-		return BagType.getInstance(RDFType.getInstance());
+		return GraphType.getInstance();
 	}
 
 	

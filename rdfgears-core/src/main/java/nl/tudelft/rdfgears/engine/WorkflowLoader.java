@@ -16,11 +16,11 @@ import nl.tudelft.rdfgears.rgl.exception.CircularWorkflowException;
 import nl.tudelft.rdfgears.rgl.exception.FunctionConfigurationException;
 import nl.tudelft.rdfgears.rgl.exception.WorkflowLoadingException;
 import nl.tudelft.rdfgears.rgl.function.RGLFunction;
+import nl.tudelft.rdfgears.rgl.function.core.BagCategorize;
 import nl.tudelft.rdfgears.rgl.function.core.BagFlatten;
 import nl.tudelft.rdfgears.rgl.function.core.BagGroup;
 import nl.tudelft.rdfgears.rgl.function.core.BagSingleton;
 import nl.tudelft.rdfgears.rgl.function.core.BagUnion;
-import nl.tudelft.rdfgears.rgl.function.core.BagCategorize;
 import nl.tudelft.rdfgears.rgl.function.core.ComparatorFunction;
 import nl.tudelft.rdfgears.rgl.function.core.FilterFunction;
 import nl.tudelft.rdfgears.rgl.function.core.IfThenElseFunction;
@@ -45,8 +45,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 
 public class WorkflowLoader {
 	

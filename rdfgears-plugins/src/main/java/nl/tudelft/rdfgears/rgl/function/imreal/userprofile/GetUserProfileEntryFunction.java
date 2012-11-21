@@ -1,24 +1,14 @@
 package nl.tudelft.rdfgears.rgl.function.imreal.userprofile;
 
 import nl.tudelft.rdfgears.engine.ValueFactory;
-
-import nl.tudelft.rdfgears.rgl.function.imreal.*;
-import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
+import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
+import nl.tudelft.rdfgears.rgl.function.imreal.UserProfileGenerator;
 import nl.tudelft.rdfgears.rgl.function.imreal.uuid.UUIDDBUtils;
-import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.USEM;
-import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WI;
-import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WO;
 import nl.tudelft.rdfgears.util.row.ValueRow;
-
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.sparql.vocabulary.FOAF;
-import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
  * A function that provides a user's profile entries
@@ -43,7 +33,7 @@ public class GetUserProfileEntryFunction extends SimplyTypedRGLFunction {
 
 	@Override
 	public RGLType getOutputType() {
-		return BagType.getInstance(RDFType.getInstance());
+		return GraphType.getInstance();
 	}
 
 	@Override

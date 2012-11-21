@@ -1,21 +1,13 @@
 package nl.tudelft.rdfgears.rgl.datamodel.value.visitors;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Iterator;
 import java.util.Set;
 
 import javanet.staxutils.IndentingXMLStreamWriter;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
 
-import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RecordType;
@@ -27,13 +19,9 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.RGLNull;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RecordValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.URIValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.impl.MemoryLiteralValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.serialization.rglxml.ValueXMLSerializer;
 import nl.tudelft.rdfgears.rgl.workflow.LazyRGLValue;
-import nl.tudelft.rdfgears.util.XMLUtil;
 
-import com.hp.hpl.jena.n3.N3JenaWriter;
-import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFWriter;
 
 
@@ -72,8 +60,9 @@ public class ImRealXMLSerializer extends ValueSerializer {
 		if (getSparqlSelectResultValues(resultType)){
 			serializeAsSparqlResult(value);	
 		} else if(resultType.isGraphType() && !value.isNull()) {
-			RDFWriter rdfWriter = new com.hp.hpl.jena.xmloutput.impl.Basic();
-			rdfWriter.write(value.asGraph().getModel(), rawStream, null);
+			GraphValue asGraph = value.asGraph();
+			RDFWriter rdfWriter = asGraph.getModel().getWriter("RDF/XML-ABBREV");
+			rdfWriter.write(asGraph.getModel(), rawStream, null);
 		} else {
 			(new ValueXMLSerializer(rawStream)).serialize(value);
 		}
@@ -258,14 +247,4 @@ public class ImRealXMLSerializer extends ValueSerializer {
 		lazyValue.accept(this);
 	}
 	
-	@Override
-	public void visit(Model model) {
-		try {
-		    XMLUtil.writeModel2XML(model, xmlwriter);
-		} catch (Exception e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
-		}
-	}
-
 }

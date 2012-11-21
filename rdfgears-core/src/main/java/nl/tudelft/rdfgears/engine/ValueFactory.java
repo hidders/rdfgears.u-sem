@@ -3,7 +3,6 @@ package nl.tudelft.rdfgears.engine;
 
 import java.util.List;
 
-import nl.tudelft.rdfgears.engine.valuefactory.DiskValueFactory;
 import nl.tudelft.rdfgears.engine.valuefactory.MemoryValueFactory;
 import nl.tudelft.rdfgears.engine.valuefactory.ValueFactoryIface;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
@@ -83,15 +82,6 @@ public class ValueFactory {
 		return factory.createURI(uri);
 	}
 	
-	/**
-	 * Create an RDF value given a Jena Model object. 
-	 * @param node
-	 * @return
-	 */
-	public static RDFValue createRDFModelValue(Model model){
-		return factory.createRDFModelValue(model);
-	}
-
 	/***********************************************************************
 	 * Literal methods
 	 */
