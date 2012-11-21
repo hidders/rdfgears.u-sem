@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdfgears>
-  <metadata>
-    <id>imreal-plain-sentimentAnalysis</id>
-    <name>sentimentAnalysis</name>
-    <description>The service takes a string as input and returns the sentiment, either positive, negative or neutral.</description>
-    <category>imreal-plain</category>
-    <password/>
-  </metadata>
-  <workflow>
-    <workflowInputList x="57" y="66">
-      <workflowInputPort name="Text">
-        <type>
-          <var name="a20"/>
-        </type>
-      </workflowInputPort>
-    </workflowInputList>
-    <network output="node_628" x="379" y="239">
-      <output-type>
-        <var name="a21"/>
-      </output-type>
-      <processor id="node_628" x="348" y="91">
-        <function type="custom-java">
-          <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.sentiment_analysis.SentimentAnalysisFunction</config>
-        </function>
-        <inputPort name="statement" iterate="false">
-          <source workflowInputPort="Text"/>
-        </inputPort>
-      </processor>
-    </network>
-  </workflow>
+   <metadata>
+      <id>imreal-plain-sentimentAnalysis</id>
+	  <name>sentimentAnalysis</name>
+	  <category>imreal-plain</category>
+      <description>The service takes a string as input and returns the sentiment, either positive, negative or neutral.</description>
+      <password>imreal</password>
+   </metadata>
+   <workflow>
+      <workflowInputList x="57" y="66">
+         <workflowInputPort name="Text"/>
+      </workflowInputList>
+      <network output="node_628" x="379" y="239">
+         <processor id="node_628" x="245" y="84">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.sentiment_analysis.SentimentAnalysisFunction</config>
+            </function>
+            <inputPort iterate="false" name="statement">
+               <source workflowInputPort="Text"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
 </rdfgears>

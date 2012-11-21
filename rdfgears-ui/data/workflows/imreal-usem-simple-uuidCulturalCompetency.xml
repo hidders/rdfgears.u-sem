@@ -74,7 +74,7 @@ WHERE { ?x wo:weight_value ?wv . }</config>
          </processor>
          <processor id="node_38" x="193" y="157">
             <function type="custom-java">
-               <config param="implementation">workflow:imreal/usem/simple/uuidCulturalCompetencyImg</config>
+               <config param="implementation">workflow:imreal-usem-simple-uuidCulturalCompetencyImg</config>
             </function>
             <inputPort iterate="false" name="UUID">
                <source workflowInputPort="UUID"/>
@@ -107,7 +107,7 @@ WHERE { ?x wo:weight_value ?wv . }</config>
          </processor>
          <processor id="node_37" x="193" y="262">
             <function type="custom-java">
-               <config param="implementation">workflow:imreal/usem/simple/uuidCulturalCompetencyLng</config>
+               <config param="implementation">workflow:imreal-usem-simple-uuidCulturalCompetencyLng</config>
             </function>
             <inputPort iterate="false" name="UUID">
                <source workflowInputPort="UUID"/>

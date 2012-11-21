@@ -34,7 +34,7 @@
          </processor>
          <processor id="node_70" x="810" y="74">
             <function type="custom-java">
-               <config param="implementation">workflow:imreal/util/takeCountryGuess</config>
+               <config param="implementation">workflow:imreal-util-takeCountryGuess</config>
             </function>
             <inputPort iterate="true" name="enrichedPhotos">
                <source processor="node_129"/>
@@ -42,7 +42,7 @@
          </processor>
          <processor id="node_129" x="544" y="70">
             <function type="custom-java">
-               <config param="implementation">workflow:imreal/util/photoAttachCountry</config>
+               <config param="implementation">workflow:imreal-util-photoAttachCountry</config>
             </function>
             <inputPort iterate="true" name="photo">
                <source processor="node_14"/>
@@ -64,7 +64,7 @@
          </processor>
          <processor id="node_124" x="60" y="21">
             <function type="custom-java">
-               <config param="implementation">workflow:imreal/util/getFlickrID</config>
+               <config param="implementation">workflow:imreal-util-getFlickrID</config>
             </function>
             <inputPort iterate="false" name="UUID">
                <source workflowInputPort="UUID"/>
@@ -72,7 +72,7 @@
          </processor>
          <processor id="node_134" x="58" y="146">
             <function type="custom-java">
-               <config param="implementation">workflow:imreal/util/getTwitterID</config>
+               <config param="implementation">workflow:imreal-util-getTwitterID</config>
             </function>
             <inputPort iterate="false" name="UUID">
                <source workflowInputPort="UUID"/>

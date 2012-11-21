@@ -77,7 +77,7 @@
          </processor>
          <processor id="node_100" x="328" y="433">
             <function type="custom-java">
-               <config param="implementation">workflow:imreal/usem/simple/uuidCulturalCompetencyLng</config>
+               <config param="implementation">workflow:imreal-usem-simple-uuidCulturalCompetencyLng</config>
             </function>
             <inputPort iterate="false" name="UUID">
                <source workflowInputPort="UUID"/>
@@ -113,7 +113,7 @@
          </processor>
          <processor id="node_140" x="575" y="339">
             <function type="custom-java">
-               <config param="implementation">workflow:imreal/usem/simple/uuidTwitterSentiments</config>
+               <config param="implementation">workflow:imreal-usem-simple-uuidTwitterSentiments</config>
             </function>
             <inputPort iterate="false" name="UUID">
                <source workflowInputPort="UUID"/>

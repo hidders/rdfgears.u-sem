@@ -25,7 +25,7 @@
          </processor>
          <processor id="node_32" x="238" y="29">
             <function type="custom-java">
-               <config param="implementation">workflow:imreal/util/getTwitterID</config>
+               <config param="implementation">workflow:imreal-util-getTwitterID</config>
             </function>
             <inputPort iterate="false" name="UUID">
                <source workflowInputPort="UUID"/>
