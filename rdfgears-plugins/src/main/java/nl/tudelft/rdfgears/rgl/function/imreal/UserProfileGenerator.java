@@ -1,30 +1,18 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
-import java.io.BufferedReader;
-
-import nl.tudelft.rdfgears.rgl.function.imreal.userprofile.*;
-import java.net.*;
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.IMREAL;
 import java.util.AbstractMap.SimpleEntry;
-import nl.tudelft.rdfgears.engine.Config;
-import nl.tudelft.rdfgears.engine.Engine;
+import java.util.HashMap;
+import java.util.List;
+
 import nl.tudelft.rdfgears.engine.ValueFactory;
-import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
-import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
-import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
-import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
+import nl.tudelft.rdfgears.rgl.function.imreal.userprofile.Dimension;
+import nl.tudelft.rdfgears.rgl.function.imreal.userprofile.UserProfile;
+import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.IMREAL;
 import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.USEM;
 import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WI;
 import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WO;
-import nl.tudelft.rdfgears.util.row.ValueRow;
 
-import com.cybozu.labs.langdetect.Detector;
-import com.cybozu.labs.langdetect.DetectorFactory;
-import com.cybozu.labs.langdetect.LangDetectException;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
@@ -38,18 +26,17 @@ import com.hp.hpl.jena.sparql.vocabulary.FOAF;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
- * A class that is responsible for creating the U-Sem format based user profiles.
- * It is a lot of hard-coding right now, should be made more generic in the future.
+ * A class that is responsible for creating the U-Sem format based user
+ * profiles. It is a lot of hard-coding right now, should be made more generic
+ * in the future.
  * 
  * A lot of code duplication as well ...
- *
+ * 
  * @author Claudia
  */
 
-public class UserProfileGenerator
-{	
-	private static Model createEmptyModel()
-	{
+public class UserProfileGenerator {
+	private static Model createEmptyModel() {
 		// create an empty Model
 		Model model = ModelFactory.createDefaultModel();
 
@@ -60,38 +47,37 @@ public class UserProfileGenerator
 		model.setNsPrefix("wi", WI.getURI());
 		model.setNsPrefix("dbpedia", "http://dbpedia.org/resource/");
 		model.setNsPrefix("marl", "http://purl.org/marl/ns");
-		
+
 		return model;
 	}
-	
 
-	//called from ListSocialIDsFunction.java
+	// called from ListSocialIDsFunction.java
 	public static RGLValue constructSocialIDListProfile(String uuid,
-			List<SimpleEntry<String, String>> list) throws Exception 
-			{
+			List<SimpleEntry<String, String>> list) throws Exception {
 
 		Model model = createEmptyModel();
-		
+
 		// create the resources
 		Resource user = model.createResource(IMREAL.getURI() + uuid);
 		user.addProperty(RDF.type, FOAF.Person);
-		for (SimpleEntry<String, String> entry : list) 
-			user.addProperty(model.createProperty(IMREAL.getURI()+entry.getValue()), entry.getKey());
+		for (SimpleEntry<String, String> entry : list)
+			user.addProperty(
+					model.createProperty(IMREAL.getURI() + entry.getValue()),
+					entry.getKey());
 
-		return ValueFactory.createRDFModelValue(model);
+		return ValueFactory.createGraphValue(model);
 	}
-	
-	//called from GetUserProfileEntryFunction.java
+
+	// called from GetUserProfileEntryFunction.java
 	public static RGLValue constructUserProfileEntryProfile(String uuid,
-			UserProfile userProfile) throws Exception 
-			{
+			UserProfile userProfile) throws Exception {
 
 		Model model = createEmptyModel();
-		
+
 		// create the resources
 		Resource user = model.createResource(IMREAL.getURI() + uuid);
 		user.addProperty(RDF.type, FOAF.Person);
-		
+
 		for (Dimension.DimensionEntry dimensionEntry : userProfile
 				.getDimensions().get(0).getDimensionEntries()) {
 
@@ -100,149 +86,139 @@ public class UserProfileGenerator
 
 			user.addProperty(USEM.knowledge, knowledgeResource);
 
-			knowledgeResource.addLiteral(WI.topic, dimensionEntry.getTopic()).addProperty(
-					WO.weight,
-					model.createResource().addProperty(RDF.type, WO.Weight)
-							.addLiteral(WO.weight_value, dimensionEntry.getValue())
-							.addProperty(WO.scale, USEM.DefaultScale));
+			knowledgeResource.addLiteral(WI.topic, dimensionEntry.getTopic())
+					.addProperty(
+							WO.weight,
+							model.createResource()
+									.addProperty(RDF.type, WO.Weight)
+									.addLiteral(WO.weight_value,
+											dimensionEntry.getValue())
+									.addProperty(WO.scale, USEM.DefaultScale));
 		}
-		return ValueFactory.createRDFModelValue(model);
+		return ValueFactory.createGraphValue(model);
 	}
-	
-	
+
 	/*
-	 * public method kept generic to make alterations easier later on;
-	 * the userid can either be a uuid or a service user name
+	 * public method kept generic to make alterations easier later on; the
+	 * userid can either be a uuid or a service user name
 	 */
-	public static RGLValue generateProfile(Object obj, String userid, HashMap<String, Double> map)
-	{
-		try
-		{
-			if(obj.getClass() == TwitterLanguageDetector.class)
-			{
-				return constructTwitterLanguageDetectorProfile( userid, map );
+	public static RGLValue generateProfile(Object obj, String userid,
+			HashMap<String, Double> map) {
+		try {
+			if (obj.getClass() == TwitterLanguageDetector.class) {
+				return constructTwitterLanguageDetectorProfile(userid, map);
+			} else if (obj.getClass() == TweetSentiments.class) {
+				return constructTweetsSentimentProfile(userid, map);
+			} else if (obj.getClass() == CulturalAwarenessLng.class) {
+				return constructCulturalAwarenessLngProfile(userid, map);
+			} else {
+				System.err.println("No call found for "
+						+ obj.getClass().getName());
 			}
-			else if(obj.getClass() == TweetSentiments.class)
-			{
-				return constructTweetsSentimentProfile( userid, map );
-			}
-			else if(obj.getClass() == CulturalAwarenessLng.class)
-			{
-				return constructCulturalAwarenessLngProfile( userid, map );
-			}
-			else
-			{
-				System.err.println("No call found for "+obj.getClass().getName());
-			}
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	
+
 	/**
-	 * Constructs user profile in RDF format for CulturalAwarenessLng.
-	 * We expect exactly one value in the map
+	 * Constructs user profile in RDF format for CulturalAwarenessLng. We expect
+	 * exactly one value in the map
 	 * 
 	 */
-	private static RGLValue constructCulturalAwarenessLngProfile(String userid, HashMap<String, Double> map) throws Exception 
-	{
+	private static RGLValue constructCulturalAwarenessLngProfile(String userid,
+			HashMap<String, Double> map) throws Exception {
 		Model model = createEmptyModel();
 		Resource user = model.createResource(IMREAL.getURI() + userid);
 		user.addProperty(RDF.type, FOAF.Person);
-		
-		double awareness = map.get(  map.keySet().iterator().next() );
 
-			Resource knowledgeResource = model.createResource().addProperty(
-					RDF.type, USEM.WeightedKnowledge);
-	
-			user.addProperty(USEM.knowledge, knowledgeResource);
-	
-			knowledgeResource.addProperty(WI.topic,
-					model.createResource("http://dbpedia.org/resource/Cultural_competence"))
-					.addProperty(
-							WO.weight,
-							model.createResource()
-									.addProperty(RDF.type, WO.Weight)
-									.addLiteral(WO.weight_value,
-											awareness)
-									.addProperty(WO.scale, USEM.DefaultScale));
-		
-		return ValueFactory.createRDFModelValue(model);
+		double awareness = map.get(map.keySet().iterator().next());
+
+		Resource knowledgeResource = model.createResource().addProperty(
+				RDF.type, USEM.WeightedKnowledge);
+
+		user.addProperty(USEM.knowledge, knowledgeResource);
+
+		knowledgeResource
+				.addProperty(
+						WI.topic,
+						model.createResource("http://dbpedia.org/resource/Cultural_competence"))
+				.addProperty(
+						WO.weight,
+						model.createResource().addProperty(RDF.type, WO.Weight)
+								.addLiteral(WO.weight_value, awareness)
+								.addProperty(WO.scale, USEM.DefaultScale));
+
+		return ValueFactory.createGraphValue(model);
 	}
-	
-	
+
 	/**
 	 * Constructs user profile in RDF format for TweetSentiments
 	 * 
 	 */
-	private static RGLValue constructTweetsSentimentProfile(String userid, HashMap<String, Double> map) throws Exception 
-	{
+	private static RGLValue constructTweetsSentimentProfile(String userid,
+			HashMap<String, Double> map) throws Exception {
 		Model model = createEmptyModel();
 		Resource user = model.createResource(IMREAL.getURI() + userid);
 		user.addProperty(RDF.type, FOAF.Person);
 
-		for(String label : map.keySet() )
-		{
-			Resource knowledgeResource = model.createResource().addProperty(RDF.type, USEM.WeightedKnowledge);
+		for (String label : map.keySet()) {
+			Resource knowledgeResource = model.createResource().addProperty(
+					RDF.type, USEM.WeightedKnowledge);
 
 			user.addProperty(USEM.knowledge, knowledgeResource);
 
-			knowledgeResource.addProperty(WI.topic,
-					model.createResource("http://purl.org/marl/ns#"+label))
+			knowledgeResource
+					.addProperty(
+							WI.topic,
+							model.createResource("http://purl.org/marl/ns#"
+									+ label))
 					.addProperty(
 							WO.weight,
 							model.createResource()
 									.addProperty(RDF.type, WO.Weight)
-									.addLiteral(WO.weight_value,
-											map.get(label))
+									.addLiteral(WO.weight_value, map.get(label))
 									.addProperty(WO.scale, USEM.DefaultScale));
 		}
-		return ValueFactory.createRDFModelValue(model);
+		return ValueFactory.createGraphValue(model);
 	}
-	
-	
+
 	/**
 	 * Constructs user profile in RDF format for TwitterLanguageDetector
 	 * 
 	 */
-	private static RGLValue constructTwitterLanguageDetectorProfile(String userid, HashMap<String, Double> map)
-	{
-		try
-		{
+	private static RGLValue constructTwitterLanguageDetectorProfile(
+			String userid, HashMap<String, Double> map) {
+		try {
 			Model model = createEmptyModel();
 			Resource user = model.createResource(IMREAL.getURI() + userid);
 			user.addProperty(RDF.type, FOAF.Person);
 
 			for (String lang : map.keySet()) {
 
-			Resource knowledgeResource = model.createResource().addProperty(
-					RDF.type, USEM.WeightedKnowledge);
+				Resource knowledgeResource = model.createResource()
+						.addProperty(RDF.type, USEM.WeightedKnowledge);
 
-			user.addProperty(USEM.knowledge, knowledgeResource);
+				user.addProperty(USEM.knowledge, knowledgeResource);
 
-			knowledgeResource.addProperty(WI.topic,
-					model.createResource(getDbpediaLanguage(lang)))
-					.addProperty(
-							WO.weight,
-							model.createResource()
-									.addProperty(RDF.type, WO.Weight)
-									.addLiteral(WO.weight_value,
-											map.get(lang))
-									.addProperty(WO.scale, USEM.DefaultScale));
-		}
-		return ValueFactory.createRDFModelValue(model);
-		}
-		catch(Exception e)
-		{
+				knowledgeResource.addProperty(WI.topic,
+						model.createResource(getDbpediaLanguage(lang)))
+						.addProperty(
+								WO.weight,
+								model.createResource()
+										.addProperty(RDF.type, WO.Weight)
+										.addLiteral(WO.weight_value,
+												map.get(lang))
+										.addProperty(WO.scale,
+												USEM.DefaultScale));
+			}
+			return ValueFactory.createGraphValue(model);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Executes sparql request to dbpedia in order to get the dbpedia uri for
 	 * the provided language iso.
@@ -282,28 +258,27 @@ public class UserProfileGenerator
 		return results;
 
 	}
-	
-	
+
 	/*
-	 * this method is called by the wrapper UserProfileFunction (which in turn allows workflows to
-	 * generate U-Sem format profiles from literals)
+	 * this method is called by the wrapper UserProfileFunction (which in turn
+	 * allows workflows to generate U-Sem format profiles from literals)
 	 */
-	public static RGLValue generateProfile(String userid, String topic, String weight)
-	{
-		try
-		{
+	public static RGLValue generateProfile(String userid, String topic,
+			String weight) {
+		try {
 			Model model = createEmptyModel();
-			
+
 			// create the resources
 			Resource user = model.createResource(IMREAL.getURI() + userid);
 			user.addProperty(RDF.type, FOAF.Person);
 
-			Resource knowledgeResource = model.createResource().addProperty(RDF.type, USEM.WeightedKnowledge);
+			Resource knowledgeResource = model.createResource().addProperty(
+					RDF.type, USEM.WeightedKnowledge);
 
 			user.addProperty(USEM.knowledge, knowledgeResource);
 
-			knowledgeResource.addProperty(WI.topic,
-					model.createResource(topic))
+			knowledgeResource
+					.addProperty(WI.topic, model.createResource(topic))
 					.addProperty(
 							WO.weight,
 							model.createResource()
@@ -311,13 +286,11 @@ public class UserProfileGenerator
 									.addLiteral(WO.weight_value,
 											Double.parseDouble(weight))
 									.addProperty(WO.scale, USEM.DefaultScale));
-			return ValueFactory.createRDFModelValue(model);
-		}
-		catch(Exception e)
-		{
+			return ValueFactory.createGraphValue(model);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
 }
-
