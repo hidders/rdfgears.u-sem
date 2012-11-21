@@ -64,7 +64,8 @@
          <processor id="node_3" x="366" y="151">
             <function type="sparql">
                <config param="bindVariables">input0;</config>
-               <config param="query">SELECT ?wv
+               <config param="query"> PREFIX  wo:  &lt;http://purl.org/ontology/wo/core#&gt;
+SELECT ?wv
 FROM NAMED ?input0
 WHERE { ?x wo:weight_value ?wv . }</config>
             </function>
@@ -99,7 +100,7 @@ WHERE { ?x wo:weight_value ?wv . }</config>
          <processor id="node_5" x="374" y="299">
             <function type="sparql">
                <config param="bindVariables">input0;</config>
-               <config param="query">SELECT ?wv FROM NAMED ?input0 WHERE { ?x wo:weight_value ?wv . }</config>
+               <config param="query"> PREFIX  wo:  &lt;http://purl.org/ontology/wo/core#&gt; SELECT ?wv FROM NAMED ?input0 WHERE { ?x wo:weight_value ?wv . }</config>
             </function>
             <inputPort iterate="false" name="input0">
                <source processor="node_37"/>

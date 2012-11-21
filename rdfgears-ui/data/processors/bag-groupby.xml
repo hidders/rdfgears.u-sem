@@ -6,11 +6,11 @@
 <param name="groupByField" type="Fields" label="Record Fields"/>
 </function>
 <data name="bag" label="Bag" iterate="false">
-<type>
-<bag>
-<etuple></etuple>
-</bag>
-</type>
+	<type>
+		<bag>
+			<etuple></etuple>
+		</bag>
+	</type>
 </data> 
 </inputs>
 <output>

@@ -12,6 +12,9 @@
 		<data iterate="false" name="username" label="Username">
 			<type><var name="username"/></type>
 		</data>
+		<data iterate="false" name="uuid" label="UUID">
+			<type><var name="uuid"/></type>
+		</data>
 	</inputs> 
 	<output/>
 </processor>

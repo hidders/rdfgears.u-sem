@@ -90,7 +90,7 @@
             <function type="bag-groupby">
                <config param="groupByField">country</config>
             </function>
-            <inputPort iterate="false" name="bag_of_records">
+            <inputPort iterate="false" name="bag">
                <source processor="node_70"/>
             </inputPort>
          </processor>
@@ -150,6 +150,17 @@
                <config param="value">"1.0"</config>
             </function>
          </processor>
+		 <processor id="node_212" x="582" y="765">
+            <function type="comparator">
+               <config param="operator">OP_GREATER</config>
+            </function>
+            <inputPort iterate="false" name="a">
+               <source processor="node_73"/>
+            </inputPort>
+            <inputPort iterate="false" name="b">
+               <source processor="node_437"/>
+            </inputPort>
+         </processor>
          <processor id="node_210" x="561" y="902">
             <function type="if"/>
             <inputPort iterate="false" name="if_true">
@@ -160,17 +171,6 @@
             </inputPort>
             <inputPort iterate="false" name="else">
                <source processor="node_250"/>
-            </inputPort>
-         </processor>
-         <processor id="node_212" x="582" y="765">
-            <function type="comparator">
-               <config param="operator">OP_GREATER</config>
-            </function>
-            <inputPort iterate="false" name="a">
-               <source processor="node_73"/>
-            </inputPort>
-            <inputPort iterate="false" name="b">
-               <source processor="node_437"/>
             </inputPort>
          </processor>
          <processor id="node_437" x="328" y="775">
