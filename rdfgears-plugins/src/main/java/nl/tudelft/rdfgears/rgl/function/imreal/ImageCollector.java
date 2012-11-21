@@ -72,6 +72,11 @@ public class ImageCollector
 				return photos;
 			}
 			
+
+			File flickrDataFolder = new File(FLICKR_DATA_FOLDER);
+			if(!flickrDataFolder.exists())
+				flickrDataFolder.mkdirs();
+			
 			File f = new File(FLICKR_DATA_FOLDER+"/"+nsid);
 			int hours = -1;
 			if(f.exists()==true)

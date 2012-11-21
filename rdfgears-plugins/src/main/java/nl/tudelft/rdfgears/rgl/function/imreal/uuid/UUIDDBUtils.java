@@ -87,7 +87,7 @@ public class UUIDDBUtils {
     		prop.load(new FileInputStream(PATH_TO_LOGIN_INFO));
  
                //get the property values
-            dbURL = prop.getProperty("database");
+            dbURL = "jdbc:mysql://" + prop.getProperty("database");
     		username = prop.getProperty("dbuser");
     		password = prop.getProperty("dbpassword");
 		}

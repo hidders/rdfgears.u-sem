@@ -1,6 +1,8 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
 import java.io.BufferedReader;
+import java.io.File;
+
 import nl.tudelft.rdfgears.engine.Config;
 
 import java.io.*;
@@ -73,6 +75,10 @@ public class TweetCollector
 	{
 		try
 		{
+			File twitterDataFolder = new File(TWITTER_DATA_FOLDER);
+			if(!twitterDataFolder.exists())
+				twitterDataFolder.mkdirs();
+			
 			File f = new File(TWITTER_DATA_FOLDER+"/"+twitterUsername);
 			int hours = -1;
 			if(f.exists()==true)
