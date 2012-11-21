@@ -1,23 +1,22 @@
 package nl.tudelft.rdfgears.rgl.function.imreal.uuid;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
-
-import nl.tudelft.rdfgears.engine.Config;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
-import java.util.AbstractMap.SimpleEntry;
-import java.io.*;
 
 public class UUIDDBUtils {
 	
 	//PATH to the DB login information
-	private static final String PATH_TO_LOGIN_INFO = Config.DB_LOGIN;
+	private static final String PATH_TO_LOGIN_INFO = "../temp/rdfgears/config.properties";
 	public static String dbURL = null;
 	public static String username = null;
 	public static String password = null;
@@ -81,28 +80,16 @@ public class UUIDDBUtils {
 	 */
 	public static void getLoginInformation()
 	{
-		try
-		{
-			BufferedReader br = new BufferedReader(new FileReader(PATH_TO_LOGIN_INFO));
-			String line;
-			int lineNum=0;
-			while ((line = br.readLine() )!=null )
-			{
-				switch(lineNum)
-				{
-				case 0: 
-					dbURL = "jdbc:mysql://" + line;
-					break;
-				case 1:
-					username = line;
-					break;
-				case 2:
-					password = line;
-					break;
-				}
-				lineNum++;
-			}
-			br.close();
+		Properties prop = new Properties();
+		 
+    	try {
+               //load a properties file
+    		prop.load(new FileInputStream(PATH_TO_LOGIN_INFO));
+ 
+               //get the property values
+            dbURL = prop.getProperty("database");
+    		username = prop.getProperty("dbuser");
+    		password = prop.getProperty("dbpassword");
 		}
 		catch(Exception e)
 		{

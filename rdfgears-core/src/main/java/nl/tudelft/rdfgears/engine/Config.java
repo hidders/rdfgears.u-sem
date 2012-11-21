@@ -2,9 +2,7 @@ package nl.tudelft.rdfgears.engine;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +20,6 @@ import org.apache.log4j.Level;
  *
  */
 public class Config {
-	
-	public static final String DB_LOGIN = "/root/login.db";
 	
 	public static final String DEFAULT_DB_PATH = "./bdb";
 	public static final String DEFAULT_WORKFLOW_PATHLIST = "./workflows/";	
