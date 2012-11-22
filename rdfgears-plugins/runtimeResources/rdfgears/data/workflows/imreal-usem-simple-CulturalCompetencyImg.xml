@@ -91,7 +91,7 @@
             <function type="bag-groupby">
                <config param="groupByField">country</config>
             </function>
-            <inputPort iterate="false" name="bag_of_records">
+            <inputPort iterate="false" name="bag">
                <source processor="node_70"/>
             </inputPort>
          </processor>
