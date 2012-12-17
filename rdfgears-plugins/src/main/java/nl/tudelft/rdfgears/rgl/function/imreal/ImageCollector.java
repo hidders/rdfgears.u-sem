@@ -4,40 +4,13 @@ import java.io.BufferedReader;
 import nl.tudelft.rdfgears.engine.Config;
 
 import org.w3c.dom.*;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-import nl.tudelft.rdfgears.engine.Config;
 import nl.tudelft.rdfgears.engine.Engine;
-import nl.tudelft.rdfgears.engine.ValueFactory;
-import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
-import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
-import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
-import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
-import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
-import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.USEM;
-import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WI;
-import nl.tudelft.rdfgears.rgl.function.imreal.vocabulary.WO;
-import nl.tudelft.rdfgears.util.row.ValueRow;
-
-import com.cybozu.labs.langdetect.Detector;
-import com.cybozu.labs.langdetect.DetectorFactory;
-import com.cybozu.labs.langdetect.LangDetectException;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
-import com.hp.hpl.jena.sparql.vocabulary.FOAF;
-import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
  * A class that either retrieves Flickr images from file or from the Flickr stream

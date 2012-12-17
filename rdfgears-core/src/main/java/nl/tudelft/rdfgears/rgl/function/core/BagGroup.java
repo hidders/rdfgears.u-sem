@@ -17,7 +17,6 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RecordValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.StreamingBagValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.impl.ModifiableRecord;
-import nl.tudelft.rdfgears.rgl.datamodel.value.visitors.ValueSerializerInformal;
 import nl.tudelft.rdfgears.rgl.exception.FunctionTypingException;
 import nl.tudelft.rdfgears.rgl.function.AtomicRGLFunction;
 import nl.tudelft.rdfgears.util.ArrayIterator;

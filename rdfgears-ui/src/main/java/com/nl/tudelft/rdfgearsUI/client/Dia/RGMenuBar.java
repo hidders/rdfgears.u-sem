@@ -1,7 +1,5 @@
 package com.nl.tudelft.rdfgearsUI.client.Dia;
 
-import com.allen_sauer.gwt.log.client.Log;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;

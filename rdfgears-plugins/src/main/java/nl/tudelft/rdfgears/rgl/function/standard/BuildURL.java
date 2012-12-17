@@ -2,14 +2,12 @@ package nl.tudelft.rdfgears.rgl.function.standard;
 
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Map;
 
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RecordType;
-import nl.tudelft.rdfgears.rgl.datamodel.value.LiteralValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RecordValue;
 import nl.tudelft.rdfgears.rgl.exception.FunctionTypingException;

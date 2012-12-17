@@ -4,7 +4,6 @@
  */
 package com.nl.tudelft.rdfgearsUI.client.Dia;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 

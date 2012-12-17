@@ -7,17 +7,14 @@ import java.util.NoSuchElementException;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.sleepycat.bind.tuple.TupleBinding;
 
-import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.engine.bindings.UnionBagBinding;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.SuperTypePattern;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.GraphValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.StreamingBagValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.serialization.rglxml.ValueXMLSerializer;
 import nl.tudelft.rdfgears.rgl.exception.FunctionTypingException;
 import nl.tudelft.rdfgears.rgl.function.NNRCFunction;
 import nl.tudelft.rdfgears.util.row.TypeRow;

@@ -89,6 +89,7 @@ public class TestWorkflow {
     	 * Check type directly on workflow
     	 */
     	try {
+			@SuppressWarnings("unused")
 			RGLType outputType = workflow.getOutputType(new TypeRow());
 			assertTrue("should have thrown typing error", false);
 		} catch (WorkflowCheckingException e) {

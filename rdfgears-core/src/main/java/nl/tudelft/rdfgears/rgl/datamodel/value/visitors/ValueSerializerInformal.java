@@ -16,7 +16,6 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.URIValue;
 import nl.tudelft.rdfgears.rgl.workflow.LazyRGLValue;
 import nl.tudelft.rdfgears.util.BufferedIndentedWriter;
 
-import com.hp.hpl.jena.n3.N3JenaWriter;
 import com.hp.hpl.jena.rdf.model.RDFWriter;
 
 

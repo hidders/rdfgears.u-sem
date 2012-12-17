@@ -1,6 +1,5 @@
 package nl.tudelft.rdfgears.rgl.exception;
 
-import nl.tudelft.rdfgears.rgl.workflow.FunctionProcessor;
 import nl.tudelft.rdfgears.rgl.workflow.WorkflowNode;
 
 

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.value.LiteralValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
@@ -91,6 +90,7 @@ public class TestDSSize {
 		Timer timer = new Timer();
 		timer.start("Making "+MAPS+" Maps of type "+(type==MAP_FIELDINDEX ? "FieldIndex" : "TreeMap"));
 		
+		@SuppressWarnings("rawtypes")
 		ArrayList list ;  // intention raw, unparametrized type
 		
 		if(type==MAP_TREE){

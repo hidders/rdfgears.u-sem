@@ -95,6 +95,7 @@ public class BindingsTest {
 		return true;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testSimpleBinidngs() {
 		LiteralValue l = getMemoryLiteral(1.0);

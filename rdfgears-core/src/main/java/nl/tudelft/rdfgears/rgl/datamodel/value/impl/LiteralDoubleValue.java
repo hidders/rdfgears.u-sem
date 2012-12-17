@@ -5,7 +5,6 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.LiteralValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.exception.ComparisonNotDefinedException;
 
-import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.rdf.model.Literal;
 

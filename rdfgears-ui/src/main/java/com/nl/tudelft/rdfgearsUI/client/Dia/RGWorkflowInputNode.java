@@ -1,8 +1,6 @@
 package com.nl.tudelft.rdfgearsUI.client.Dia;
 
 import static com.google.gwt.query.client.GQuery.$;
-import static gwtquery.plugins.draggable.client.Draggable.Draggable;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +9,8 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.query.client.Function;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.NodeList;
-import com.google.gwt.xml.client.XMLParser;
 import com.nl.tudelft.rdfgearsUI.client.RGType;
 import com.nl.tudelft.rdfgearsUI.client.RGTypeUtils;
 

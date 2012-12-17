@@ -1,6 +1,5 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
-import java.lang.*;
 import java.text.*;
 import java.util.*;
 

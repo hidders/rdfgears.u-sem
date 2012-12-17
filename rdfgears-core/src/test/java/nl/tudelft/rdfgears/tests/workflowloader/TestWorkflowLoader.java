@@ -5,7 +5,6 @@ package nl.tudelft.rdfgears.tests.workflowloader;
 import java.text.ParseException;
 
 import nl.tudelft.rdfgears.engine.Engine;
-import nl.tudelft.rdfgears.engine.WorkflowLoader;
 import nl.tudelft.rdfgears.rgl.exception.WorkflowLoadingException;
 import nl.tudelft.rdfgears.util.ValueParser;
 

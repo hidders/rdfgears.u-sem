@@ -1,27 +1,11 @@
 package nl.tudelft.rdfgears.rgl.datamodel.value.impl;
 
-import java.util.Collection;
-import java.util.Iterator;
-
-import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.sleepycat.bind.tuple.TupleBinding;
 
-import nl.tudelft.rdfgears.engine.bindings.LazyRGLBinding;
-import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.BooleanValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.GraphValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.LiteralValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.RDFValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.RecordValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.StreamingBagValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.URIValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.visitors.RGLValueVisitor;
-import nl.tudelft.rdfgears.rgl.function.RGLFunction;
 import nl.tudelft.rdfgears.rgl.workflow.FunctionProcessor;
 import nl.tudelft.rdfgears.rgl.workflow.InputPort;
 import nl.tudelft.rdfgears.rgl.workflow.LazyRGLValue;
-import nl.tudelft.rdfgears.rgl.workflow.ValueRowIterator;
 import nl.tudelft.rdfgears.util.row.ValueRow;
 
 

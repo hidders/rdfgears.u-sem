@@ -79,7 +79,7 @@ public class RemoteConstructBehavior implements SparqlBehavior {
 	private ValueRow inputRow;
 	
 	private Model createFullModel() {
-		Model model = Engine.getValueFactory().createModel();
+		Model model = ValueFactory.createModel();
 		
 		while (thereMayBeMoreBatches){
 			fillBuffer(model);

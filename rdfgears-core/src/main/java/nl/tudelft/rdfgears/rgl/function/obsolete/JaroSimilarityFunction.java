@@ -11,9 +11,6 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
 import nl.tudelft.rdfgears.util.row.ValueRow;
 
-import com.hp.hpl.jena.datatypes.RDFDatatype;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-
 public class JaroSimilarityFunction extends SimplyTypedRGLFunction {
 	public static final String s1 = "s1";
 	public static final String s2 = "s2";

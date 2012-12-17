@@ -2,11 +2,9 @@ package nl.tudelft.rdfgears.rgl.function.custom;
 
 import java.util.Map;
 
-import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
-import nl.tudelft.rdfgears.rgl.datamodel.value.LiteralValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
 import nl.tudelft.rdfgears.util.row.ValueRow;

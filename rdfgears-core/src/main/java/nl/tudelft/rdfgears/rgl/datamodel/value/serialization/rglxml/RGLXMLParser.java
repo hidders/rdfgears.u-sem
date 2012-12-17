@@ -2,7 +2,6 @@ package nl.tudelft.rdfgears.rgl.datamodel.value.serialization.rglxml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +13,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
 import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.datatypes.TypeMapper;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.rdf.arp.SAX2Model;
 import com.hp.hpl.jena.rdf.model.Model;
 
@@ -35,7 +31,6 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.GraphValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RecordValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.impl.bags.ListBackedBagValue;
-import nl.tudelft.rdfgears.util.ValueParser;
 import nl.tudelft.rdfgears.util.row.FieldIndexMap;
 import nl.tudelft.rdfgears.util.row.FieldIndexMapFactory;
 import nl.tudelft.rdfgears.util.row.TypeRow;

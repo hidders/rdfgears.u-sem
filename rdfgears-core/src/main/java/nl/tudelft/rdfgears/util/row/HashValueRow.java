@@ -1,7 +1,5 @@
 package nl.tudelft.rdfgears.util.row;
 
-import java.util.Set;
-
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 
 

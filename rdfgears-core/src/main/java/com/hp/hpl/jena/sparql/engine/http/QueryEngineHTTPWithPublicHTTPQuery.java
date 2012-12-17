@@ -280,7 +280,7 @@ class HttpQueryWithErrorMsg extends HttpQuery {
             httpConnection = (HttpURLConnection) target.openConnection();
             httpConnection.setRequestProperty("Accept", contentTypeResult) ;
             
-            int x = httpConnection.getReadTimeout() ;
+            //int x = httpConnection.getReadTimeout() ;
             
             // By default, following 3xx redirects is true
             //conn.setFollowRedirects(true) ;

@@ -12,6 +12,7 @@ import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RecordType;
+import nl.tudelft.rdfgears.rgl.datamodel.type.SuperTypePattern;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.StreamingBagValue;
@@ -140,9 +141,11 @@ public class BagCategorize extends AtomicRGLFunction  {
 	@Override
 	public RGLType getOutputType(TypeRow inputTypes) throws FunctionTypingException {
 		RGLType elemType = inputTypes.get(inputName); 
+		RGLType actualType = elemType;
+		RGLType requiredType = BagType.getInstance(new SuperTypePattern());
 		
 		if (!(elemType instanceof BagType )){
-			throw new FunctionTypingException("I require a bag on input with name '"+inputName+"'");
+			throw new FunctionTypingException(inputName,requiredType,actualType);
 		}
 		
 		BagType bagType = (BagType) elemType;

@@ -54,7 +54,7 @@ public abstract class BagValue extends DeterminedRGLValue implements Iterable<RG
 	 */
 	public static int getNaiveSize(BagValue bag){
 		int size = 0;
-		for (RGLValue val : bag){
+		for (@SuppressWarnings("unused") RGLValue val : bag){
 			size++;
 		}
 		return size;

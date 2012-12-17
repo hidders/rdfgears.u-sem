@@ -5,8 +5,6 @@ import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.Optimizer;
 import nl.tudelft.rdfgears.engine.WorkflowLoader;
 import nl.tudelft.rdfgears.engine.diskvalues.DatabaseManager;
-import nl.tudelft.rdfgears.engine.diskvalues.Stoper;
-import nl.tudelft.rdfgears.engine.diskvalues.ValueInflator;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.serialization.rglxml.ValueXMLSerializer;
@@ -18,8 +16,6 @@ import nl.tudelft.rdfgears.rgl.exception.WorkflowCheckingException;
 import nl.tudelft.rdfgears.rgl.workflow.Workflow;
 import uk.co.flamingpenguin.jewel.cli.ArgumentValidationException;
 import uk.co.flamingpenguin.jewel.cli.CliFactory;
-import nl.tudelft.rdfgears.engine.diskvalues.DatabaseManager;
-
 import com.hp.hpl.jena.rdf.model.RDFWriter;
 
 public class RDFGears {

@@ -1,7 +1,5 @@
 package nl.tudelft.rdfgears.rgl.datamodel.type;
 
-import nl.tudelft.rdfgears.engine.Engine;
-
 /**
  * A Type that can be any of the types specified at the constructor. 
  * 

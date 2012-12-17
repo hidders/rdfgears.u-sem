@@ -5,7 +5,6 @@ import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.SubType;
-import nl.tudelft.rdfgears.rgl.datamodel.type.SuperTypePattern;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 
 /**

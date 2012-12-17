@@ -1,29 +1,13 @@
 package nl.tudelft.rdfgears.rgl.function.standard;
         
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Map;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.RDFReader;
-import com.hp.hpl.jena.rdf.model.impl.RDFReaderFImpl;
-import com.hp.hpl.jena.shared.DoesNotExistException;
-import com.hp.hpl.jena.shared.JenaException;
-
-import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BooleanType;
-import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;
-import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
-import nl.tudelft.rdfgears.rgl.datamodel.value.RDFValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.exception.WorkflowCheckingException;
 import nl.tudelft.rdfgears.rgl.function.AtomicRGLFunction;
-import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
 import nl.tudelft.rdfgears.util.row.TypeRow;
 import nl.tudelft.rdfgears.util.row.ValueRow;
 

@@ -7,7 +7,6 @@ import static com.google.gwt.query.client.GQuery.$;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.query.client.Function;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.xml.client.Document;
 
 public class RGFunctionParamWorkflowTools extends RGFunctionParam{

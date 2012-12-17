@@ -11,7 +11,6 @@ import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.impl.LazyRGLValueMapping;
-import nl.tudelft.rdfgears.rgl.datamodel.value.impl.MappingBagValue;
 import nl.tudelft.rdfgears.rgl.exception.IterationTypingException;
 import nl.tudelft.rdfgears.rgl.exception.WorkflowCheckingException;
 import nl.tudelft.rdfgears.rgl.exception.WorkflowConnectionException;

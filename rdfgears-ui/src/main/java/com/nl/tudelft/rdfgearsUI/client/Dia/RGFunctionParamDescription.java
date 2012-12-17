@@ -1,7 +1,5 @@
 package com.nl.tudelft.rdfgearsUI.client.Dia;
 
-import static com.google.gwt.query.client.GQuery.$;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.xml.client.Document;

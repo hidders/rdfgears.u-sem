@@ -3,13 +3,7 @@ package nl.tudelft.rdfgears.rgl.datamodel.value;
 import java.util.Iterator;
 import java.util.List;
 
-import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
-//import nl.tudelft.rdfgears.rgl.datamodel.value.MaterializingBag.CachingBagIter;
-import nl.tudelft.rdfgears.rgl.datamodel.value.MaterializingBag.CachingBagIter;
-import nl.tudelft.rdfgears.rgl.datamodel.value.visitors.RGLValueVisitor;
-import nl.tudelft.rdfgears.rgl.datamodel.value.visitors.ValueSerializerInformal;
-import nl.tudelft.rdfgears.rgl.exception.ComparisonNotDefinedException;
 
 public abstract class StreamingBagValue extends BagValue {
 	

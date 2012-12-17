@@ -81,7 +81,7 @@ public abstract class SimplyTypedRGLFunction extends AtomicRGLFunction {
 			RGLType expectedType = this.getRequiredInputTypeRow().get(field);
 			RGLType actualType = inputTypes.get(field);
 			if (! actualType.isSubtypeOf(expectedType)){
-				throw new FunctionTypingException("Field '"+field+"' received input-type "+actualType+" but requires "+expectedType);
+				throw new FunctionTypingException(field,expectedType,actualType);
 			}
 			
 		}

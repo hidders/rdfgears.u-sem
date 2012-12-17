@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import nl.tudelft.rdfgears.engine.Engine;
+import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
@@ -15,7 +16,6 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.GraphValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RecordValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.impl.MemoryURIValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.visitors.ValueSerializerInformal;
 import nl.tudelft.rdfgears.rgl.function.RGLFunction;
 import nl.tudelft.rdfgears.rgl.function.core.RecordProject;
 import nl.tudelft.rdfgears.rgl.function.custom.MultiplicationFunction;
@@ -35,8 +35,8 @@ import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import static org.junit.Assert.*;
 
 public class TestProcessorNetwork {
-	private static ConstantProcessor lit1generator = new ConstantProcessor (Engine.getValueFactory().createLiteralTyped("1.0", XSDDatatype.XSDdouble));
-	private static ConstantProcessor lit2generator = new ConstantProcessor (Engine.getValueFactory().createLiteralTyped("2.0", XSDDatatype.XSDdouble));
+	private static ConstantProcessor lit1generator = new ConstantProcessor (ValueFactory.createLiteralTyped("1.0", XSDDatatype.XSDdouble));
+	private static ConstantProcessor lit2generator = new ConstantProcessor (ValueFactory.createLiteralTyped("2.0", XSDDatatype.XSDdouble));
 	
 	@Before 
 	public void setUp() {

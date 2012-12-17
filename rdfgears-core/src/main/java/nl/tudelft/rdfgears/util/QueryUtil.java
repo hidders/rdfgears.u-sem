@@ -26,7 +26,7 @@ import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTPWithPublicHTTPQuery;
 
 public class QueryUtil {
 	
-	static RGLValue notBoundError = Engine.getValueFactory().createNull("SPARQL Variable not bound");
+	static RGLValue notBoundError = ValueFactory.createNull("SPARQL Variable not bound");
 	
 	/**
 	 * Get a QueryExecution object with the variables in inputRow pre-bound. 
@@ -220,7 +220,7 @@ public class QueryUtil {
 							//System.out.println("ERROR is: "+exprRow.get(fieldName));
 						}
 						else {
-							rec.put(fieldName, Engine.getValueFactory().createRDFValue(rdfNode));
+							rec.put(fieldName, ValueFactory.createRDFValue(rdfNode));
 							//System.out.println("RDFNode is : "+rdfNode);
 						}	
 				}

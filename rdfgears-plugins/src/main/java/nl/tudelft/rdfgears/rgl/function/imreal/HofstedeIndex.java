@@ -5,7 +5,6 @@ import nl.tudelft.rdfgears.engine.Config;
 import java.io.FileReader;
 import java.util.HashMap;
 
-import nl.tudelft.rdfgears.engine.Config;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;

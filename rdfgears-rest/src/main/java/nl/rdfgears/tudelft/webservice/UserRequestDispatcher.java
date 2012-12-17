@@ -1,18 +1,11 @@
 package nl.rdfgears.tudelft.webservice;
 
 import java.io.IOException;
-import java.io.PrintStream;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import nl.tudelft.rdfgears.engine.WorkflowLoader;
-import nl.tudelft.rdfgears.rgl.exception.WorkflowCheckingException;
-import nl.tudelft.rdfgears.rgl.exception.WorkflowLoadingException;
-import nl.tudelft.rdfgears.rgl.workflow.Workflow;
 
 /**
  * Servlet implementation class MyRequestDispatcher

@@ -6,13 +6,9 @@ import java.util.Map;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
-import nl.tudelft.rdfgears.rgl.datamodel.value.LiteralValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
 import nl.tudelft.rdfgears.util.row.ValueRow;
-
-import com.hp.hpl.jena.datatypes.RDFDatatype;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 
 public class JaroSimilarityFunction extends SimplyTypedRGLFunction {
 	public static final String INPUT_1 = "s1";

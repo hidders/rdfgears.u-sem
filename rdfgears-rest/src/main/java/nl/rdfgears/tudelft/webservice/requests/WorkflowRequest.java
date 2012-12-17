@@ -1,28 +1,13 @@
 package nl.rdfgears.tudelft.webservice.requests;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.text.ParseException;
-
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.tudelft.rdfgears.engine.Engine;
-import nl.tudelft.rdfgears.engine.Optimizer;
 import nl.tudelft.rdfgears.engine.WorkflowLoader;
-import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
-import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
-import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.visitors.ImRealXMLSerializer;
-import nl.tudelft.rdfgears.rgl.datamodel.value.visitors.ValueSerializer;
-import nl.tudelft.rdfgears.rgl.exception.WorkflowCheckingException;
 import nl.tudelft.rdfgears.rgl.exception.WorkflowLoadingException;
 import nl.tudelft.rdfgears.rgl.workflow.Workflow;
-import nl.tudelft.rdfgears.util.ValueParser;
-import nl.tudelft.rdfgears.util.row.HashValueRow;
-import nl.tudelft.rdfgears.util.row.TypeRow;
 
 public class WorkflowRequest {
 	public enum OutputFormat {

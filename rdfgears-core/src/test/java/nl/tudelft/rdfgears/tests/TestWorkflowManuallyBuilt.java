@@ -1,11 +1,11 @@
 package nl.tudelft.rdfgears.tests;
 
 
+import static org.junit.Assert.assertTrue;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-
-import nl.tudelft.rdfgears.engine.Engine;
+import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
@@ -16,26 +16,22 @@ import nl.tudelft.rdfgears.rgl.datamodel.value.RecordValue;
 import nl.tudelft.rdfgears.rgl.function.core.RecordCreate;
 import nl.tudelft.rdfgears.rgl.function.core.RecordProject;
 import nl.tudelft.rdfgears.rgl.function.obsolete.JaroSimilarityFunction;
-import nl.tudelft.rdfgears.rgl.function.sparql.SPARQLFunction;
 import nl.tudelft.rdfgears.rgl.function.obsolete.MaxVal2;
+import nl.tudelft.rdfgears.rgl.function.sparql.SPARQLFunction;
 import nl.tudelft.rdfgears.rgl.workflow.ConstantProcessor;
 import nl.tudelft.rdfgears.rgl.workflow.FunctionProcessor;
 import nl.tudelft.rdfgears.rgl.workflow.Workflow;
 import nl.tudelft.rdfgears.util.row.FieldIndexMapFactory;
 import nl.tudelft.rdfgears.util.row.FieldMappedValueRow;
 import nl.tudelft.rdfgears.util.row.ValueRow;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import tools.Util;
-
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import static org.junit.Assert.*;
 
 public class TestWorkflowManuallyBuilt {
-	private static ConstantProcessor lit1generator = new ConstantProcessor (Engine.getValueFactory().createLiteralTyped("1.0", XSDDatatype.XSDdouble));
-	private static ConstantProcessor lit2generator = new ConstantProcessor (Engine.getValueFactory().createLiteralTyped("2.0", XSDDatatype.XSDdouble));
+	private static ConstantProcessor lit1generator = new ConstantProcessor (ValueFactory.createLiteralTyped("1.0", XSDDatatype.XSDdouble));
+	private static ConstantProcessor lit2generator = new ConstantProcessor (ValueFactory.createLiteralTyped("2.0", XSDDatatype.XSDdouble));
 	
 	private static ValueRow emptyValueGeneratorRow = new FieldMappedValueRow(FieldIndexMapFactory.create()); // empty! 
 	
@@ -186,7 +182,7 @@ public class TestWorkflowManuallyBuilt {
     	silkFlow.addInputReader(dbpediaPortName, dbpediaSelect_mov.getPort(RecordProject.INPUT_NAME));
     	FunctionProcessor lmdbSelect_dir = createProjector("dir");
     	silkFlow.addInputReader(lmdbPortName, lmdbSelect_dir.getPort(RecordProject.INPUT_NAME));
-    	ConstantProcessor predicateProc = new ConstantProcessor(Engine.getValueFactory().createURI("http://dbpedia.org/ontology/director"));
+    	ConstantProcessor predicateProc = new ConstantProcessor(ValueFactory.createURI("http://dbpedia.org/ontology/director"));
     	
     	RecordCreate recordCreateFunc = new RecordCreate();
     	recordCreateFunc.requireInput("s");

@@ -5,13 +5,9 @@ import java.util.Map;
 
 
 import nl.tudelft.rdfgears.engine.ValueFactory;
-import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
-import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BooleanType;
-import nl.tudelft.rdfgears.rgl.datamodel.type.SuperTypePattern;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
 import nl.tudelft.rdfgears.rgl.function.SimplyTypedRGLFunction;
 import nl.tudelft.rdfgears.util.row.ValueRow;
 

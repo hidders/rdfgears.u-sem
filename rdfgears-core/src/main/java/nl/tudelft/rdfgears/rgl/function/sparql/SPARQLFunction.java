@@ -2,7 +2,6 @@ package nl.tudelft.rdfgears.rgl.function.sparql;
 
 import java.util.Map;
 
-import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RGLType;

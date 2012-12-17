@@ -5,20 +5,10 @@
 
 <web-app>
 
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>com.nl.tudelft.rdfgearsUI.server.GreetingServiceImpl</servlet-class>
-  </servlet>
-
   <servlet> 
 		<servlet-name>RGServiceImpl</servlet-name>
 		<servlet-class>com.nl.tudelft.rdfgearsUI.server.RGServiceImpl</servlet-class> 
   </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/RdfGearsUi/greet</url-pattern>
-  </servlet-mapping>
    
   <servlet-mapping> 
 		<servlet-name>RGServiceImpl</servlet-name> 

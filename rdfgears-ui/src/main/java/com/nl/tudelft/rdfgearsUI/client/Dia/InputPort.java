@@ -2,7 +2,6 @@ package com.nl.tudelft.rdfgearsUI.client.Dia;
 
 import static com.google.gwt.query.client.GQuery.$;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.query.client.Function;

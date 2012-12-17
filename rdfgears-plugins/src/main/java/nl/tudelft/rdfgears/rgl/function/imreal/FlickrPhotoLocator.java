@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import nl.tudelft.rdfgears.engine.Config;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
@@ -25,7 +22,6 @@ import nl.tudelft.rdfgears.util.row.ValueRow;
 
 import java.util.*; 
 import java.io.*;
-import java.net.*;
 import java.text.*;
 
 

@@ -4,9 +4,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.rpc.client.RpcService;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.nl.tudelft.rdfgearsUI.client.RGService;
 

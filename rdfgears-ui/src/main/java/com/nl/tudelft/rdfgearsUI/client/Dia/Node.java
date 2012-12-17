@@ -12,8 +12,6 @@ import com.google.gwt.query.client.css.CSS;
 import com.google.gwt.query.client.css.Length;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.xml.client.Document;
-
 import gwtquery.plugins.draggable.client.DraggableOptions;
 import gwtquery.plugins.draggable.client.DraggableOptions.DragFunction;
 import gwtquery.plugins.draggable.client.events.DragContext;

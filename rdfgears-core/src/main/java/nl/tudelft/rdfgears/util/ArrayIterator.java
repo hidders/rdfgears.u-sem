@@ -31,6 +31,7 @@ import java.util.NoSuchElementException;
  * @author <a href="mailto:mas@apache.org">Michael A. Smith</a>
  * @version $Revision: 1.1.2.1 $
  */
+@SuppressWarnings("rawtypes")
 public class ArrayIterator implements Iterator {
    
    private Object array;

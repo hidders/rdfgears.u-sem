@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.hp.hpl.jena.rdf.model.Model;
 
-import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.BagType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;

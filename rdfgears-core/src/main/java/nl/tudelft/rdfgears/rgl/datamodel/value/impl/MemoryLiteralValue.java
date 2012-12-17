@@ -1,10 +1,8 @@
 package nl.tudelft.rdfgears.rgl.datamodel.value.impl;
 
 import nl.tudelft.rdfgears.engine.Engine;
-import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.engine.bindings.MemoryLiteralBinding;
 import nl.tudelft.rdfgears.rgl.datamodel.value.LiteralValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.RDFValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.exception.ComparisonNotDefinedException;
 

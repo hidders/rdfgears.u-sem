@@ -1,13 +1,8 @@
 package com.nl.tudelft.rdfgearsUI.client.Dia;
 
-import java.util.ArrayList;
-
-import com.allen_sauer.gwt.log.client.Log;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.xml.client.Document;
-import com.google.gwt.xml.client.XMLParser;
 import com.nl.tudelft.rdfgearsUI.client.RGType;
 import com.nl.tudelft.rdfgearsUI.client.RGTypeUtils;
 
@@ -65,7 +60,7 @@ public class RGWorkflowOutputNode extends Node{
 			Path p = inputPaths.get(0);
 			String sourceId = p.getSourceId();
 			
-			if(sourceId.equalsIgnoreCase(canvas.WORKFLOW_INPUT_NODE_ID)){
+			if(sourceId.equalsIgnoreCase(RGCanvas.WORKFLOW_INPUT_NODE_ID)){
 				Node workflowInput = p.getStartNode();
 				network.setAttribute("output", "workflowInputPort:" + workflowInput.getPortNameByPortId(p.getStartPortId()));
 			}else{

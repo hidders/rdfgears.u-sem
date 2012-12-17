@@ -8,7 +8,6 @@ import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.datamodel.value.StreamingBagValue;
-import nl.tudelft.rdfgears.rgl.datamodel.value.visitors.ValueSerializerInformal;
 import nl.tudelft.rdfgears.util.QueryUtil;
 import nl.tudelft.rdfgears.util.row.FieldIndexMap;
 import nl.tudelft.rdfgears.util.row.ValueRow;

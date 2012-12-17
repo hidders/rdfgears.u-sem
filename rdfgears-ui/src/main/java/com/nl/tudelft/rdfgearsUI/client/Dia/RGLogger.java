@@ -4,8 +4,6 @@ import static com.google.gwt.query.client.GQuery.$;
 
 import java.util.ArrayList;
 
-import com.allen_sauer.gwt.log.client.Log;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;

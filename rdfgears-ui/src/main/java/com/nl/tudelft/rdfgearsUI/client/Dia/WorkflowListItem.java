@@ -12,8 +12,6 @@ import com.google.gwt.query.client.Function;
 import com.google.gwt.query.client.GQuery;
 import com.google.gwt.user.client.DOM;
 
-import com.allen_sauer.gwt.log.client.Log;
-
 //draggable list item
 public class WorkflowListItem extends NavigationListItem{
 	Element item, labelContainer, descContainer, menuContainer;

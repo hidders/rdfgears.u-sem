@@ -3,9 +3,7 @@ package nl.tudelft.rdfgears.rdftools;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import nl.tudelft.rdfgears.engine.Engine;
-
+import nl.tudelft.rdfgears.engine.ValueFactory;
 import com.hp.hpl.jena.query.DataSource;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -61,7 +59,7 @@ public class RDFTools {
 		
 		if (useCache){
 			try {
-				returnModel = Engine.getValueFactory().createModel().read(new FileInputStream(cacheFileName), "http://dont_care");
+				returnModel = ValueFactory.createModel().read(new FileInputStream(cacheFileName), "http://dont_care");
 				return returnModel;
 			}
 			catch(Exception e){

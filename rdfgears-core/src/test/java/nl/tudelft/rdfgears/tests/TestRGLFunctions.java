@@ -1,9 +1,9 @@
 package nl.tudelft.rdfgears.tests;
 
+import static org.junit.Assert.assertTrue;
 import java.util.Collections;
 import java.util.Iterator;
-
-import nl.tudelft.rdfgears.engine.Engine;
+import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
 import nl.tudelft.rdfgears.rgl.datamodel.value.BagValue;
@@ -19,11 +19,8 @@ import nl.tudelft.rdfgears.rgl.function.sparql.SPARQLFunction;
 import nl.tudelft.rdfgears.rgl.workflow.ConstantProcessor;
 import nl.tudelft.rdfgears.util.row.FieldMappedValueRow;
 import nl.tudelft.rdfgears.util.row.TypeRow;
-
 import org.junit.Test;
-
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import static org.junit.Assert.*;
 
 public class TestRGLFunctions {
 
@@ -84,8 +81,8 @@ public class TestRGLFunctions {
 	@Test public void testMultiply() {
 		RGLFunction multiply = new MultiplicationFunction();
 		FieldMappedValueRow mulInputRow = new FieldMappedValueRow(multiply.getFieldIndexMap());
-		mulInputRow.put(MultiplicationFunction.value1, Engine.getValueFactory().createLiteralTyped("12", XSDDatatype.XSDdecimal));
-		mulInputRow.put(MultiplicationFunction.value2, Engine.getValueFactory().createLiteralTyped(new Double(0.5), XSDDatatype.XSDdouble));
+		mulInputRow.put(MultiplicationFunction.value1, ValueFactory.createLiteralTyped("12", XSDDatatype.XSDdecimal));
+		mulInputRow.put(MultiplicationFunction.value2, ValueFactory.createLiteralTyped(new Double(0.5), XSDDatatype.XSDdouble));
 		RGLValue result = multiply.execute(mulInputRow);
 		assertTrue("Multiplication result be correct ", ((MemoryLiteralValue) result).getRDFNode().asLiteral().getDouble()==6.0);
 	}

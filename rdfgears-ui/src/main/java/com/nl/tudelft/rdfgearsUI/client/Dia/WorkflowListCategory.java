@@ -7,7 +7,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.query.client.Function;
 import com.google.gwt.query.client.css.CSS;
-import com.google.gwt.query.client.css.RGBColor;
 import com.google.gwt.user.client.DOM;
 
 public class WorkflowListCategory {
