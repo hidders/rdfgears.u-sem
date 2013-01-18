@@ -7,10 +7,10 @@
 <source>
 <option value="OP_LESS" label="a &lt; b"/>
 <option value="OP_LESS_EQUAL" label="a &lt;= b"/>
-<option vaue="OP_GREATER" label="a &gt; b"/>
+<option value="OP_GREATER" label="a &gt; b"/>
 <option value="OP_GREATER_EQUAL" label="a &lt;= b"/>
 <option value="OP_EQUAL" label="a == b"/>
-<option vaue="OP_NOT_EQUAL" label="a != b"/>
+<option value="OP_NOT_EQUAL" label="a != b"/>
 </source>
 </param>
 </function>
