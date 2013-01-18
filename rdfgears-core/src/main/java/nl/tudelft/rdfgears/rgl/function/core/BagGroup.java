@@ -37,7 +37,7 @@ import nl.tudelft.rdfgears.util.row.ValueRow;
  *
  */
 public class BagGroup extends AtomicRGLFunction {
-	public static final String INPUT_PORT_NAME = "bag_of_records"; // a record
+	public static final String INPUT_PORT_NAME = "bag"; // a record
 	public static final String GROUP_FIELD = "group"; // a record
 	public static final String CONFIG_GROUP_BY_FIELD = "groupByField";
 	
