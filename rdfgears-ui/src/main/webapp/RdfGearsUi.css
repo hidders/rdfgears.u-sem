@@ -96,6 +96,20 @@ canvas, svg {
 	moz-border-top-right-radius:3px;
 }
 
+.inputNode{
+	color: #EEEBEB;
+	background-color: #F50B3A;
+	font-size: 88%;
+	font-weight:bold;
+	text-align: center;
+	padding-top: 3px;
+	border-bottom: 1px solid black;
+	border-top-left-radius:3px;
+	border-top-right-radius:3px;
+	moz-border-top-left-radius:3px;
+	moz-border-top-right-radius:3px;
+}
+
 .outputNode{
 	color: #EEEBEB;
 	background-color: #F50B3A;
