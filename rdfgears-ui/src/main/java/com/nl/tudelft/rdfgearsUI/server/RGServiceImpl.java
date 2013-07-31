@@ -46,6 +46,7 @@ public class RGServiceImpl extends RemoteServiceServlet implements RGService{
 		try{
 			System.out.println("get servlet context");
 			ServletContext sc = getServletContext();
+			System.out.println("current directory " + new java.io.File( "." ).getCanonicalPath());
 //			dd = new DataDriver(sc.getResourcePaths("/").toString() + "/..");
 			cdd = new ConfigurationDataDriver(sc.getRealPath("") + "/WEB-INF/rdf-gears-ui-config.xml");
 			wdd = new WorkflowsDataDriver(cdd);

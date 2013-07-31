@@ -7,7 +7,7 @@
     <groupId>nl.tudelft.rdfgears</groupId>
     <version>0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>rdfgears-ui</artifactId>
+  <artifactId>rdfgears-ui-deripipes</artifactId>
   <name>RDF Gears: Graphical web-based user interface</name>
   <url>http://code.google.com/p/rdfgears.ui</url>
   <properties>
