@@ -7,9 +7,7 @@
     <groupId>nl.tudelft.rdfgears</groupId>
     <version>0.1-SNAPSHOT</version>
   </parent>
-  <groupId>nl.tudelft.rdfgears</groupId>
   <artifactId>rdfgears-plugins</artifactId>
-  <version>0.1-SNAPSHOT</version>
   <name>RDF Gears: Plugins (custom RGL functions)</name>
   <url>http://code.google.com/p/rdfgears</url>
   <properties>
