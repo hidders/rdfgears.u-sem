@@ -48,3 +48,19 @@ configurations,
   URL to RDFGears-rest application to run the workflow file
   rdfgears-rest must be configured to have the same workflow path with rdfgears-ui ($BasePath\data\workflows)
   reference to configure rdfgears-rest : http://code.google.com/p/rdfgears/wiki/Install_RESTful_Interface
+
+In case you have the development environment on the same machine where you want to run RDFGears, you can do the following:
+
+In <TOMCAT_ROOT> create a soft link to the maven projet (containing the workflow directory):
+
+Windows:
+MKLINK /D rdfgears-plugins path\to\rdfgears-plugins  
+
+Linux:
+ln -s path/to/rdfgears-plugins rdfgears-plugins
+
+Create context files in <TOMCAT_ROOT>/conf/Catalina/localhost to rename the war that point directly to the maven output directory war, so you do not need to copy anything
+
+Example:
+Filename: rdfgears-rest.xml (This is the name you want the context to have)
+<Context path="/somepath" docBase="C:/Software/code/RDFGears/rdfgears.u-sem/rdfgears-rest/target/rdfgears-rest-0.1-SNAPSHOT"/>
