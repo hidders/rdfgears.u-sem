@@ -53,7 +53,7 @@ In case you have the development environment on the same machine where you want 
 
 In <TOMCAT_ROOT> create a soft link to the maven projet (containing the workflow directory):
 
-Windows:
+Windows (run the CMD as Administrator):
 MKLINK /D rdfgears-plugins path\to\rdfgears-plugins  
 
 Linux:
