@@ -6,10 +6,13 @@
 
   <!-- POM file generated with GWT webAppCreator -->
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.nl.tudelft.rdfgearsUI</groupId>
+  <parent>
+    <groupId>nl.tudelft.rdfgears</groupId>
+    <artifactId>rdfgears</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
   <artifactId>rdfgears-ui</artifactId>
   <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
   <name>GWT Maven Archetype</name>
 
   <properties>

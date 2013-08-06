@@ -24,10 +24,10 @@ import nl.tudelft.rdfgears.engine.Engine;
 public class ImageCollector 
 {
 	
-	private static final String FLICKR_DATA_FOLDER = Config.getWritableDir()+"flickrData"; 
+	private static final String FLICKR_DATA_FOLDER = Config.getFlickrDataPath(); 
 	private static final int MAX_NUM_IMAGES = 2000;/* maximum number of images that should be retrieved */
-	private static String FLICKR_API_KEY;
-	private static final String FLICKR_API_KEY_FILE = Config.getWritableDir()+"flickr_api_key";
+	private static String FLICKR_API_KEY = Config.getFlickrApiKey();
+	//private static final String FLICKR_API_KEY_FILE = Config.getWritableDir()+"flickr_api_key";
 	
 	public static ArrayList<Photo> getPhotos(String flickrUsername, int maxHoursAllowedOld)
 	{
@@ -35,7 +35,6 @@ public class ImageCollector
 		
 		try
 		{
-			readFlickrKey();
 			String nsid = getNSID(flickrUsername);
 			
 			//if we have no NSID, just return an empty list of photos
@@ -89,25 +88,6 @@ public class ImageCollector
 	}
 	
 	
-	private static void readFlickrKey()
-	{
-		/* read the Flickr API key from file */
-		try
-		{
-			BufferedReader br = new BufferedReader(new FileReader(FLICKR_API_KEY_FILE));
-			String line;
-			while( (line=br.readLine())!=null)
-			{
-				FLICKR_API_KEY = line;
-				break;
-			}
-			br.close();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
 	
 	/*
 	 * method checks if hte flickrUser is a NSID or a user name;

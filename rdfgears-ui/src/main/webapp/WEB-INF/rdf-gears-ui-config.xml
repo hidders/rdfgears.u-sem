@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RDFGearsUIConfig>
-	<BasePath>../rdfgears-plugins/runtimeResources/rdfgears/</BasePath>
-	<RDFGearsRestUrl>/rdfgears-rest</RDFGearsRestUrl>
-</RDFGearsUIConfig>
-

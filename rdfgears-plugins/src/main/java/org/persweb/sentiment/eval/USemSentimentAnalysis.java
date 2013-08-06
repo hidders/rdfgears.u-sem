@@ -27,6 +27,7 @@ import org.persweb.sentiment.LexiconSimpleCount;
 import org.persweb.sentiment.SentiWord;
 import org.persweb.sentiment.SentiWordNet;
 import org.persweb.sentiment.SentimentAnalysisStrategy;
+import nl.tudelft.rdfgears.engine.Config;
 
 /**
  * @author Qi Gao <a href="mailto:q.gao@tudelft.nl">q.gao@tudelft.nl</a>
@@ -77,11 +78,11 @@ public class USemSentimentAnalysis {
 		Set<SentiWord> lexicon = new HashSet<SentiWord>();
 		Set<String> positiveWords = new HashSet<String>(
 				Arrays.asList(getContents(
-						new File("../temp/rdfgears/lexicon/lexicon-twitter-positive"))
+						new File(Config.getLexiconPath() + "/lexicon-twitter-positive"))
 						.split(",")));
 		Set<String> negativeWords = new HashSet<String>(
 				Arrays.asList(getContents(
-						new File("../temp/rdfgears/lexicon/lexicon-twitter-negative"))
+						new File(Config.getLexiconPath() + "/lexicon-twitter-negative"))
 						.split(",")));
 		for (String word : positiveWords) {
 			lexicon.add(new SentiWord(word.trim().toLowerCase(), 1.0, 0.0));

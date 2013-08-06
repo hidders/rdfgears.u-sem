@@ -42,8 +42,7 @@
     <module>rdfgears-core</module>
     <module>rdfgears-plugins</module>
     <module>rdfgears-cli</module>
-    <module>rdfgears-ui-deripipes</module>
-	<module>rdfgears-ui</module>
+    <module>rdfgears-ui</module>
     <module>rdfgears-rest</module>
   </modules>
 </project>

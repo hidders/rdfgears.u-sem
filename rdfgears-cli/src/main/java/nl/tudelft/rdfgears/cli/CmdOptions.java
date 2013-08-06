@@ -20,7 +20,7 @@ public interface CmdOptions {
 	  @Option(longName="disable-optimizer", description="Disable the workflow optimizer")
 	  boolean getDisableOptimizer();
 	  
-	  @Option(longName="workflow-path", description="List of ':' separated paths where the \n\t\t(nested) workflows can be found. Default: "+Config.DEFAULT_WORKFLOW_PATHLIST)
+	  @Option(longName="workflow-path", description="List of ':' separated paths where the \n\t\t(nested) workflows can be found. Default: "+Config.DEFAULT_WORKFLOW_PATH)
 	  String getWorkflowPathList();
 	  boolean isWorkflowPathList();
 

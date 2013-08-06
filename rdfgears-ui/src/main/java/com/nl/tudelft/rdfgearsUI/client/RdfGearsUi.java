@@ -86,7 +86,7 @@ public class RdfGearsUi implements EntryPoint {
 		}
 	  });
 	  //get config through RPC service
-	  RGService.getConfig("RDFGearsRestUrl", new AsyncCallback <String>(){
+	  RGService.getConfig("rdfgears.rest.URL", new AsyncCallback <String>(){
 
 		public void onFailure(Throwable arg0) {
 			canvas.displayErrorMessage("Cannot connect to server, RPC Failed");

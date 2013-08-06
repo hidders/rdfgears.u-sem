@@ -29,7 +29,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 public class SimpleValueStore {
 	
 	private int valueCounter = 1;
-	private final static String STORAGE_PATH = Config.getWritableDir()+"/valuestore/";
+	private final static String STORAGE_PATH = Config.getStoragePath() +"/valuestore/";
 	
 	public SimpleValueStore(){
 	}

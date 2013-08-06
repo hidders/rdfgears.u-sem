@@ -1,6 +1,5 @@
 package nl.tudelft.rdfgears.rgl.function.imreal.uuid;
 
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,13 +9,14 @@ import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
+
+import nl.tudelft.rdfgears.engine.Config;
 
 public class UUIDDBUtils {
 	
 	//PATH to the DB login information
-	private static final String PATH_TO_LOGIN_INFO = "../temp/rdfgears/config.properties";
+	//private static final String CONFIG_FILE = "rdfgears.config";
 	public static String dbURL = null;
 	public static String username = null;
 	public static String password = null;
@@ -80,21 +80,25 @@ public class UUIDDBUtils {
 	 */
 	public static void getLoginInformation()
 	{
-		Properties prop = new Properties();
+		
+		// The following code has been superseded by unifying all conf files in one.
+		// Now the conf is read by Config in package core
+		
+		//Properties prop = new Properties();
 		 
-    	try {
+    	//try {
                //load a properties file
-    		prop.load(new FileInputStream(PATH_TO_LOGIN_INFO));
+    		//prop.load(new FileInputStream(CONFIG_FILE));
  
                //get the property values
-            dbURL = "jdbc:mysql://" + prop.getProperty("database");
-    		username = prop.getProperty("dbuser");
-    		password = prop.getProperty("dbpassword");
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+            dbURL = "jdbc:mysql://" + Config.getDatabase();
+    		username = Config.getDatabaseUser();
+    		password = Config.getDatabasePwd();
+		//}
+		//catch(Exception e)
+		//{
+			//e.printStackTrace();
+		//}
 	}
 	
 	/**

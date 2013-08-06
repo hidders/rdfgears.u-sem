@@ -81,6 +81,8 @@ public class SentiWordNet {
 //					sent = "strong_negative";
 				_dict.put(word, score);
 			}
+			csv.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

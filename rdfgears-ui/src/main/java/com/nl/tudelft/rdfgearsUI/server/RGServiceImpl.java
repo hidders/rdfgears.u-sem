@@ -13,6 +13,7 @@ public class RGServiceImpl extends RemoteServiceServlet implements RGService{
 	 * 
 	 */
 	private static final long serialVersionUID = -6305136928250756266L;
+	private static final String RDFGEARS_CONF_FILE = "/WEB-INF/rdf-gears-ui.config";
 	//private DataDriver dd = new DataDriver(getServletContext().getRealPath("/"));
 	//private DataDriver dd = new DataDriver(".");
 	private ConfigurationDataDriver cdd = null;
@@ -44,11 +45,11 @@ public class RGServiceImpl extends RemoteServiceServlet implements RGService{
 	public void init(ServletConfig cfg) throws ServletException {
 		super.init(cfg);
 		try{
-			System.out.println("get servlet context");
+			//System.out.println("get servlet context");
 			ServletContext sc = getServletContext();
 			System.out.println("current directory " + new java.io.File( "." ).getCanonicalPath());
 //			dd = new DataDriver(sc.getResourcePaths("/").toString() + "/..");
-			cdd = new ConfigurationDataDriver(sc.getRealPath("") + "/WEB-INF/rdf-gears-ui-config.xml");
+			cdd = new ConfigurationDataDriver(sc, RDFGEARS_CONF_FILE);
 			wdd = new WorkflowsDataDriver(cdd);
 			fdd = new FunctionsDataDriver(cdd);
 			pdd = new ProcessorsDataDriver(cdd);

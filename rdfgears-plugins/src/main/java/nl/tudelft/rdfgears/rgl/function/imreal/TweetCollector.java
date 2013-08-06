@@ -27,7 +27,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class TweetCollector 
 {
 	
-	private static final String TWITTER_DATA_FOLDER = Config.getWritableDir()+"twitterData";
+	private static final String TWITTER_DATA_FOLDER = Config.getTwitterPath() + "/twitterData";
 	private static DocumentBuilder docBuilder;
 	
 	static

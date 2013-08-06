@@ -113,16 +113,10 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 		HashMap<String,String> tweets = TweetCollector.getTweetTextWithDateAsKey(twitterUser, true, MAXHOURS);
 
 		/* *************
-		 * The dir with the language profiles is assumed to be stored in the
-		 * tmpdir. As it is read-only, it may be nicer to package it in the jar
-		 * instead.... But the jar directory contents are not easily listed by
-		 * the langdetect tool.
+		 * The dir with the language profiles is read from the conf file.
 		 */
-		File profileDir = new File(Config.getWritableDir()
-				+ "/imreal-language-profiles"); /*
-												 * should be cross-platform and
-												 * work in webapps
-												 */
+		File profileDir = new File(Config.getLanguageProfilePath());
+												 
 		if (!profilesLoaded) {
 			DetectorFactory.loadProfile(profileDir);
 			profilesLoaded = true;

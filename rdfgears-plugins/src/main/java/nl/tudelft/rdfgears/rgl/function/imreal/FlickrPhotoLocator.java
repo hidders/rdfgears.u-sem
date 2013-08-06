@@ -105,7 +105,7 @@ public class FlickrPhotoLocator  extends SimplyTypedRGLFunction  {
 	public static final String FIELD_DATE_TAKEN= "dateTaken";
 	public static final String FIELD_FLICKR_ACCURACY = "flickrAccuracy";
 
-	private static final String REGION_FILE = Config.getWritableDir()+"region.out";
+	private static final String REGION_FILE = Config.getRegionPath() +"/region.out";
 	private static final ArrayList<Region> worldRegions = new ArrayList<Region>();
 	private static boolean regionsRead = false;
 	
@@ -238,6 +238,7 @@ public class FlickrPhotoLocator  extends SimplyTypedRGLFunction  {
 					r.terms.put(term,tf);
 				}
 			}
+			br.close();
 		}
 		catch(Exception e)
 		{

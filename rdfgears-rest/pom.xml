@@ -61,7 +61,7 @@
     <dependency>
       <groupId>nl.tudelft.rdfgears</groupId>
       <artifactId>rdfgears-core</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     
     <dependency>
@@ -74,7 +74,7 @@
     <dependency>
       <groupId>nl.tudelft.rdfgears</groupId>
       <artifactId>rdfgears-plugins</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
  
     <dependency>
