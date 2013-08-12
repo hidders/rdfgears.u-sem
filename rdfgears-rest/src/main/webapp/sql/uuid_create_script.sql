@@ -1,4 +1,11 @@
-CREATE DATABASE IF NOT EXISTS imreal;
+/* The following is not needed since a user is implicitly created if not exist by the GRANT operation */
+/* CREATE USER 'imreal'@'localhost' IDENTIFIED BY 'imreal'; */
+
+GRANT USAGE ON *.* TO 'imreal'@'localhost' IDENTIFIED BY 'imreal' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;
+
+CREATE DATABASE IF NOT EXISTS `imreal` ;
+
+GRANT ALL PRIVILEGES ON `imreal`.* TO 'imreal'@'localhost';
 
 USE imreal;
 
