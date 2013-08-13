@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import nl.tudelft.rdfgears.engine.Config;
+import nl.tudelft.rdfgears.engine.Engine;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.type.GraphType;
 import nl.tudelft.rdfgears.rgl.datamodel.type.RDFType;
@@ -116,6 +117,8 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 		 * The dir with the language profiles is read from the conf file.
 		 */
 		File profileDir = new File(Config.getLanguageProfilePath());
+	
+		System.err.println("TwitterLanguageDetector: profiles read from "+profileDir);
 												 
 		if (!profilesLoaded) {
 			DetectorFactory.loadProfile(profileDir);
@@ -140,6 +143,11 @@ public class TwitterLanguageDetector extends SimplyTypedRGLFunction {
 			else
 				languageMap.put(lang, 1.0);
 		}
+		
+		for(String s : languageMap.keySet()) {
+			System.err.println("language detection: "+s+" => "+languageMap.get(s));
+		}
+		
 		return languageMap;
 	}
 

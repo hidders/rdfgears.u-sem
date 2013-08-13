@@ -1,11 +1,14 @@
 package org.persweb.sentiment;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
+
+import nl.tudelft.rdfgears.engine.Config;
 
 /**
  * A functionality that allows for processing SentinWordNet3, adapted from the
@@ -18,11 +21,18 @@ import java.util.Vector;
  * 
  */
 public class SentiWordNet {
-	private String pathToSWN = "../temp/rdfgears/lexicon/SentiWordNet_3.0.0_20120510.txt";
+	
+	private String pathToSWN;
 	private HashMap<String, Double> _dict;
 
 	public SentiWordNet() {
 
+		pathToSWN = Config.getLexiconPath();
+		if(pathToSWN.endsWith(File.separator)==false) {
+			pathToSWN += File.separator;
+		}
+		pathToSWN += "/SentiWordNet_3.0.0_20120510.txt";
+		
 		_dict = new HashMap<String, Double>();
 		HashMap<String, Vector<Double>> _temp = new HashMap<String, Vector<Double>>();
 		try {

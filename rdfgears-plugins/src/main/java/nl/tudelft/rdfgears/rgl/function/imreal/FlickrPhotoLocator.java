@@ -267,7 +267,7 @@ public class FlickrPhotoLocator  extends SimplyTypedRGLFunction  {
 			String[] tweetTokens = {};
 			Date photoDate = photo.getDate();
 			long milliseconds1 = photoDate.getTime();
-
+			
 			for (String tweetDate : tweets.keySet()) {
 				Date d = null;
 				long milliseconds2;
@@ -325,6 +325,10 @@ public class FlickrPhotoLocator  extends SimplyTypedRGLFunction  {
 			if (bestMatch != null) {
 				photo.estLatitude = bestMatch.latCenter;
 				photo.estLongitude = bestMatch.lngCenter;
+			}
+			else
+			{
+				System.err.println("FlickrPhotoLocator: best match is null for photo "+photo.id);
 			}
 
 			ModifiableRecord locRecord = ValueFactory

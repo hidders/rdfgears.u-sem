@@ -272,6 +272,11 @@ public class Config {
 
 		return configMap.getProperty("rdfgears.base.path") + configMap.getProperty("language.profile.path");
 	}
+	
+	public static String getBasePath() {
+
+		return configMap.getProperty("rdfgears.base.path");
+	}
 
 	public static String getFlickrDataPath() {
 
@@ -286,6 +291,11 @@ public class Config {
 	public static String getRegionPath() {
 
 		return configMap.getProperty("rdfgears.base.path") + configMap.getProperty("region.file.path");
+	}
+	
+	public static String getTwitter4jPath() {
+
+		return configMap.getProperty("rdfgears.base.path") + configMap.getProperty("twitter4j.file.path");
 	}
 
 	public static String getStoragePath() {

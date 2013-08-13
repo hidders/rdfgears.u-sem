@@ -120,9 +120,14 @@ public class ImageCollector
 				BufferedReader in = new BufferedReader(new InputStreamReader(
 						url.openStream()));
 		
+				int lineCounter=0;
 				String inputLine;
 				while( (inputLine = in.readLine())!=null)
 				{
+					lineCounter++;
+					if(lineCounter<10) {
+						System.err.println("Flickr response: "+inputLine);	
+					}
 					String tofind = " nsid=\"";
 					int index = inputLine.indexOf(tofind);
 					if(index>0)
@@ -191,7 +196,7 @@ public class ImageCollector
 					}
 					else if( inputLine.contains("Invalid API Key"))
 					{
-						System.err.println("Flickr API key may be invalid!");
+						System.err.println("Flickr API is invalid!");
 						System.err.println("=> "+inputLine);
 					}
 					else

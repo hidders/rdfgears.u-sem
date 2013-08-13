@@ -1,9 +1,13 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.List;
 
+import nl.tudelft.rdfgears.engine.Config;
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.rgl.function.imreal.userprofile.Dimension;
@@ -36,6 +40,9 @@ import com.hp.hpl.jena.vocabulary.RDF;
  */
 
 public class UserProfileGenerator {
+	
+	private static HashMap<String,String> languageMap = new HashMap<String,String>();
+	
 	private static Model createEmptyModel() {
 		// create an empty Model
 		Model model = ModelFactory.createDefaultModel();
@@ -190,19 +197,44 @@ public class UserProfileGenerator {
 	private static RGLValue constructTwitterLanguageDetectorProfile(
 			String userid, HashMap<String, Double> map) {
 		try {
+
 			Model model = createEmptyModel();
 			Resource user = model.createResource(IMREAL.getURI() + userid);
 			user.addProperty(RDF.type, FOAF.Person);
 
 			for (String lang : map.keySet()) {
 
+				System.err.println("Trying to match isocode language: "+lang);
+				
 				Resource knowledgeResource = model.createResource()
 						.addProperty(RDF.type, USEM.WeightedKnowledge);
 
 				user.addProperty(USEM.knowledge, knowledgeResource);
 
+				String lngResource = "";
+				if(languageMap.containsKey(lang)) {
+					lngResource = languageMap.get(lang);
+				}
+				else {
+					try {
+						lngResource = getDbpediaLanguage(lang);
+						System.err.println("dbpedia based isocode call: "+lang+" => ["+lngResource+"]");
+						
+						if(lngResource.length()>5)
+							languageMap.put(lang, lngResource);
+						else
+							lngResource="";
+						
+					}
+					catch(Exception e) {
+						;
+					}
+				}
+				if(lngResource.equals(""))
+					continue;
+				
 				knowledgeResource.addProperty(WI.topic,
-						model.createResource(getDbpediaLanguage(lang)))
+						model.createResource(lngResource))
 						.addProperty(
 								WO.weight,
 								model.createResource()
@@ -211,6 +243,8 @@ public class UserProfileGenerator {
 												map.get(lang))
 										.addProperty(WO.scale,
 												USEM.DefaultScale));
+				
+				System.err.println("knowledge source: "+knowledgeResource.toString());
 			}
 			return ValueFactory.createGraphValue(model);
 		} catch (Exception e) {
@@ -218,46 +252,55 @@ public class UserProfileGenerator {
 		}
 		return null;
 	}
+	
+    /**
+     * Executes sparql request to dbpedia in order to get the dbpedia uri for
+     * the provided language iso.
+     */
+    private static String getDbpediaLanguage(String iso) throws Exception {
+            String sparqlService = "http://dbpedia.org/sparql";
 
-	/**
-	 * Executes sparql request to dbpedia in order to get the dbpedia uri for
-	 * the provided language iso.
-	 */
-	private static String getDbpediaLanguage(String iso) throws Exception {
-		String sparqlService = "http://dbpedia.org/sparql";
+            String query = "PREFIX dbpprop: <http://dbpedia.org/property/>"
+                            + " PREFIX dbo: <http://dbpedia.org/ontology/>"
+                            + " select ?language ?isocode" 
+                            + " where {"
+                            + " ?language dbpprop:iso ?isocode."
+                            + " ?language a dbo:Language." 
+                            + " FILTER (str(?isocode)=\"" + iso + "\""
+                            + " && langMatches(lang(?isocode), \"EN\")"
+                            + " && regex(?language, \"language\", \"i\")"
+                            + " )"
+                            + " }";
 
-		String query = "PREFIX dbpprop: <http://dbpedia.org/property/> "
-				+ "PREFIX dbo: <http://dbpedia.org/ontology/> "
-				+ "select ?language ?isocode" + "where { "
-				+ "?language dbpprop:iso ?isocode. "
-				+ "?language a dbo:Language. " + "FILTER (?isocode = \"" + iso
-				+ "\"@en) " + "}";
+            System.err.println("getDBPdiaLanguage("+iso+")="+query);
+            
+            ResultSet results = executeQuery(query, sparqlService);
 
-		ResultSet results = executeQuery(query, sparqlService);
+            // returns the first entry in the result set
+            for (; results.hasNext();) {
+                    QuerySolution soln = results.nextSolution();
+                    Resource name = soln.getResource("language");
+                    return name.getURI();
+            }
 
-		// returns the first entry in the result set
-		for (; results.hasNext();) {
-			QuerySolution soln = results.nextSolution();
-			Resource name = soln.getResource("language");
-			return name.getURI();
-		}
+            return null;
+    }
 
-		return null;
-	}
+    /**
+     * Executes Jena query
+     */
+    private static ResultSet executeQuery(String queryString, String service)
+                    throws Exception {
+            Query query = QueryFactory.create(queryString);
 
-	/**
-	 * Executes Jena query
-	 */
-	private static ResultSet executeQuery(String queryString, String service)
-			throws Exception {
-		Query query = QueryFactory.create(queryString);
+            QueryEngineHTTP qexec = QueryExecutionFactory.createServiceRequest(
+                            service, query);
+            ResultSet results = qexec.execSelect();
+            return results;
 
-		QueryEngineHTTP qexec = QueryExecutionFactory.createServiceRequest(
-				service, query);
-		ResultSet results = qexec.execSelect();
-		return results;
+    }
 
-	}
+
 
 	/*
 	 * this method is called by the wrapper UserProfileFunction (which in turn

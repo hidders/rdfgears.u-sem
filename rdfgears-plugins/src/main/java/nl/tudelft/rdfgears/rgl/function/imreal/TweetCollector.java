@@ -10,6 +10,14 @@ import java.net.URL;
 import java.util.HashMap;
 import nl.tudelft.rdfgears.engine.Engine;
 import org.w3c.dom.*;
+
+import twitter4j.Paging;
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -29,12 +37,23 @@ public class TweetCollector
 	
 	private static final String TWITTER_DATA_FOLDER = Config.getTwitterPath() + "/twitterData";
 	private static DocumentBuilder docBuilder;
+	private static Twitter twitter4j;
 	
 	static
 	{
 		try
 		{
 			docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			String twitter4jConfigFile = Config.getTwitter4jPath() +"/twitter4j.properties";
+			BufferedReader br = new BufferedReader(new FileReader(twitter4jConfigFile));
+			ConfigurationBuilder cb = new ConfigurationBuilder();
+			cb.setDebugEnabled(true)
+			  .setOAuthConsumerKey(br.readLine())
+			  .setOAuthConsumerSecret(br.readLine())
+			  .setOAuthAccessToken(br.readLine())
+			  .setOAuthAccessTokenSecret(br.readLine());
+			TwitterFactory tf = new TwitterFactory(cb.build());
+			twitter4j = tf.getInstance();
 		}
 		catch(Exception e)
 		{
@@ -44,6 +63,8 @@ public class TweetCollector
 	
 	public static HashMap<String,String> getTweetTextWithDateAsKey(String twitterUsername, boolean includeRetweets, int maxHoursAllowedOld)
 	{
+		HashMap<String, String> tweetMap = new HashMap<String, String>();
+		
 		try
 		{
 			File twitterDataFolder = new File(TWITTER_DATA_FOLDER);
@@ -75,97 +96,44 @@ public class TweetCollector
 			 * if we do not have data yet (or it is too old), retrieve it and store it in a folder
 			 */
 			if(hours>maxHoursAllowedOld || hours<0)
-			{
-				String getTweetsURL = "https://api.twitter.com/1/statuses/user_timeline.xml?include_entities=false&include_rts=true&screen_name="+ twitterUsername + "&count=200";
-					
-				//TODO: only overwrite the original file if we actually manage to get hold of something from Twitter ..
+			{	
+				Engine.getLogger().debug("In TweetCollector, retrieving live tweets, storing to "+f.toString());
+				ResponseList<Status> tweetList = twitter4j.getUserTimeline(twitterUsername, new Paging(1,200));
+				
 				BufferedWriter bw = new BufferedWriter(new FileWriter(f.toString()));
-				URL url = new URL(getTweetsURL);
-				Engine.getLogger().debug("In TweetCollector, retrieving live tweets for " + url.toString());
-				Engine.getLogger().debug("hours computed: "+hours+", maxHoursAllowedOld: "+maxHoursAllowedOld);
-
-				BufferedReader in = new BufferedReader(new InputStreamReader(
-						url.openStream()));
-
-				String inputLine;
-				while ((inputLine = in.readLine()) != null) 
-				{
-					bw.write(inputLine);
+				for(Status s : tweetList) {
+					if(tweetMap.size()<5) {
+						Engine.getLogger().debug("status string: "+s.toString());
+					}
+					tweetMap.put(s.getCreatedAt().toString(), s.getText());
+					bw.write(s.getCreatedAt()+"\t"+s.getText());
 					bw.newLine();
 				}
-				in.close();
 				bw.close();
 			}
-			
-			return getTweetTextWithDateAsKeyFromFile(f,includeRetweets);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		return new HashMap<String, String>();
-	}
-	
-	
-	private static String getTagValue(String tag, Element el) 
-	{
-	    NodeList list = el.getElementsByTagName(tag).item(0).getChildNodes();
-
-	    Node val = (Node) list.item(0);
-        return val.getNodeValue();
-	}
-
-	
-	/*
-	 * method returns up to the last 200 tweets, ignoring RTs
-	 * key: created_at
-	 * value: tweet text
-	 */
-	private static HashMap<String,String> getTweetTextWithDateAsKeyFromFile(File f, boolean includeRetweets)
-	{
-		HashMap<String, String> tweetMap = new HashMap<String, String>();
-		
-		try
-		{
-			Document d = docBuilder.parse(new FileInputStream(f));
-			NodeList statuses = d.getElementsByTagName("status");
-			
-			for(int i=0; i<statuses.getLength(); i++)
+			else
 			{
-				Node status = statuses.item(i);
-	            if (status.getNodeType() == Node.ELEMENT_NODE) 
-	            {
-	                Element el = (Element) status;
-	
-	                String creationDate = getTagValue("created_at",el);
-	                String text = getTagValue("text",el);
-	                
-	                //is it a retweet?
-	                NodeList retweetList = el.getElementsByTagName("retweeted_status");
-	                if(retweetList.getLength()>0)
-	                {
-	                	if(includeRetweets==false)
-	                		text="";
-	                	else
-	                	{
-	                		Node retweet = retweetList.item(0);
-	                		text = getTagValue("text",(Element)retweet);
-	                	}
-	                }
-
-	                if(text.equals("")==false)
-	                	tweetMap.put(creationDate,text);
-	            }
+				System.err.println("In TweetCollector, reading tweets saved in "+f.toString());
+				BufferedReader br = new BufferedReader(new FileReader(f.toString()));
+				String line;
+				while((line=br.readLine())!=null)
+				{
+					int delim = line.indexOf('\t');
+					if(delim>0) {
+						tweetMap.put(line.substring(0,  delim), line.substring(delim+1));
+					}
+					else
+					{
+						System.err.println("In TweetCollector, no tab delimiter found in line: "+line);
+					}
+				}
 			}
-			System.err.println("Number of status tweets: "+statuses.getLength());
-			System.err.println("Number of tweets serviced: "+tweetMap.size()+" (includeRetweets="+includeRetweets+")");
+			return tweetMap;
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		
 		return tweetMap;
-	}	
-
+	}
 }
