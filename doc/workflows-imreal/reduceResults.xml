@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>reduceResults</id>
+      <description/>
+      <password>semweb</password>
+   </metadata>
+   <workflow>
+      <workflowInputList x="11" y="61">
+         <workflowInputPort name="graph"/>
+      </workflowInputList>
+      <network output="node_13" x="267" y="188">
+         <processor id="node_13" x="183" y="44">
+            <function type="sparql">
+               <config param="bindVariables">graph;</config>
+               <config param="query">PREFIX j.11: &lt;http://dbpedia.org/ontology/&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+PREFIX j.6: &lt;http://data.linkedmdb.org/resource/movie/&gt;
+PREFIX j.1: &lt;http://dbpedia.org/ontology/&gt;
+PREFIX dc: &lt;http://purl.org/dc/terms/&gt;
+PREFIX owl: &lt;http://www.w3.org/2002/07/owl#&gt;
+CONSTRUCT {
+  ?s ?p ?o.
+} WHERE {
+  GRAPH ?graph {
+     ?s ?p ?o.
+     FILTER(
+       ((?p = j.1:abstract) &amp;&amp; ( lang(?o)="en" || lang(?o)="ru" ) ) ||
+       ((?p = rdfs:label) &amp;&amp; ( lang(?o)="en" || lang(?o)="ru" ) ) ||
+        ?p = j.11:director || 
+        ?p = j.6:director || 
+        ?p = owl:sameAs  || 
+        ?p = j.6:runtime ||
+        ?p = dc:title
+     ).
+  }
+}</config>
+            </function>
+            <inputPort iterate="false" name="graph">
+               <source workflowInputPort="graph"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>silkGroup/findBestMatch</id>
+      <name>Runnable silk directors-example, reducing the number of results per movie to 1</name>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="69" y="68">
+         <workflowInputPort name="mov_group"/>
+         <workflowInputPort name="dir_group_bag"/>
+      </workflowInputList>
+      <network output="node_6" x="644" y="285">
+         <processor id="node_6" x="460" y="204">
+            <function type="select-top-scorer">
+               <config param="scoringFunction">workflow:util/project_score</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source processor="node_164"/>
+            </inputPort>
+         </processor>
+         <processor id="node_164" x="461" y="58">
+            <function type="custom-java">
+               <config param="implementation">workflow:silkGroup/attachSimilarity</config>
+            </function>
+            <inputPort iterate="true" name="mov">
+               <source processor="node_85"/>
+            </inputPort>
+            <inputPort iterate="true" name="dir">
+               <source processor="node_121"/>
+            </inputPort>
+         </processor>
+         <processor id="node_85" x="205" y="22">
+            <function type="record-project">
+               <config param="projectField">group</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="mov_group"/>
+            </inputPort>
+         </processor>
+         <processor id="node_121" x="331" y="128">
+            <function type="bag-flatten"/>
+            <inputPort iterate="false" name="bag">
+               <source processor="node_84"/>
+            </inputPort>
+         </processor>
+         <processor id="node_84" x="198" y="138">
+            <function type="record-project">
+               <config param="projectField">group</config>
+            </function>
+            <inputPort iterate="true" name="record">
+               <source workflowInputPort="dir_group_bag"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>silkExample/attachSimilarity</id>
+      <description>Runnable silk directors-example, reducing the number of results per movie to 1</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="30" y="73">
+         <workflowInputPort name="dbpedia"/>
+         <workflowInputPort name="lmdb"/>
+      </workflowInputList>
+      <network output="similarityResult" x="379" y="239">
+         <processor id="similarityResult" x="338" y="46">
+            <function type="record-create">
+               <config param="fields">dbpedia;lmdb;score;</config>
+            </function>
+            <inputPort iterate="false" name="dbpedia">
+               <source workflowInputPort="dbpedia"/>
+            </inputPort>
+            <inputPort iterate="false" name="lmdb">
+               <source workflowInputPort="lmdb"/>
+            </inputPort>
+            <inputPort iterate="false" name="score">
+               <source processor="calcSimilarity"/>
+            </inputPort>
+         </processor>
+         <processor id="calcSimilarity" x="189" y="171">
+            <function type="custom-java">
+               <config param="implementation">workflow:silkExample/calcSimilarityMovDir</config>
+            </function>
+            <inputPort iterate="false" name="dbpedia">
+               <source workflowInputPort="dbpedia"/>
+            </inputPort>
+            <inputPort iterate="false" name="lmdb">
+               <source workflowInputPort="lmdb"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

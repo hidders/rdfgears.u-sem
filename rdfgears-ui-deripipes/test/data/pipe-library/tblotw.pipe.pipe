@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pipe>
+<parameters/>
+<code>
+<simplemix>
+<source>
+<rdffetch format="RDF/XML">
+<location><![CDATA[http://www.w3.org/People/Berners-Lee/card]]]]><![CDATA[></location>
+</rdffetch>
+</source>
+<source>
+<construct>
+<source>
+<rdffetch format="RDF/XML">
+<location><![CDATA[http://dbpedia.org/resource/Tim_Berners-Lee]]]]><![CDATA[></location>
+</rdffetch>
+</source>
+<query><![CDATA[CONSTRUCT {<http://www.w3.org/People/Berners-Lee/card#i> ?p ?o.   ?s2 ?p2 <http://www.w3.org/People/Berners-Lee/card#i>} where   {{<http://dbpedia.org/resource/Tim_Berners-Lee> ?p ?o}   UNION        {?s2 ?p2 <http://dbpedia.org/resource/Tim_Berners-Lee>}}]]]]><![CDATA[></query>
+</construct>
+</source>
+<source>
+<construct>
+<source>
+<rdffetch format="RDF/XML">
+<location><![CDATA[http://dblp.l3s.de/d2r/resource/authors/Tim_Berners-Lee]]]]><![CDATA[></location>
+</rdffetch>
+</source>
+<query><![CDATA[CONSTRUCT {<http://www.w3.org/People/Berners-Lee/card#i> ?p ?o.     ?s2 ?p2 <http://www.w3.org/People/Berners-Lee/card#i>} where {{<http://dblp.l3s.de/d2r/resource/authors/Tim_Berners-Lee> ?p ?o}   UNION  {?s2 ?p2 <http://dblp.l3s.de/d2r/resource/authors/Tim_Berners-Lee>}}]]]]><![CDATA[></query>
+</construct>
+</source>
+</simplemix>
+</code>
+</pipe>

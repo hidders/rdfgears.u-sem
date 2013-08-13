@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rgl xmlns:rgl="http://wis.ewi.tudelft.nl/rgl/datamodel#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <record>
+    <field name="accept">
+      <bag>
+        <null message="first bag element is null" />
+        <record>
+          <field name="lmdb">
+            <record>
+              <field name="dir_name">
+                <literal>Alex Jones</literal>
+              </field>
+              <field name="dir">
+                <literal lang="en">This was a URI, but we should also be able to find literals here (with language tag!)</literal>
+              </field>
+              <field name="label">
+                <literal>Alex Jones (Director)</literal>
+              </field>
+            </record>
+          </field>
+          <field name="score">
+            <literal datatype="http://www.w3.org/2001/XMLSchema#double">1.0</literal>
+          </field>
+          <field name="dbpedia">
+            <record>
+              <field name="mov">
+                <uri>http://dbpedia.org/resource/Endgame_%282007_film%29</uri>
+              </field>
+              <field name="label">
+                <literal>Alex Jones</literal>
+              </field>
+            </record>
+          </field>
+        </record>
+      </bag>
+    </field>
+    <field name="verify">
+      <bag>
+        <record>
+          <field name="lmdb">
+            <record>
+              <field name="dir_name">
+                <literal>John N. Smith</literal>
+              </field>
+              <field name="dir">
+                <uri>http://data.linkedmdb.org/resource/director/1084</uri>
+              </field>
+              <field name="label">
+                <literal>John N. Smith (Director)</literal>
+              </field>
+            </record>
+          </field>
+          <field name="score">
+            <literal datatype="http://www.w3.org/2001/XMLSchema#double">0.7373898834896276</literal>
+          </field>
+          <field name="dbpedia">
+            <record>
+              <field name="mov">
+                <uri>http://dbpedia.org/resource/Zorro%27s_Fighting_Legion</uri>
+              </field>
+              <field name="label">
+                <literal>John English (director)</literal>
+              </field>
+            </record>
+          </field>
+        </record>
+        <record>
+          <field name="lmdb">
+            <record>
+              <field name="dir_name">
+                <literal>Ãyvind Sandberg</literal>
+              </field>
+              <field name="dir">
+                <uri>http://data.linkedmdb.org/resource/director/578</uri>
+              </field>
+              <field name="label">
+                <literal>Ãyvind Sandberg (Director)</literal>
+              </field>
+            </record>
+          </field>
+          <field name="score">
+            <literal datatype="http://www.w3.org/2001/XMLSchema#double">0.7238325281803543</literal>
+          </field>
+          <field name="dbpedia">
+            <record>
+              <field name="mov">
+                <uri>http://dbpedia.org/resource/You%27re_a_Sweetheart</uri>
+              </field>
+              <field name="label">
+                <literal>David Butler (director)</literal>
+              </field>
+            </record>
+          </field>
+        </record>
+        <record>
+          <field name="lmdb">
+            <record>
+              <field name="dir_name">
+                <literal>John N. Smith</literal>
+              </field>
+              <field name="dir">
+                <uri>http://data.linkedmdb.org/resource/director/1084</uri>
+              </field>
+              <field name="label">
+                <literal>John N. Smith (Director)</literal>
+              </field>
+            </record>
+          </field>
+          <field name="score">
+            <literal datatype="http://www.w3.org/2001/XMLSchema#double">0.8128205128205129</literal>
+          </field>
+          <field name="dbpedia">
+            <record>
+              <field name="mov">
+                <uri>http://dbpedia.org/resource/Yaps_and_Yokels</uri>
+              </field>
+              <field name="label">
+                <literal>Noel M. Smith</literal>
+              </field>
+            </record>
+          </field>
+        </record>
+        <record>
+          <field name="lmdb">
+            <record>
+              <field name="dir_name">
+                <literal>Kevin S. O'Brien</literal>
+              </field>
+              <field name="dir">
+                <uri>http://data.linkedmdb.org/resource/director/1886</uri>
+              </field>
+              <field name="label">
+                <literal>Kevin S. O'Brien (Director)</literal>
+              </field>
+            </record>
+          </field>
+          <field name="score">
+            <literal datatype="http://www.w3.org/2001/XMLSchema#double">0.7797619047619048</literal>
+          </field>
+          <field name="dbpedia">
+            <record>
+              <field name="mov">
+                <uri>http://dbpedia.org/resource/Wrong_Turn_3:_Left_for_Dead</uri>
+              </field>
+              <field name="label">
+                <literal>Declan O'Brien</literal>
+              </field>
+            </record>
+          </field>
+        </record>
+        <record>
+          <field name="lmdb">
+            <record>
+              <field name="dir_name">
+                <literal>John N. Smith</literal>
+              </field>
+              <field name="dir">
+                <uri>http://data.linkedmdb.org/resource/director/1084</uri>
+              </field>
+              <field name="label">
+                <literal>John N. Smith (Director)</literal>
+              </field>
+            </record>
+          </field>
+          <field name="score">
+            <literal datatype="http://www.w3.org/2001/XMLSchema#double">0.7051282051282052</literal>
+          </field>
+          <field name="dbpedia">
+            <record>
+              <field name="mov">
+                <uri>http://dbpedia.org/resource/Woman_Chases_Man</uri>
+              </field>
+              <field name="label">
+                <literal>John G. Blystone</literal>
+              </field>
+            </record>
+          </field>
+        </record>
+        <record>
+          <field name="lmdb">
+            <record>
+              <field name="dir_name">
+                <literal>Nick McKinney</literal>
+              </field>
+              <field name="dir">
+                <uri>http://data.linkedmdb.org/resource/director/1532</uri>
+              </field>
+              <field name="label">
+                <null message="deleted by eric" /> 
+              </field>
+            </record>
+          </field>
+          <!-- null value was originally <literal>Nick McKinney (Director)</literal> --> 
+          <field name="score">
+            <literal datatype="http://www.w3.org/2001/XMLSchema#double">0.727124183006536</literal>
+          </field>
+          <field name="dbpedia">
+            <record>
+              <field name="mov">
+                <uri>http://dbpedia.org/resource/100_Girls</uri>
+              </field>
+              <field name="label">
+                <literal>Michael Davis (director)</literal>
+              </field>
+            </record>
+          </field>
+        </record>
+      </bag>
+    </field>
+  </record>
+</rgl>

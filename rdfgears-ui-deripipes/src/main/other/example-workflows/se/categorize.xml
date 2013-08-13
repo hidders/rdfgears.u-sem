@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>se/categorize</id>
+      <description/>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="61" y="195">
+         <workflowInputPort name="score_pair"/>
+      </workflowInputList>
+      <network output="node_278" x="639" y="465">
+         <processor id="node_278" x="568" y="108">
+            <function type="if"/>
+            <inputPort iterate="false" name="if_true">
+               <source processor="node_276"/>
+            </inputPort>
+            <inputPort iterate="false" name="then">
+               <source processor="node_279"/>
+            </inputPort>
+            <inputPort iterate="false" name="else">
+               <source processor="node_283"/>
+            </inputPort>
+         </processor>
+         <processor id="node_276" x="404" y="38">
+            <function type="comparator">
+               <config param="operator">OP_LESS</config>
+            </function>
+            <inputPort iterate="false" name="a">
+               <source processor="node_275"/>
+            </inputPort>
+            <inputPort iterate="false" name="b">
+               <source processor="node_277"/>
+            </inputPort>
+         </processor>
+         <processor id="node_275" x="198" y="186">
+            <function type="record-project">
+               <config param="projectField">score</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="score_pair"/>
+            </inputPort>
+         </processor>
+         <processor id="node_277" x="222" y="60">
+            <function type="constant">
+               <config param="value">"0.7"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt;</config>
+            </function>
+         </processor>
+         <processor id="node_279" x="388" y="153">
+            <function type="constant">
+               <config param="value">"reject"</config>
+            </function>
+         </processor>
+         <processor id="node_283" x="570" y="304">
+            <function type="if"/>
+            <inputPort iterate="false" name="if_true">
+               <source processor="node_284"/>
+            </inputPort>
+            <inputPort iterate="false" name="then">
+               <source processor="node_281"/>
+            </inputPort>
+            <inputPort iterate="false" name="else">
+               <source processor="node_282"/>
+            </inputPort>
+         </processor>
+         <processor id="node_284" x="406" y="261">
+            <function type="comparator">
+               <config param="operator">OP_LESS_EQUAL</config>
+            </function>
+            <inputPort iterate="false" name="a">
+               <source processor="node_275"/>
+            </inputPort>
+            <inputPort iterate="false" name="b">
+               <source processor="node_285"/>
+            </inputPort>
+         </processor>
+         <processor id="node_285" x="208" y="345">
+            <function type="constant">
+               <config param="value">"0.9"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt;</config>
+            </function>
+         </processor>
+         <processor id="node_281" x="389" y="377">
+            <function type="constant">
+               <config param="value">"verify"</config>
+            </function>
+         </processor>
+         <processor id="node_282" x="389" y="458">
+            <function type="constant">
+               <config param="value">"accept"</config>
+            </function>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

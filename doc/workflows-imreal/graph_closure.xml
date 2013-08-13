@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>graph_closure</id>
+      <description>calculate owl:sameAs closure</description>
+      <password>semweb</password>
+   </metadata>
+   <workflow>
+      <workflowInputList x="13" y="30">
+         <workflowInputPort name="defaultURI"/>
+         <workflowInputPort name="graph"/>
+      </workflowInputList>
+      <network output="node_16" x="282" y="188">
+         <processor id="node_16" x="178" y="23">
+            <function type="sparql">
+               <config param="bindVariables">thing;graph;</config>
+               <config param="query">PREFIX owl: &lt;http://www.w3.org/2002/07/owl#&gt;
+CONSTRUCT {
+    ?thing ?p ?o.
+    ?s ?p ?thing.
+    ?sub ?pred ?obj.
+} WHERE {
+       GRAPH ?graph {
+            { ?thing ?p ?o. }
+            UNION { 
+               ?thing owl:sameAs+ ?same.
+               ?same ?p ?o. }
+            UNION { 
+               ?thing owl:sameAs+ ?same.
+               ?s ?p ?same. }
+            UNION { 
+               # copy all triples, except for those with ?same
+               ?sub ?pred ?obj.
+               FILTER( 
+                    NOT EXISTS { ?thing owl:sameAs+ ?sub. } &amp;&amp; 
+                    NOT EXISTS { ?thing owl:sameAs+ ?obj. }
+               ).
+            }
+      }
+}</config>
+            </function>
+            <inputPort iterate="false" name="thing">
+               <source workflowInputPort="defaultURI"/>
+            </inputPort>
+            <inputPort iterate="false" name="graph">
+               <source workflowInputPort="graph"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

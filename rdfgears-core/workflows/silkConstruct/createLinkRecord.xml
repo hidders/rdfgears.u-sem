@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>silkConstruct/createLinkRecord</id>
+      <description>Determine a similarity value and whether it exceed threshold, by giving the two inputs</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="31" y="190">
+         <workflowInputPort name="mov_dir"/>
+      </workflowInputList>
+      <network output="node_492" x="551" y="293">
+         <processor id="node_492" x="500" y="156">
+            <function type="record-create">
+               <config param="fields">similarity;link;</config>
+            </function>
+            <inputPort iterate="false" name="similarity">
+               <source processor="node_487"/>
+            </inputPort>
+            <inputPort iterate="false" name="link">
+               <source workflowInputPort="mov_dir"/>
+            </inputPort>
+         </processor>
+         <processor id="node_487" x="345" y="54">
+            <function type="custom-java">
+               <config param="implementation">workflow:silkConstruct/calcSimilarityMovDir</config>
+            </function>
+            <inputPort iterate="false" name="lmdb">
+               <source processor="projectDirName"/>
+            </inputPort>
+            <inputPort iterate="false" name="dbpedia">
+               <source processor="projectLabelDbpedia"/>
+            </inputPort>
+         </processor>
+         <processor id="projectDirName" x="202" y="29">
+            <function type="record-project">
+               <config param="projectField">lmdb</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="mov_dir"/>
+            </inputPort>
+         </processor>
+         <processor id="projectLabelDbpedia" x="201" y="134">
+            <function type="record-project">
+               <config param="projectField">dbpedia</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="mov_dir"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

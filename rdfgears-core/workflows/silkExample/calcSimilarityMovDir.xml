@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>silkExample/calcSimilarityMovDir</id>
+      <description>Determine a similarity value and whether it exceed threshold</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="143" y="163">
+         <workflowInputPort name="dbpedia"/>
+         <workflowInputPort name="lmdb"/>
+      </workflowInputList>
+      <network output="maxVal2" x="712" y="218">
+         <processor id="maxVal2" x="635" y="96">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.standard.MaxVal2</config>
+            </function>
+            <inputPort iterate="false" name="value1">
+               <source processor="jaro1"/>
+            </inputPort>
+            <inputPort iterate="false" name="value2">
+               <source processor="jaro2"/>
+            </inputPort>
+         </processor>
+         <processor id="jaro1" x="473" y="49">
+            <function type="custom-java">
+               <config param="implementation">nl.feliksik.rdfgears.JaroSimilarityFunction</config>
+            </function>
+            <inputPort iterate="false" name="s1">
+               <source processor="projectDirName"/>
+            </inputPort>
+            <inputPort iterate="false" name="s2">
+               <source processor="projectLabelDbpedia"/>
+            </inputPort>
+         </processor>
+         <processor id="projectLabelDbpedia" x="327" y="151">
+            <function type="record-project">
+               <config param="projectField">label</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="dbpedia"/>
+            </inputPort>
+         </processor>
+         <processor id="projectDirName" x="331" y="17">
+            <function type="record-project">
+               <config param="projectField">dir_name</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="lmdb"/>
+            </inputPort>
+         </processor>
+         <processor id="jaro2" x="471" y="191">
+            <function type="custom-java">
+               <config param="implementation">nl.feliksik.rdfgears.JaroSimilarityFunction</config>
+            </function>
+            <inputPort iterate="false" name="s1">
+               <source processor="projectLabelDbpedia"/>
+            </inputPort>
+            <inputPort iterate="false" name="s2">
+               <source processor="projectLabelLMDB"/>
+            </inputPort>
+         </processor>
+         <processor id="projectLabelLMDB" x="328" y="269">
+            <function type="record-project">
+               <config param="projectField">label</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="lmdb"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

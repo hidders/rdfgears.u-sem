@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>linkData</id>
+      <description>Download, follow and unify Linked Data</description>
+      <password>semweb</password>
+   </metadata>
+   <workflow>
+      <workflowInputList x="10" y="58">
+         <workflowInputPort name="uri"/>
+      </workflowInputList>
+      <network output="node_493" x="355" y="148">
+         <processor id="node_493" x="307" y="12">
+            <function type="custom-java">
+               <config param="implementation">workflow:graph_closure</config>
+            </function>
+            <inputPort iterate="false" name="defaultURI">
+               <source workflowInputPort="uri"/>
+            </inputPort>
+            <inputPort iterate="false" name="graph">
+               <source processor="node_492"/>
+            </inputPort>
+         </processor>
+         <processor id="node_492" x="156" y="107">
+            <function type="custom-java">
+               <config param="implementation">workflow:fetchSameAs</config>
+            </function>
+            <inputPort iterate="false" name="uri">
+               <source workflowInputPort="uri"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

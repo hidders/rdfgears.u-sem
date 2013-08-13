@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>se/createLink</id>
+      <description>create a new dbpedia:director property</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="23" y="95">
+         <workflowInputPort name="silkResults"/>
+         <workflowInputPort name="linkProperty"/>
+      </workflowInputList>
+      <network output="node_707" x="538" y="222">
+         <processor id="node_707" x="455" y="79">
+            <function type="record-create">
+               <config param="fields">s;p;o;</config>
+            </function>
+            <inputPort iterate="false" name="s">
+               <source processor="node_705"/>
+            </inputPort>
+            <inputPort iterate="false" name="p">
+               <source workflowInputPort="linkProperty"/>
+            </inputPort>
+            <inputPort iterate="false" name="o">
+               <source processor="node_704"/>
+            </inputPort>
+         </processor>
+         <processor id="node_705" x="314" y="27">
+            <function type="record-project">
+               <config param="projectField">mov</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source processor="node_703"/>
+            </inputPort>
+         </processor>
+         <processor id="node_703" x="181" y="33">
+            <function type="record-project">
+               <config param="projectField">dbpedia</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="silkResults"/>
+            </inputPort>
+         </processor>
+         <processor id="node_704" x="313" y="173">
+            <function type="record-project">
+               <config param="projectField">dir</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source processor="node_702"/>
+            </inputPort>
+         </processor>
+         <processor id="node_702" x="177" y="178">
+            <function type="record-project">
+               <config param="projectField">lmdb</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="silkResults"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

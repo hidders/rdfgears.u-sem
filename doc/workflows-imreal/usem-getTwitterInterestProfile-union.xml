@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>usem-getTwitterInterestProfile-union</id>
+      <description/>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="16" y="166">
+         <workflowInputPort name="username"/>
+      </workflowInputList>
+      <network output="node_24" x="450" y="450">
+         <processor id="node_24" x="754" y="327">
+            <function type="bag-union"/>
+            <inputPort iterate="false" name="bag1">
+               <source processor="node_20"/>
+            </inputPort>
+            <inputPort iterate="false" name="bag2">
+               <source processor="node_22"/>
+            </inputPort>
+         </processor>
+         <processor id="node_20" x="393" y="34">
+            <function type="custom-java">
+               <config param="implementation">workflow:usem-getTwitterInterestProfile</config>
+            </function>
+            <inputPort iterate="false" name="username">
+               <source workflowInputPort="username"/>
+            </inputPort>
+            <inputPort iterate="false" name="profileType">
+               <source processor="node_21"/>
+            </inputPort>
+         </processor>
+         <processor id="node_21" x="235" y="178">
+            <function type="constant">
+               <config param="value">"entity"</config>
+            </function>
+         </processor>
+         <processor id="node_22" x="392" y="231">
+            <function type="custom-java">
+               <config param="implementation">workflow:usem-getTwitterInterestProfile</config>
+            </function>
+            <inputPort iterate="false" name="username">
+               <source workflowInputPort="username"/>
+            </inputPort>
+            <inputPort iterate="false" name="profileType">
+               <source processor="node_23"/>
+            </inputPort>
+         </processor>
+         <processor id="node_23" x="243" y="340">
+            <function type="constant">
+               <config param="value">"topic"</config>
+            </function>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

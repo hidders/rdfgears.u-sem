@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>silkExample/findBestMatch</id>
+      <description>Runnable silk directors-example, reducing the number of results per movie to 1</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="51" y="65">
+         <workflowInputPort name="mov_group"/>
+         <workflowInputPort name="dir_group_bag"/>
+      </workflowInputList>
+      <network output="selectBest" x="581" y="137">
+         <processor id="selectBest" x="512" y="33">
+            <function type="select-top-scorer">
+               <config param="scoringFunction">workflow:util/project_score</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source processor="calcSimilarity"/>
+            </inputPort>
+         </processor>
+         <processor id="calcSimilarity" x="348" y="40">
+            <function type="custom-java">
+               <config param="implementation">workflow:silkExample/attachSimilarity</config>
+            </function>
+            <inputPort iterate="true" name="dbpedia">
+               <source processor="project"/>
+            </inputPort>
+            <inputPort iterate="true" name="lmdb">
+               <source workflowInputPort="dir_group_bag"/>
+            </inputPort>
+         </processor>
+         <processor id="project" x="205" y="22">
+            <function type="record-project">
+               <config param="projectField">group</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source workflowInputPort="mov_group"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

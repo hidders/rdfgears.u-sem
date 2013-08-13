@@ -1,0 +1,66 @@
+Development Environment
+--------------------------
+  - Maven 3.0.3
+  - Eclipse 3.7 with Google Plugin and maven plugin installed (GWT 2.4)
+    https://developers.google.com/eclipse/docs/install-eclipse-3.7
+   
+Running and debugging
+-------------------------
+
+Running/debugging on development mode (Hosted mode) using maven
+command:
+  cd rdfgears-ui
+  mvn gwt:run
+
+This command will run the application with embedded web server and compile the code in realtime
+(refresh the browser to update the changes)
+
+reference: http://mojo.codehaus.org/gwt-maven-plugin/user-guide/hosted.html
+
+Compiling and deploying
+-----------------------
+command:
+  cd rdfgears-ui
+  mvn clean package
+
+This command will build RDFGears UI and the result will be:
+  rdfgears-ui/target/rdfgears-ui-1.0-SNAPSHOT.war
+  
+The war file can be deployed on a web server.
+
+Configuration file (rdf-gears-ui-config.xml)
+--------------------------------------------
+In order to run/debug the application, the configuration parameter have to be configured correctly.
+the configuration file can be found in
+- rdfgears-ui\src\main\webapp\WEB-INF (source folder)
+or
+- WEB-INF (compiled project)
+
+configurations,
+- BasePath
+  The full path to a folder where the workflow files and node's file definition stored
+  The folder must have a directory "data" with the following structure
+  $BasePath\data\workflows (to store the workflow files)
+  $basePath\data\operators (to store the operator definition files)
+  $basePath\data\functions (to store the user function definition files)
+
+- RDFGearsRestUrl
+  URL to RDFGears-rest application to run the workflow file
+  rdfgears-rest must be configured to have the same workflow path with rdfgears-ui ($BasePath\data\workflows)
+  reference to configure rdfgears-rest : http://code.google.com/p/rdfgears/wiki/Install_RESTful_Interface
+
+In case you have the development environment on the same machine where you want to run RDFGears, you can do the following:
+
+In <TOMCAT_ROOT> create a soft link to the maven projet (containing the workflow directory):
+
+Windows (run the CMD as Administrator):
+MKLINK /D rdfgears-plugins path\to\rdfgears-plugins  
+
+Linux:
+ln -s path/to/rdfgears-plugins rdfgears-plugins
+
+Create context files in <TOMCAT_ROOT>/conf/Catalina/localhost to rename the war that point directly to the maven output directory war, so you do not need to copy anything
+
+Example:
+Filename: rdfgears-rest.xml (This is the name you want the context to have)
+<Context path="/somepath" docBase="C:/Software/code/RDFGears/rdfgears.u-sem/rdfgears-rest/target/rdfgears-rest-0.1-SNAPSHOT"/>
