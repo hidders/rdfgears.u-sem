@@ -35,6 +35,7 @@ public class CulturalAwarenessLng extends TwitterLanguageDetector
 		if(rdfValue2!=null)
 			uuid = rdfValue2.asLiteral().getValueString();
 		
+
 		HashMap<String, Double> languageMap;
 		try 
 		{
