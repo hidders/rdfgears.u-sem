@@ -15,6 +15,9 @@
 		<data iterate="false" name="uuid" label="UUID">
 			<type><var name="uuid"/></type>
 		</data>
+                <data iterate="false" name="friendsOfUser" label="FriendsOfUser">
+                        <type><var name="friendsOfUser"/></type>
+                </data>
 	</inputs> 
 	<output/>
 </processor>
