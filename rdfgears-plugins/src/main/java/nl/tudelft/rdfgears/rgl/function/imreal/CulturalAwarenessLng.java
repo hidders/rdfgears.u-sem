@@ -1,6 +1,7 @@
 package nl.tudelft.rdfgears.rgl.function.imreal;
 
 import java.util.HashMap;
+
 import nl.tudelft.rdfgears.engine.ValueFactory;
 import nl.tudelft.rdfgears.rgl.datamodel.value.RGLValue;
 import nl.tudelft.rdfgears.util.row.ValueRow;
@@ -33,7 +34,7 @@ public class CulturalAwarenessLng extends TwitterLanguageDetector
 		RGLValue rdfValue2 = inputRow.get(INPUT_UUID);
 		if(rdfValue2!=null)
 			uuid = rdfValue2.asLiteral().getValueString();
-
+		
 		HashMap<String, Double> languageMap;
 		try 
 		{
