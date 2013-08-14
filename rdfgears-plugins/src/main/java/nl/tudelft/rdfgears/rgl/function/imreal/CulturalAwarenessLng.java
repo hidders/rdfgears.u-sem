@@ -37,7 +37,7 @@ public class CulturalAwarenessLng extends TwitterLanguageDetector
 		HashMap<String, Double> languageMap;
 		try 
 		{
-			languageMap = detectLanguage(username);
+			languageMap = detectLanguage(username,"");
 		} catch (Exception e) 
 		{
 			return ValueFactory.createNull("Error in "

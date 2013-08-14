@@ -198,6 +198,7 @@ public class UserProfileGenerator {
 			String userid, HashMap<String, Double> map) {
 		try {
 
+			System.err.println("constructTwitterLanguageDetectorProfile, size of map: "+map.size());
 			Model model = createEmptyModel();
 			Resource user = model.createResource(IMREAL.getURI() + userid);
 			user.addProperty(RDF.type, FOAF.Person);
@@ -268,22 +269,30 @@ public class UserProfileGenerator {
                             + " ?language a dbo:Language." 
                             + " FILTER (str(?isocode)=\"" + iso + "\""
                             + " && langMatches(lang(?isocode), \"EN\")"
-                            + " && regex(?language, \"language\", \"i\")"
+ //                           + " && regex(?language, \"language\", \"i\")"
                             + " )"
                             + " }";
 
             System.err.println("getDBPdiaLanguage("+iso+")="+query);
             
             ResultSet results = executeQuery(query, sparqlService);
-
-            // returns the first entry in the result set
-            for (; results.hasNext();) {
-                    QuerySolution soln = results.nextSolution();
-                    Resource name = soln.getResource("language");
-                    return name.getURI();
+            
+            /*
+             * Check DBPedia for the language belonging to the isocode.
+             * If there is only one result returned, use that.
+             * If there are several languages returned, pick the first with "language" appended to it (if none, pick the first of the list).
+             */
+            String name = "";
+            while(results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
+                Resource rec = soln.getResource("language");
+                if(name.equals(""))
+                	name = rec.getURI();
+                else if(rec.getURI().endsWith("language") && name.endsWith("language")==false)
+                	name = rec.getURI();
             }
 
-            return null;
+            return name;
     }
 
     /**
