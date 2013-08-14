@@ -35,7 +35,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class TweetCollector 
 {
 	
-	private static final String TWITTER_DATA_FOLDER = Config.getTwitterPath() + "/twitterData";
+	private static final String TWITTER_DATA_FOLDER = Config.getTwitterPath();
 	private static DocumentBuilder docBuilder;
 	private static Twitter twitter4j;
 	
@@ -44,14 +44,12 @@ public class TweetCollector
 		try
 		{
 			docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			String twitter4jConfigFile = Config.getTwitter4jPath() +"/twitter4j.properties";
-			BufferedReader br = new BufferedReader(new FileReader(twitter4jConfigFile));
 			ConfigurationBuilder cb = new ConfigurationBuilder();
 			cb.setDebugEnabled(true)
-			  .setOAuthConsumerKey(br.readLine())
-			  .setOAuthConsumerSecret(br.readLine())
-			  .setOAuthAccessToken(br.readLine())
-			  .setOAuthAccessTokenSecret(br.readLine());
+			  .setOAuthConsumerKey(Config.getOAuthConsumerKey())
+			  .setOAuthConsumerSecret(Config.getOAuthConsumerSecret())
+			  .setOAuthAccessToken(Config.getOAuthAccessToken())
+			  .setOAuthAccessTokenSecret(Config.getOAuthAccessTokenSecret());
 			TwitterFactory tf = new TwitterFactory(cb.build());
 			twitter4j = tf.getInstance();
 		}
