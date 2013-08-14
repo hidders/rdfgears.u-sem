@@ -315,4 +315,26 @@ public class Config {
 		return configMap.getProperty("rdfgears.base.path") + 
 				configMap.getProperty("work.files.path", DEFAULT_WORKFILES_PATH);
 	}
+
+	public static String getOAuthConsumerKey() {
+		
+		return configMap.getProperty("twitter.OAuth.consumer.key");
+	}
+
+	public static String getOAuthConsumerSecret() {
+	
+		return configMap.getProperty("twitter.OAuth.consumer.secret");
+	}
+
+	public static String getOAuthAccessToken() {
+
+		return configMap.getProperty("twitter.OAuth.access.token");
+	}
+
+	public static String getOAuthAccessTokenSecret() {
+		
+		return configMap.getProperty("twitter.OAuth.access.secret");
+	}
+	
+	
 }
