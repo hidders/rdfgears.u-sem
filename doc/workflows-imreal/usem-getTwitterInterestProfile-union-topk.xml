@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>usem-getTwitterInterestProfile-union-topk</id>
+      <description/>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="10" y="100">
+         <workflowInputPort name="username"/>
+      </workflowInputList>
+      <network output="node_33" x="667" y="163">
+         <processor id="node_33" x="458" y="87">
+            <function type="sparql">
+               <config param="bindVariables">graph;</config>
+               <config param="query">PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+PREFIX wi: &lt;http://purl.org/ontology/wi/core#&gt;
+PREFIX wo: &lt;http://purl.org/ontology/wo/core#&gt; 
+
+SELECT ?name ?interest ?score  
+WHERE {
+graph $g {
+ ?Person  foaf:name     ?name ;
+          wi:preference ?weightedInterest .
+ ?weightedInterest wi:topic  ?interest ;
+                   wo:weight ?weight .
+ ?weight  wo:weight_value    ?score . 
+}
+}
+ORDER BY DESC(?score) 
+LIMIT 5</config>
+            </function>
+            <inputPort iterate="false" name="graph">
+               <source processor="node_32"/>
+            </inputPort>
+         </processor>
+         <processor id="node_32" x="235" y="91">
+            <function type="custom-java">
+               <config param="implementation">workflow:usem-getTwitterInterestProfile-union</config>
+            </function>
+            <inputPort iterate="false" name="username">
+               <source workflowInputPort="username"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

@@ -1,0 +1,9 @@
+syntax: regexp
+^.*/\.project$
+^.*/target$
+^.*/\.DS_Store$
+
+syntax: glob
+rdfgears
+.project
+.DS_Store

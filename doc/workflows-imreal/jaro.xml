@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>jaro</id>
+      <description>Compute the jaro-similarity of two strings</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="10" y="100">
+         <workflowInputPort name="s1"/>
+         <workflowInputPort name="s2"/>
+      </workflowInputList>
+      <network output="node_9" x="169" y="213">
+         <processor id="node_9" x="197" y="74">
+            <function type="custom-java">
+               <config param="implementation">nl.feliksik.rdfgears.JaroSimilarityFunction</config>
+            </function>
+            <inputPort iterate="false" name="s1">
+               <source workflowInputPort="s1"/>
+            </inputPort>
+            <inputPort iterate="false" name="s2">
+               <source workflowInputPort="s2"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

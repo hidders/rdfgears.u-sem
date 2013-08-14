@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>identity</id>
+      <description>Identify workflow: return the input. Useful for downloading stored values. </description>
+      <password>semweb</password>
+   </metadata>
+   <workflow>
+      <workflowInputList x="10" y="100">
+         <workflowInputPort name="input0"/>
+      </workflowInputList>
+      <network output="node_131" x="169" y="213">
+         <processor id="node_131" x="193" y="80">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.core.Identity</config>
+            </function>
+            <inputPort iterate="false" name="value">
+               <source workflowInputPort="input0"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

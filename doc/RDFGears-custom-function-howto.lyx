@@ -1,0 +1,1011 @@
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{ifpdf} % part of the hyperref bundle
+\usepackage{textcomp} % for [[ symbol --> doesn't work? 
+\usepackage{stmaryrd} % for [[ symbol with \llbracket
+\ifpdf % if pdflatex is used
+ % set fonts for nicer pdf view
+ \IfFileExists{lmodern.sty}{\usepackage{lmodern}}{}
+\fi % end if pdflatex is used
+
+%tip van Jenna, goed idee
+\usepackage{a4wide}
+\usepackage{latexsym} 
+
+% the pages of the TOC is numbered roman
+% and a pdf-bookmark for the TOC is added
+\let\myTOC\tableofcontents
+\renewcommand\tableofcontents{%
+  \frontmatter
+  \pdfbookmark[1]{\contentsname}{}
+  \myTOC
+  \mainmatter }
+
+% redefine the \LyX macro for PDF bookmarks
+\def\LyX{\texorpdfstring{%
+  L\kern-.1667em\lower.25em\hbox{Y}\kern-.125emX\@}
+  {LyX}}
+
+\RequirePackage{colortbl, tabularx}
+\@ifundefined{comment}{}% do nothing if the comment environment is not defined
+  {% redefine the comment environment if it is defined
+   \renewenvironment{comment}
+    {% replaces \begin{comment}
+     \par\medskip\noindent
+     \tabularx{\textwidth}{|>{\columncolor[gray]{0.9}}X|}
+     \hline
+     \emph{\textbf{Comment:}}% You can use any other text instead of "Comment:" or leave it
+    }
+    {% replaces \end{comment}
+     \endtabularx\hrule\par\medskip
+    }
+  }%
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+\end_modules
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\lang dutch
+RDF Gears documentation
+\end_layout
+
+\begin_layout Standard
+
+\lang dutch
+Eric Feliksik
+\end_layout
+
+\begin_layout Section
+
+\lang dutch
+RDF Gears plugin development
+\end_layout
+
+\begin_layout Standard
+Third party programmers can implement new RGL functions in Java.
+ First, we will discuss examples of how functions can be implemented.
+ There are two ways to do this: either by extending the 
+\family typewriter
+SimplyTypedRGLFunction
+\family default
+ or the 
+\family typewriter
+AtomicRGLFunction
+\family default
+ class.
+ Then we will discuss how such a function can be used in RDF Gears.
+ 
+\end_layout
+
+\begin_layout Subsection
+Function lifecycle
+\end_layout
+
+\begin_layout Standard
+The workflow execution consists of two phases.
+ The first phase is the workflow loading.
+ The second phase is the workflow execution.
+ For every processor in a workflow, an instance of the appropriate RGLFunction
+ is created.
+ The lifecycle of such an instance is as follows: 
+\end_layout
+
+\begin_layout Enumerate
+instantiation
+\end_layout
+
+\begin_layout Enumerate
+initialization
+\end_layout
+
+\begin_layout Enumerate
+typechecking
+\end_layout
+
+\begin_layout Enumerate
+execution
+\end_layout
+
+\begin_layout Enumerate
+termination
+\end_layout
+
+\begin_layout Standard
+The first and the last step are JVM issues that do not need our attention:
+ functions do not need an explicit constructor, and the garbage collection
+ and/or program termination are of no concern now.
+ We will now discuss the other phases: initialization, typechecking and
+ execution phases.
+ For these phases, appropriate methods must be implemented.
+ 
+\end_layout
+
+\begin_layout Subsection
+Simple functions
+\end_layout
+
+\begin_layout Standard
+The simplest way to implement an RGL function in Java is by extending the
+ 
+\family typewriter
+SimplyTypedRGLFunction
+\family default
+ class.
+ This approach is good if your function will always receive and return the
+ same input types, and the output must be 
+\begin_inset Formula $null$
+\end_inset
+
+ if any of the input values is 
+\emph on
+null
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The three steps that must be implemented for 
+\family typewriter
+SimplyTypedRGLFunction
+\family default
+ are the following:
+\end_layout
+
+\begin_layout Itemize
+instantiation: nothing to be done
+\end_layout
+
+\begin_layout Itemize
+initialization: to be implemented by the method 
+\family typewriter
+inititialize(Map<String,String> config)
+\end_layout
+
+\begin_layout Itemize
+typechecking: to be implemented by the method 
+\family typewriter
+getOutputType(TypeRow inputTypeRow)
+\end_layout
+
+\begin_layout Itemize
+execution: to be implemented by the method 
+\family typewriter
+simpleExecute(ValueRow input)
+\end_layout
+
+\begin_layout Itemize
+termination: nothing to be done
+\end_layout
+
+\begin_layout Standard
+We will discuss this lifecycle by an example function that calculates the
+ Jaro Similarity of two input strings.
+ The implementation is given in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:initialize-fragment-1-1"
+
+\end_inset
+
+ (the implementation of the 
+\emph on
+jaro 
+\emph default
+method is omitted, for brevity).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},language=Java,numbers=left,showstringspaces=false"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public class JaroSimilarityFunction extends SimplyTypedRGLFunction {
+\end_layout
+
+\begin_layout Plain Layout
+
+  public static final String INPUT_1 = "s1";
+\end_layout
+
+\begin_layout Plain Layout
+
+  public static final String INPUT_2 = "s2";
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  public void initialize(Map<String, String> config) { 
+\end_layout
+
+\begin_layout Plain Layout
+
+    this.requireInputType(INPUT_1, RDFType.getInstance());
+\end_layout
+
+\begin_layout Plain Layout
+
+    this.requireInputType(INPUT_2, RDFType.getInstance());
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  public RGLType getOutputType() {
+\end_layout
+
+\begin_layout Plain Layout
+
+    return RDFType.getInstance();
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  public RGLValue simpleExecute(ValueRow inputRow) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    RGLValue val1 = inputRow.get(INPUT_1);
+\end_layout
+
+\begin_layout Plain Layout
+
+    RGLValue val2 = inputRow.get(INPUT_2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (!val1.isLiteral() || ! val2.isLiteral())
+\end_layout
+
+\begin_layout Plain Layout
+
+      return ValueFactory.createNull("JaroSimilarity can only compare literals");
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    String str1 = val1.asLiteral().getValueString();
+\end_layout
+
+\begin_layout Plain Layout
+
+    String str2 = val2.asLiteral().getValueString();
+\end_layout
+
+\begin_layout Plain Layout
+
+    double d = jaro(str1, str2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    return ValueFactory.createLiteralDouble(d); 
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  private static double jaro(String string1, String string2) { /* omitted
+ */ }
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:initialize-fragment-1-1"
+
+\end_inset
+
+The JaroSimilarity function
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Initialization
+\end_layout
+
+\begin_layout Standard
+In the initialization phase, the 
+\family typewriter
+initialize()
+\family default
+ function is called.
+ This function fulfills two purpose.
+ 
+\end_layout
+
+\begin_layout Standard
+The first purpose of this method is the registration of function inputs
+ and their expected types.
+ This must happen for every function that has inputs (and most functions
+ do, of course).
+ In the example, two inputs are registered, both of type RDFValue.
+ As another example, consider a function that has an input named "bag" that
+ accepts a value of type 
+\series bold
+
+\begin_inset Formula $\mathbf{Bag}(T)$
+\end_inset
+
+
+\series default
+, for some element-type 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ The output of the function is the size of the bag.
+ The 
+\family typewriter
+initialize
+\family default
+ method would call 
+\family typewriter
+requireInputType("bag", BagType.getInstance(new SuperTypePattern()))
+\family default
+ to type the input port "bag" as a Bag containing elements of arbitrary
+ type.
+ 
+\end_layout
+
+\begin_layout Standard
+The second purpose of this method is the configuration of the function.
+ Configuration parameters can be passed to the 
+\family typewriter
+config
+\family default
+ map.
+ For most SimplyTypedRGLFunction implementations, this will not be relevant
+ and this method parameter should be ignored.
+ 
+\end_layout
+
+\begin_layout Remark
+A 
+\family typewriter
+SimplyTypedRGLFunction
+\family default
+ that does use the config parameter is the 
+\family typewriter
+SPARQLFunction
+\family default
+ implementation.
+ The ins and outs of RGL function configuration are explained in section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Initialization"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Subsubsection
+Typechecking
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The second call is your function is 
+\family typewriter
+getOutputType
+\family default
+().
+ It should just return the output type of the function, as in line 11.
+ Note that the output type is fixed, once you implemented this function.
+ If you want the output type to depend on the types of the input values,
+ the SimplyTypedRGLFunctions is not the right choice.
+ 
+\end_layout
+
+\begin_layout Standard
+In some circumstances it is desirable to have the output type depend on
+ the configuration parameters set in the 
+\family typewriter
+initialize()
+\family default
+ method.
+ This is possible.
+ As an example, see the 
+\family typewriter
+SPARQLFunction
+\family default
+ implementation.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Execution
+\end_layout
+
+\begin_layout Standard
+In the execution phase, the 
+\family typewriter
+simpleExecute()
+\family default
+ function is called.
+ It may be called multiple times, if its processor (or a workflow that uses
+ that processor) is marked for iteration.
+ In line 14 of figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:initialize-fragment-1-1"
+
+\end_inset
+
+ we an example implementation.
+ 
+\end_layout
+
+\begin_layout Standard
+This method defines the semantics of the RGL function.
+ For all implementations of SimplyTypedRGLFunction, it holds that the output
+ is NULL if any of the input values is NULL
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Note that this is about RGL NULL values.
+ The Java 
+\emph on
+null
+\emph default
+ value can and may never occur in place of an RGL value.
+\end_layout
+
+\end_inset
+
+.
+ This is guaranteed by the RGL engine, and thus the method implementation
+ does not need to deal with NULL values.
+ If any of the inputs of a SimplyTypedRGLFunction is NULL, then the 
+\family typewriter
+simpleExecute()
+\family default
+ function is 
+\emph on
+not 
+\emph default
+called.
+ Instead, the first found NULL value is propagated to the output of the
+ processor.
+ 
+\end_layout
+
+\begin_layout Standard
+Assuming that all values are non-
+\emph on
+NULL
+\emph default
+ (although bags and records may still 
+\emph on
+contain 
+\emph default
+NULL values), the 
+\family typewriter
+simpleExecute(ValueRow inputRow)
+\family default
+ method is called.
+ For all input names that were registered with 
+\family typewriter
+requireInputType()
+\family default
+, the named input can be fetched from the inputRow with the 
+\family typewriter
+get()
+\family default
+ call.
+ 
+\end_layout
+
+\begin_layout Standard
+Note that this function expects literals, and that the typechecking system
+ guarantees only that the inputs are of type RDFValue.
+ For this reason, in order to be typesafe, the inputs must be checked with
+ the 
+\family typewriter
+isLiteral()
+\family default
+ call before they can be cast to a Literal with the 
+\family typewriter
+asLiteral()
+\family default
+ method.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+For more details on the API for RGL values, study the function documentation
+ in the Java source (or the javadoc generated therefrom).
+ Of particular interest are the classes ValueFactory, RGLValue, BagValue,
+ RecordValue and the related FieldIndexMapFactory, LiteralValue, URIValue,
+ GraphValue.
+ 
+\end_layout
+
+\end_inset
+
+This section also describes how the ValueFactory can be used to create return
+ values.
+ 
+\end_layout
+
+\begin_layout Subsection
+Advanced functions
+\end_layout
+
+\begin_layout Standard
+Another way to implement RGL functions is by extending the 
+\family typewriter
+AtomicRGLFunction
+\family default
+.
+ This approach gives all the possibilities that SimplyTypedRGLFunction does.
+ In addition, it allows polymorphism and the possibility to deal with NULL
+ values manually.
+ This comes at the cost of a slightly more complex interface.
+ It is worth to study the implementation of the RGL core operators, as they
+ provide good examples for polymorphic functions.
+ Let us take a look at the RecordProject function of figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:recordProjectFunction"
+
+\end_inset
+
+.
+ We will discuss how each lifecycle phase is implemented for this function.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},language=Java,numbers=left,showstringspaces=false"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public class RecordProject extends NNRCFunction {
+\end_layout
+
+\begin_layout Plain Layout
+
+  public static final String CONFIGKEY_PROJECTFIELD = "projectField";
+\end_layout
+
+\begin_layout Plain Layout
+
+  public static final String INPUT_NAME  = "record";
+\end_layout
+
+\begin_layout Plain Layout
+
+  private String fieldName; // the field we project
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  public void initialize(Map<String, String> config) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    this.requireInput(INPUT_NAME);
+\end_layout
+
+\begin_layout Plain Layout
+
+    this.fieldName = config.get(CONFIGKEY_PROJECTFIELD);
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  public RGLType getOutputType(TypeRow inputTypeRow) throws FunctionTypingExcept
+ion {
+\end_layout
+
+\begin_layout Plain Layout
+
+    RGLType actualInputType = inputTypeRow.get(INPUT_NAME);
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\end_layout
+
+\begin_layout Plain Layout
+
+    TypeRow typeRow = new TypeRow();
+\end_layout
+
+\begin_layout Plain Layout
+
+    typeRow.put(fieldName, new SuperTypePattern()); /* any type will do */
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+    RGLType requiredInputType = RecordType.getInstance(typeRow);
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (actualInputType.isSubtypeOf(requiredInputType)){
+\end_layout
+
+\begin_layout Plain Layout
+
+      RGLType fieldType = ((RecordType)actualInputType).getFieldType(fieldName);
+\end_layout
+
+\begin_layout Plain Layout
+
+      assert(fieldType!=null);
+\end_layout
+
+\begin_layout Plain Layout
+
+      return fieldType;
+\end_layout
+
+\begin_layout Plain Layout
+
+    } else {
+\end_layout
+
+\begin_layout Plain Layout
+
+      throw new FunctionTypingException(INPUT_NAME, requiredInputType, actualInp
+utType);
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  public RGLValue execute(ValueRow input) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    RGLValue r = input.get(INPUT_NAME);
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (r.isNull()) return r; // propagate the error
+\end_layout
+
+\begin_layout Plain Layout
+
+    return r.asRecord().get(fieldName);
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:recordProjectFunction"
+
+\end_inset
+
+The RecordProject function
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Initialization"
+
+\end_inset
+
+Initialization
+\end_layout
+
+\begin_layout Standard
+The registration of inputs does not require specifying a type.
+ As line 7 shows, the 
+\family typewriter
+requireInput()
+\family default
+ call just receives a name.
+ It registers a function input (and thus a processor port).
+ Later, in the typechecking phase, the required type of the port will be
+ registered.
+ 
+\end_layout
+
+\begin_layout Standard
+An unrelated thing that happens in this example, is that a configuration
+ parameter is used (line 8) to determine what field should be projected.
+ This allows the RecordProject function to be configured for the projection
+ of any record field.
+ The 
+\family typewriter
+Map<String,String>
+\family default
+ parameter that is passed is build by using the 
+\family typewriter
+<config param="key">value</config>
+\family default
+ elements from the RGL workflow XML document.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Typechecking
+\end_layout
+
+\begin_layout Standard
+The function 
+\family typewriter
+getOutputType(TypeRow inputTypeRow)
+\family default
+ receives a row over types.
+ For all field names registered in the initialization phase, the inputTypeRow
+ will contain a type.
+ In lines 14-16, the the expected type is constructed.
+ Note how a SuperTypePattern() is used to match any type for the record-field.
+ Also note that in line 15, the 
+\family typewriter
+fieldName
+\family default
+ variable that was set as a configuratin parameter is now used.
+ 
+\end_layout
+
+\begin_layout Subsection
+Implementing streaming bags
+\end_layout
+
+\begin_layout Standard
+The RGL data transformation of an RGL function can be implemented using
+ the RGL API.
+ It provides a conceptual view over the RGL values and does not in any way
+ require understanding of the engine optimizations.
+ For functions that return a bag value, the user merely needs to provide
+ a mechanism to iterate over this bag once.
+ So the implementation does not actually 
+\emph on
+construct
+\emph default
+ the bag, but does specify an iterator that defines it.
+ The bag implementations are thus agnostic to the way they are materialized
+ by RDF Gears for multiple iterations.
+ This makes implementation of third-party functions simple and allows them
+ to seamlessly integrate with the typechecking mechanism and to benefit
+ from the engine optimizations.
+ 
+\end_layout
+
+\begin_layout Subsection
+Allowing dynamic function loading
+\end_layout
+
+\begin_layout Standard
+When loading a workflow or when listing the available custom functions,
+ the ServiceLoader class is used.
+ If you distribute your custom function in a JAR file, a file 
+\family typewriter
+/META-INF/services/nl.tudelft.rdfgears.rgl.function.RGLFunction
+\family default
+ must exist and it must contain a line the containing the full name (including
+ package path) of your function.
+ And example is 
+\family typewriter
+nl.tudelft.rdfgears.rgl.function.standard.BagSize
+\family default
+ .
+ You can use any package for your function, as long as it extends RGLFunction.
+ 
+\end_layout
+
+\begin_layout Standard
+Note that the rdfgears-plugins package already contains this file and it
+ will automatically be included in the jar built by 
+\family typewriter
+
+\begin_inset space ~
+\end_inset
+
+$ mvn package
+\family default
+.
+ 
+\end_layout
+
+\end_body
+\end_document

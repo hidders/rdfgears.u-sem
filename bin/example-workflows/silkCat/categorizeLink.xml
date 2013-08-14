@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>silkCat/categorizeLink</id>
+      <name>Determine a similarity value and whether it exceed threshold</name>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="3" y="50">
+         <workflowInputPort name="mov_dir"/>
+      </workflowInputList>
+      <network output="node_51" x="746" y="513">
+         <processor id="node_51" x="619" y="122">
+            <function type="if"/>
+            <inputPort iterate="false" name="if_true">
+               <source processor="node_52"/>
+            </inputPort>
+            <inputPort iterate="false" name="then">
+               <source processor="node_60"/>
+            </inputPort>
+            <inputPort iterate="false" name="else">
+               <source processor="node_61"/>
+            </inputPort>
+         </processor>
+         <processor id="node_52" x="436" y="55">
+            <function type="comparator">
+               <config param="operator">OP_LESS</config>
+            </function>
+            <inputPort iterate="false" name="a">
+               <source processor="maxVal2"/>
+            </inputPort>
+            <inputPort iterate="false" name="b">
+               <source processor="node_53"/>
+            </inputPort>
+         </processor>
+         <processor id="maxVal2" x="82" y="200">
+            <function type="custom-java">
+               <config param="implementation">workflow:silkCat/calcSimilarity</config>
+            </function>
+            <inputPort iterate="false" name="mov_dir">
+               <source workflowInputPort="mov_dir"/>
+            </inputPort>
+         </processor>
+         <processor id="node_53" x="275" y="178">
+            <function type="constant">
+               <config param="value">"0.7"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt;</config>
+            </function>
+         </processor>
+         <processor id="node_60" x="429" y="176">
+            <function type="constant">
+               <config param="value">"non-link"</config>
+            </function>
+         </processor>
+         <processor id="node_61" x="624" y="247">
+            <function type="if"/>
+            <inputPort iterate="false" name="if_true">
+               <source processor="node_62"/>
+            </inputPort>
+            <inputPort iterate="false" name="then">
+               <source processor="node_64"/>
+            </inputPort>
+            <inputPort iterate="false" name="else">
+               <source processor="node_65"/>
+            </inputPort>
+         </processor>
+         <processor id="node_62" x="454" y="258">
+            <function type="comparator">
+               <config param="operator">OP_LESS_EQUAL</config>
+            </function>
+            <inputPort iterate="false" name="a">
+               <source processor="maxVal2"/>
+            </inputPort>
+            <inputPort iterate="false" name="b">
+               <source processor="node_63"/>
+            </inputPort>
+         </processor>
+         <processor id="node_63" x="288" y="373">
+            <function type="constant">
+               <config param="value">"0.9"^^&lt;http://www.w3.org/2001/XMLSchema#double&gt;</config>
+            </function>
+         </processor>
+         <processor id="node_64" x="447" y="375">
+            <function type="constant">
+               <config param="value">"verify"</config>
+            </function>
+         </processor>
+         <processor id="node_65" x="456" y="476">
+            <function type="constant">
+               <config param="value">"accept"</config>
+            </function>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

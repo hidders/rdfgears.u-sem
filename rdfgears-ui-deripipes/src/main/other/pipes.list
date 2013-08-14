@@ -1,0 +1,19 @@
+# list of workflows to copy in when using an
+# empty temporary folder for workflow storage.
+fetchSameAs.xml
+graph_closure.xml
+reduceResults.xml
+aMashup.xml
+identity.xml
+se/mainRDF-all-uc.xml
+se/silkResultsToLinks.xml
+se/categorize.xml
+se/interlink.xml
+se/mainRDF-all.xml
+se/findBestMatch.xml
+se/createLink.xml
+se/attachSimilarity.xml
+se/calcSimMD.xml
+se/project_score.xml
+se/mainRDF-reduced.xml
+linkData.xml

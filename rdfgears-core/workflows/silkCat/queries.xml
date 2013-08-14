@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>silkCat/queries</id>
+      <description>Runnable silk directors-example</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="10" y="10">
+         <workflowInputPort name="input1"/>
+      </workflowInputList>
+      <network output="node_305" x="665" y="521">
+         <processor id="node_305" x="723" y="305">
+            <function type="record-create">
+               <config param="fields">accept;verify;</config>
+            </function>
+            <inputPort iterate="false" name="accept">
+               <source processor="node_303"/>
+            </inputPort>
+            <inputPort iterate="false" name="verify">
+               <source processor="node_304"/>
+            </inputPort>
+         </processor>
+         <processor id="node_303" x="551" y="265">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.standard.BagToGraph</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source processor="node_301"/>
+            </inputPort>
+         </processor>
+         <processor id="node_301" x="394" y="266">
+            <function type="custom-java">
+               <config param="implementation">workflow:silkCat/createLink</config>
+            </function>
+            <inputPort iterate="true" name="mov_dir">
+               <source processor="node_263"/>
+            </inputPort>
+         </processor>
+         <processor id="node_263" x="252" y="267">
+            <function type="record-project">
+               <config param="projectField">accept</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source processor="node_45"/>
+            </inputPort>
+         </processor>
+         <processor id="node_45" x="59" y="291">
+            <function type="bag-categorize">
+               <config param="categorizeFunction">workflow:silkCat/categorizeLink</config>
+               <config param="categories">accept;verify;</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source processor="z_mk_li"/>
+            </inputPort>
+         </processor>
+         <processor id="z_mk_li" x="360" y="62">
+            <function type="record-create">
+               <config param="fields">lmdb;dbpedia;</config>
+            </function>
+            <inputPort iterate="true" name="lmdb">
+               <source processor="z_mk_jj"/>
+            </inputPort>
+            <inputPort iterate="true" name="dbpedia">
+               <source processor="z_mk_9k"/>
+            </inputPort>
+         </processor>
+         <processor id="z_mk_jj" x="162" y="5">
+            <function type="sparql-endpoint">
+               <config param="endpoint">http://localhost:2020/sparql</config>
+               <config param="query">PREFIX  rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; 
+PREFIX  rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; 
+PREFIX  movie: &lt;http://data.linkedmdb.org/resource/movie/&gt;  
+SELECT DISTINCT  ?dir ?label ?dir_name 
+FROM &lt;file:Data/lmdb.n3&gt;
+WHERE {
+   ?dir rdf:type movie:director .
+  OPTIONAL {  ?dir movie:director_name ?dir_name . }
+  OPTIONAL {  ?dir rdfs:label ?label. } 
+}
+ #LIMIT 1600</config>
+            </function>
+         </processor>
+         <processor id="z_mk_9k" x="162" y="121">
+            <function type="sparql-endpoint">
+               <config param="endpoint">http://localhost:2020/sparql</config>
+               <config param="query">PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+PREFIX dbpedia: &lt;http://dbpedia.org/ontology/&gt;
+SELECT DISTINCT (str(?label_lang) AS ?label) ?mov 
+FROM  &lt;file:Data/dbpedia-reduced.n3&gt;
+WHERE { 
+    ?mov rdf:type dbpedia:Film.
+  OPTIONAL { 
+    ?mov dbpedia:director ?dir.
+    ?dir rdfs:label ?label_lang.
+  }
+} #LIMIT 10</config>
+            </function>
+         </processor>
+         <processor id="node_304" x="551" y="375">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.standard.BagToGraph</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source processor="node_302"/>
+            </inputPort>
+         </processor>
+         <processor id="node_302" x="386" y="376">
+            <function type="custom-java">
+               <config param="implementation">workflow:silkCat/createLink</config>
+            </function>
+            <inputPort iterate="true" name="mov_dir">
+               <source processor="node_264"/>
+            </inputPort>
+         </processor>
+         <processor id="node_264" x="254" y="377">
+            <function type="record-project">
+               <config param="projectField">verify</config>
+            </function>
+            <inputPort iterate="false" name="record">
+               <source processor="node_45"/>
+            </inputPort>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

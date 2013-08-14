@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>se/mainRDF-reduced</id>
+      <description>Runnable silk directors-example</description>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="10" y="10"/>
+      <network output="node_266" x="697" y="307">
+         <processor id="node_266" x="710" y="84">
+            <function type="bag-categorize">
+               <config param="categorizeFunction">workflow:se/categorize</config>
+               <config param="categories">verify;accept;</config>
+            </function>
+            <inputPort iterate="false" name="bag">
+               <source processor="node_94"/>
+            </inputPort>
+         </processor>
+         <processor id="node_94" x="530" y="76">
+            <function type="custom-java">
+               <config param="implementation">workflow:se/findBestMatch</config>
+            </function>
+            <inputPort iterate="true" name="mov_group">
+               <source processor="node_37"/>
+            </inputPort>
+            <inputPort iterate="false" name="dir_group_bag">
+               <source processor="z_mk_jj"/>
+            </inputPort>
+         </processor>
+         <processor id="node_37" x="368" y="39">
+            <function type="bag-groupby">
+               <config param="groupByField">mov</config>
+            </function>
+            <inputPort iterate="false" name="bag_of_records">
+               <source processor="z_mk_9k"/>
+            </inputPort>
+         </processor>
+         <processor id="z_mk_9k" x="163" y="23">
+            <function type="sparql-endpoint">
+               <config param="endpoint">http://localhost:2020/sparql</config>
+               <config param="query">PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; 
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; 
+PREFIX dbpedia: &lt;http://dbpedia.org/ontology/&gt; 
+SELECT DISTINCT (str(?label_lang) AS ?label) ?mov  
+FROM  &lt;file:Data/dbpedia.n3&gt; WHERE {
+      ?mov rdf:type dbpedia:Film.
+   OPTIONAL {
+      ?mov dbpedia:director ?dir.
+     ?dir rdfs:label ?label_lang.
+   }
+} LIMIT 10000</config>
+            </function>
+         </processor>
+         <processor id="z_mk_jj" x="162" y="148">
+            <function type="sparql-endpoint">
+               <config param="endpoint">http://localhost:2020/sparql</config>
+               <config param="query">PREFIX  rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;  
+PREFIX  rdf:  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;  
+PREFIX  movie: &lt;http://data.linkedmdb.org/resource/movie/&gt;   
+SELECT DISTINCT  ?dir ?label ?dir_name  
+FROM &lt;file:Data/lmdb.n3&gt; 
+WHERE {
+    ?dir rdf:type movie:director .
+   OPTIONAL {
+  ?dir movie:director_name ?dir_name . 
+}
+   OPTIONAL {
+  ?dir rdfs:label ?label.
+ }
+} LIMIT 10   #LIMIT 1600</config>
+            </function>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

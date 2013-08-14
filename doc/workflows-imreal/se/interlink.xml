@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>se/interlink</id>
+      <description/>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="10" y="100"/>
+      <network output="node_131" x="439" y="227">
+         <processor id="node_131" x="378" y="44">
+            <function type="custom-java">
+               <config param="implementation">workflow:se/silkResultsToLinks</config>
+            </function>
+            <inputPort iterate="false" name="results">
+               <source processor="node_711"/>
+            </inputPort>
+            <inputPort iterate="false" name="linkProperty">
+               <source processor="node_95"/>
+            </inputPort>
+         </processor>
+         <processor id="node_711" x="170" y="49">
+            <function type="custom-java">
+               <config param="implementation">workflow:se/mainRDF-reduced</config>
+            </function>
+         </processor>
+         <processor id="node_95" x="175" y="169">
+            <function type="constant">
+               <config param="value">&lt;http://dbpedia.org/ontology/director&gt;</config>
+            </function>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>

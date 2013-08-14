@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+   <metadata>
+      <id>coordinatesToCountry</id>
+      <description/>
+      <password/>
+   </metadata>
+   <workflow>
+      <workflowInputList x="9" y="100">
+         <workflowInputPort name="lon"/>
+         <workflowInputPort name="lat"/>
+      </workflowInputList>
+      <network output="node_703" x="450" y="450">
+         <processor id="node_703" x="219" y="29">
+            <function type="custom-java">
+               <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.CoordinatesToCountry</config>
+            </function>
+            <inputPort iterate="false" name="longitude">
+               <source workflowInputPort="lon"/>
+            </inputPort>
+            <inputPort iterate="false" name="latitude">
+               <source workflowInputPort="lat"/>
+            </inputPort>
+            <inputPort iterate="false" name="geonames_user">
+               <source processor="node_704"/>
+            </inputPort>
+         </processor>
+         <processor id="node_704" x="112" y="329">
+            <function type="constant">
+               <config param="value">"jasper.oosterman"</config>
+            </function>
+         </processor>
+      </network>
+   </workflow>
+</rdfgears>
