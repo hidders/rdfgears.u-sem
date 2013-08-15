@@ -28,11 +28,11 @@ This command will build RDFGears UI and the result will be:
   
 The war file can be deployed on a web server.
 
-Configuration file (rdf-gears-ui-config.xml)
+Configuration file (rdf-gears-ui.config)
 --------------------------------------------
 In order to run/debug the application, the configuration parameter have to be configured correctly.
 the configuration file can be found in
-- rdfgears-ui\src\main\webapp\WEB-INF (source folder)
+- rdfgears-ui/src/main/webapp/WEB-INF (source folder)
 or
 - WEB-INF (compiled project)
 
@@ -54,10 +54,10 @@ In case you have the development environment on the same machine where you want 
 In <TOMCAT_ROOT> create a soft link to the maven projet (containing the workflow directory):
 
 Windows (run the CMD as Administrator):
-MKLINK /D rdfgears-plugins path\to\rdfgears-plugins  
+MKLINK /D rdfgears path\to\rdfgears-plugins\runTimeResources\rdfgears  
 
 Linux:
-ln -s path/to/rdfgears-plugins rdfgears-plugins
+ln -s path\to\rdfgears-plugins\runTimeResources\rdfgears rdfgears
 
 Create context files in <TOMCAT_ROOT>/conf/Catalina/localhost to rename the war that point directly to the maven output directory war, so you do not need to copy anything
 
