@@ -30,11 +30,11 @@ log.level = FATAL
 #
 # Credentials for the database and the Flickr APIs
 #
-flickr.api.key=
+flickr.api.key =
 
-database=
-dbuser=
-dbpassword=
+database =
+dbuser =
+dbpassword =
 
 twitter.OAuth.consumer.key =  
 twitter.OAuth.consumer.secret = 
