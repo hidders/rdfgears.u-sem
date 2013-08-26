@@ -62,6 +62,7 @@ public class ImRealXMLSerializer extends ValueSerializer {
 		} else if(resultType.isGraphType() && !value.isNull()) {
 			GraphValue asGraph = value.asGraph();
 			RDFWriter rdfWriter = asGraph.getModel().getWriter("RDF/XML-ABBREV");
+			rdfWriter.setProperty("showXmlDeclaration", "true");
 			rdfWriter.write(asGraph.getModel(), rawStream, null);
 		} else {
 			(new ValueXMLSerializer(rawStream)).serialize(value);
