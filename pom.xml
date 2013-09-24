@@ -65,6 +65,9 @@
           <inceptionYear>${year}</inceptionYear>
           <email>${email}</email>
           <canUpdateCopyright>true</canUpdateCopyright>
+          <extraExtensions>
+            <sql>mysql</sql>
+          </extraExtensions>
         </configuration>
       </plugin>
       <plugin>
