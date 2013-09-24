@@ -1,4 +1,4 @@
----
+-- -
 -- #%L
 -- RDFGears
 -- %%
@@ -22,7 +22,7 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 -- #L%
----
+-- -
 /* The following is not needed since a user is implicitly created if not exist by the GRANT operation */
 /* CREATE USER 'imreal'@'localhost' IDENTIFIED BY 'imreal'; */
 
