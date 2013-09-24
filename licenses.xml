@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<licenses>
+  <valid>
+    <license>
+      <id>Apache Software License 2.0</id>
+      <description>Apache Software License 2.0</description>
+      <names>
+        <name>Apache 2</name>
+        <name>Apache Software License 2.0</name>
+        <name>Apache Software License, Version 2.0</name>
+        <name>The Apache Software License, Version 2.0</name>
+        <name>Apache License, Version 2.0</name>
+      </names>
+      <urls>
+        <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        <url>http://apache.org/licenses/LICENSE-2.0</url>
+        <url>http://apache.org/licenses/LICENSE-2.0.html</url>
+        <url>http://apache.org/licenses/LICENSE-2.0.txt</url>
+        <url>LICENSE.txt</url>
+        <url>license.txt</url>
+      </urls>
+    </license>
+    <license>
+      <id>The SAX License</id>
+      <names>
+        <name>The SAX License</name>
+      </names>
+      <urls>
+        <url>http://www.saxproject.org/copying.html</url>
+      </urls>
+    </license>
+    <license>
+      <id>The W3C License</id>
+      <names>
+        <name>The W3C License</name>
+      </names>
+      <urls>
+        <url>http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/java-binding.zip</url>
+      </urls>
+    </license>
+    <license>
+      <id>Common Public License Version 1.0</id>
+      <description>Common Public License Version 1.0</description>
+      <names>
+        <name>Common Public License Version 1.0</name>
+      </names>
+      <urls>
+        <url>http://www.opensource.org/licenses/cpl1.0.txt</url>
+      </urls>
+    </license>
+    <license>
+      <id>Berkeley Software Distribution (BSD) license</id>
+      <description>BSD licenses are a family of permissive free software licenses, imposing minimal restrictions on the redistribution of covered software</description>
+      <names>
+        <name>BSD-style license</name>
+        <name>BSD</name>
+      </names>
+      <urls>
+        <url>http://openjena.org/license.html</url>
+        <url>http://jena.sourceforge.net/license.html</url>
+      </urls>
+    </license>
+    <license>
+      <id>ICU license</id>
+      <names>
+        <name>ICU License</name>
+      </names>
+      <urls>
+        <url>http://www-306.ibm.com/software/globalization/icu/license.jsp</url>
+      </urls>
+    </license>
+    
+    <license>
+      <id>CDDL + GPLv2 with classpath exception</id>
+      <names>
+        <name>CDDL + GPLv2 with classpath exception</name>
+      </names>
+      <urls>
+        <url>https://glassfish.dev.java.net/nonav/public/CDDL+GPL.html</url>
+      </urls>
+    </license>
+
+  </valid>
+
+  <invalid>
+    <license>
+      <id>GNU General Public License (GPL)</id>
+      <description>GNU General Public License (GPL)</description>
+      <names>
+        <name>GNU General Public License, version 2</name>
+        <name>GNU General Public License, version 3</name>
+        <name>The GNU General Public License, Version 2</name>
+      </names>
+      <urls>
+        <url>http://www.gnu.org/licenses/gpl-2.0.html</url>
+        <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+        <url>http://www.gnu.org/licenses/gpl.txt</url>
+      </urls>
+    </license>
+  </invalid>
+
+  <warning>
+    <license>
+      <id>Apache Software License 1.1 (Historic)</id>
+      <description>Apache Software License 1.1 (Historic)</description>
+      <names>
+        <name>Apache License, Version 1.1</name>
+      </names>
+      <urls>
+        <url>http://www.apache.org/licenses/LICENSE-1.1</url>
+      </urls>
+    </license>
+  </warning>
+</licenses>
