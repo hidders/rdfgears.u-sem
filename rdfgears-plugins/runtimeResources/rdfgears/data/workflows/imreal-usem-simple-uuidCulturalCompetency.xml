@@ -34,7 +34,7 @@
       </processor>
       <processor id="node_14" x="878" y="141">
         <function type="constant">
-          <config param="value">"Culture"</config>
+          <config param="value">"http://dbpedia.org/resource/Cultural_competence"</config>
         </function>
       </processor>
       <processor id="node_12" x="890" y="247">
@@ -72,7 +72,7 @@
           <config param="bindVariables">input0;</config>
           <config param="query"> PREFIX  wo:  &lt;http://purl.org/ontology/wo/core#&gt;
 SELECT ?wv
-WHERE { GRAPH ?inpu0 { ?x wo:weight_value ?wv . } }</config>
+WHERE { GRAPH ?input0 { ?x wo:weight_value ?wv . } }</config>
         </function>
         <inputPort name="input0" iterate="false">
           <source processor="node_38"/>
@@ -106,7 +106,7 @@ WHERE { GRAPH ?inpu0 { ?x wo:weight_value ?wv . } }</config>
         <function type="sparql">
           <config param="bindVariables">input0;</config>
           <config param="query"> PREFIX  wo:  &lt;http://purl.org/ontology/wo/core#&gt; SELECT ?wv
-WHERE { GRAPH ?inpu0 { ?x wo:weight_value ?wv . } }</config>
+WHERE { GRAPH ?input0 { ?x wo:weight_value ?wv . } }</config>
         </function>
         <inputPort name="input0" iterate="false">
           <source processor="node_37"/>
