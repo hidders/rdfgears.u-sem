@@ -70,6 +70,7 @@
           </extraExtensions>
         </configuration>
       </plugin>
+      <!--
       <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
@@ -79,7 +80,7 @@
             <properties>
                 <owner>${owner}</owner>
                 <year>${year}</year>
-                <email>{email}</email>
+                <email>${email}</email>
             </properties>
             <excludes>
                 <exclude>**/README</exclude>
@@ -89,10 +90,7 @@
                 <exclude>bin/**</exclude>
                 <exclude>doc/**</exclude>
             </excludes>
-            <!--<includes>
-              <include>.java</include>
-            </includes>-->
-        </configuration>
+          </configuration>
         <executions>
             <execution>
                 <goals>
@@ -100,7 +98,8 @@
                 </goals>
             </execution>
         </executions>
-    </plugin>
+      </plugin>
+      -->
     </plugins>
   </build> 
 
@@ -125,6 +124,22 @@
     <email>rdfgearscode@gmail.com</email>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Maven Central repository</name>
+      <url>http://repo.maven.apache.org/maven2/</url>
+      <layout>default</layout>
+    </repository>
+    
+    <repository>
+      <id>oracleReleases</id>
+      <name>Oracle Released Java Packages</name>
+      <url>http://download.oracle.com/maven</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
+  
   <dependencyManagement>
     <dependencies>
       <!-- this does NOT correctly propagate the library to the child projects, for some reason --> 
@@ -138,7 +153,7 @@
   <modules>
     <module>rdfgears-core</module>
     <module>rdfgears-plugins</module>
-    <module>rdfgears-cli</module>
+    <!--<module>rdfgears-cli</module>-->
     <module>rdfgears-ui</module>
     <module>rdfgears-rest</module>
   </modules>
