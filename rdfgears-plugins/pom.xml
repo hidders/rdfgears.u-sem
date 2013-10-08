@@ -46,7 +46,7 @@
   <dependencies>
   
     <dependency>
-      <groupId>nl.tudelft.rdfgears</groupId>
+      <groupId>${parent.groupId}</groupId>
       <artifactId>rdfgears-core</artifactId>
       <version>${project.version}</version>
 	  <scope>compile</scope>
