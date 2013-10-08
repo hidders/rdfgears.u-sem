@@ -12,14 +12,6 @@
   <url>http://code.google.com/p/rdfgears.core</url>
   <packaging>jar</packaging>
   
-  <repositories>
-    <repository>
-      <id>lib</id>
-      <name>lib</name>
-      <url>file://${project.basedir}/lib</url>
-    </repository>
-  </repositories> 
-  
   <build>
     <plugins>
     
@@ -54,7 +46,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      </dependency>
+    </dependency>
     
 
     <dependency>
@@ -118,14 +110,18 @@
     	<artifactId>jena-core</artifactId>
     	<version>2.7.3</version>
     </dependency>    
-
--->
     <dependency>
       <groupId>staxutils</groupId>
       <artifactId>staxutils</artifactId>
       <version>unknown-version</version>
     </dependency> 
-	
-    
+
+-->
+    <dependency>
+      <groupId>net.java.dev.stax-utils</groupId>
+      <artifactId>stax-utils</artifactId>
+      <version>20070216</version>
+    </dependency>
+
   </dependencies>
 </project>
