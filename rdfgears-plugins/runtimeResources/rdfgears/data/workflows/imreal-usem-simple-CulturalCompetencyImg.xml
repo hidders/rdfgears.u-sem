@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><rdfgears>
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
   <metadata>
     <id>imreal-usem-simple-CulturalCompetencyImg</id>
     <name>CulturalCompetencyImg</name>
-    <description>The service computes the cultural competency based on the countries visited - one or two countries yield a score of 1.0, up to five countries yields a score of 2.0 and above the score is 3.0. Note that in the service, the count is +1, as &amp;quot;No country&amp;quot; is also in the list.</description>
+    <description>The service computes the cultural competency based on the countries visited - one or two countries yield a score of 1.0, up to five countries yields a score of 2.0 and above the score is 3.0. Note that in the service, the count is +1, as &amp;quot&amp;semi&amp;semi;No country&amp;quot&amp;semi&amp;semi; is also in the list.</description>
     <category>imreal-usem-simple</category>
     <password/>
   </metadata>
@@ -10,18 +11,18 @@
     <workflowInputList x="39" y="41">
       <workflowInputPort name="Flickr username">
         <type>
-          <var name="a25"/>
+          <var name="a10"/>
         </type>
       </workflowInputPort>
       <workflowInputPort name="Twitter username">
         <type>
-          <var name="a26"/>
+          <var name="a11"/>
         </type>
       </workflowInputPort>
     </workflowInputList>
     <network output="node_19" x="731" y="1170">
       <output-type>
-        <var name="a22"/>
+        <var name="a36"/>
       </output-type>
       <processor id="node_19" x="574" y="1088">
         <function type="custom-java">

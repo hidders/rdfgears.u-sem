@@ -59,7 +59,7 @@
     
 <!--
     <dependency>
-      <groupId>${parent.groupId}</groupId>
+      <groupId>${project.parent.groupId}</groupId>
       <artifactId>rdfgears-core</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -72,7 +72,7 @@
  -->
 
     <dependency>
-      <groupId>${parent.groupId}</groupId>
+      <groupId>${project.parent.groupId}</groupId>
       <artifactId>rdfgears-plugins</artifactId>
       <version>${project.version}</version>
     </dependency>

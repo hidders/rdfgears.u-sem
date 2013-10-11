@@ -1,135 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rdfgears>
-   <metadata>
-      <id>imreal-usem-getUserProfileEntry</id>
-	  <name>getUserProfileEntry</name>
-	  <category>imreal-usem</category>
-      <description>The service allows the user to query the storage for a particular user profile entry. For the adaptive dimensions, the score is computed on the fly if it has not been done so before.</description>
-      <password>imreal</password>
-   </metadata>
-   <workflow>
-      <workflowInputList x="37" y="69">
-         <workflowInputPort name="UUID"/>
-         <workflowInputPort name="Topic"/>
-      </workflowInputList>
-      <network output="node_81" x="766" y="563">
-         <processor id="node_81" x="523" y="62">
-            <function type="if"/>
-            <inputPort iterate="false" name="if_true">
-               <source processor="node_45"/>
-            </inputPort>
-            <inputPort iterate="false" name="then">
-               <source processor="node_82"/>
-            </inputPort>
-            <inputPort iterate="false" name="else">
-               <source processor="node_99"/>
-            </inputPort>
-         </processor>
-         <processor id="node_45" x="249" y="13">
-            <function type="custom-java">
-               <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.userprofile.ContainsUserProfileEntryFunction</config>
-            </function>
-            <inputPort iterate="false" name="uuid">
-               <source workflowInputPort="UUID"/>
-            </inputPort>
-            <inputPort iterate="false" name="topic">
-               <source workflowInputPort="Topic"/>
-            </inputPort>
-         </processor>
-         <processor id="node_82" x="249" y="141">
-            <function type="custom-java">
-               <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.userprofile.GetUserProfileEntryFunction</config>
-            </function>
-            <inputPort iterate="false" name="uuid">
-               <source workflowInputPort="UUID"/>
-            </inputPort>
-            <inputPort iterate="false" name="topic">
-               <source workflowInputPort="Topic"/>
-            </inputPort>
-         </processor>
-         <processor id="node_99" x="263" y="284">
-            <function type="if"/>
-            <inputPort iterate="false" name="if_true">
-               <source processor="node_97"/>
-            </inputPort>
-            <inputPort iterate="false" name="then">
-               <source processor="node_100"/>
-            </inputPort>
-            <inputPort iterate="false" name="else">
-               <source processor="node_139"/>
-            </inputPort>
-         </processor>
-         <processor id="node_97" x="76" y="434">
-            <function type="custom-java">
-               <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.StringIsEqualTo</config>
-            </function>
-            <inputPort iterate="false" name="value1">
-               <source processor="node_98"/>
-            </inputPort>
-            <inputPort iterate="false" name="value2">
-               <source workflowInputPort="Topic"/>
-            </inputPort>
-         </processor>
-         <processor id="node_98" x="31" y="306">
-            <function type="constant">
-               <config param="value">"Culture"</config>
-            </function>
-         </processor>
-         <processor id="node_100" x="328" y="433">
-            <function type="custom-java">
-               <config param="implementation">workflow:imreal-usem-simple-uuidCulturalCompetencyLng</config>
-            </function>
-            <inputPort iterate="false" name="UUID">
-               <source workflowInputPort="UUID"/>
-            </inputPort>
-         </processor>
-         <processor id="node_139" x="333" y="586">
-            <function type="if"/>
-            <inputPort iterate="false" name="if_true">
-               <source processor="node_127"/>
-            </inputPort>
-            <inputPort iterate="false" name="then">
-               <source processor="node_140"/>
-            </inputPort>
-            <inputPort iterate="false" name="else">
-               <source processor="node_141"/>
-            </inputPort>
-         </processor>
-         <processor id="node_127" x="124" y="726">
-            <function type="custom-java">
-               <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.StringIsEqualTo</config>
-            </function>
-            <inputPort iterate="false" name="value1">
-               <source workflowInputPort="Topic"/>
-            </inputPort>
-            <inputPort iterate="false" name="value2">
-               <source processor="node_101"/>
-            </inputPort>
-         </processor>
-         <processor id="node_101" x="34" y="595">
-            <function type="constant">
-               <config param="value">"Emotion"</config>
-            </function>
-         </processor>
-         <processor id="node_140" x="575" y="339">
-            <function type="custom-java">
-               <config param="implementation">workflow:imreal-usem-simple-uuidTwitterSentiments</config>
-            </function>
-            <inputPort iterate="false" name="UUID">
-               <source workflowInputPort="UUID"/>
-            </inputPort>
-         </processor>
-         <processor id="node_141" x="578" y="206">
-            <function type="custom-java">
-               <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.userprofile.GetUserProfileEntryFunction</config>
-            </function>
-            <inputPort iterate="false" name="uuid">
-               <source workflowInputPort="UUID"/>
-            </inputPort>
-            <inputPort iterate="false" name="topic">
-               <source workflowInputPort="Topic"/>
-            </inputPort>
-         </processor>
-      </network>
-   </workflow>
+  <metadata>
+    <id>imreal-usem-getUserProfileEntry</id>
+    <name>getUserProfileEntry</name>
+    <description>The service allows the user to query the storage for a particular user profile entry. For the adaptive dimensions, the score is computed on the fly if it has not been done so before.</description>
+    <category>imreal-usem</category>
+    <password/>
+  </metadata>
+  <workflow>
+    <workflowInputList x="185" y="202">
+      <workflowInputPort name="UUID">
+        <type>
+          <var name="a83"/>
+        </type>
+      </workflowInputPort>
+      <workflowInputPort name="Topic">
+        <type>
+          <var name="a84"/>
+        </type>
+      </workflowInputPort>
+    </workflowInputList>
+    <network output="node_81" x="1827" y="164">
+      <output-type>
+        <var name="a58"/>
+      </output-type>
+      <processor id="node_81" x="1687" y="133">
+        <function type="if"/>
+        <inputPort name="if_true" iterate="false">
+          <source processor="node_45"/>
+        </inputPort>
+        <inputPort name="then" iterate="false">
+          <source processor="node_82"/>
+        </inputPort>
+        <inputPort name="else" iterate="false">
+          <source processor="node_99"/>
+        </inputPort>
+      </processor>
+      <processor id="node_45" x="764" y="27">
+        <function type="custom-java">
+          <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.userprofile.ContainsUserProfileEntryFunction</config>
+        </function>
+        <inputPort name="uuid" iterate="false">
+          <source workflowInputPort="UUID"/>
+        </inputPort>
+        <inputPort name="topic" iterate="false">
+          <source workflowInputPort="Topic"/>
+        </inputPort>
+      </processor>
+      <processor id="node_82" x="993" y="115">
+        <function type="custom-java">
+          <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.userprofile.GetUserProfileEntryFunction</config>
+        </function>
+        <inputPort name="uuid" iterate="false">
+          <source workflowInputPort="UUID"/>
+        </inputPort>
+        <inputPort name="topic" iterate="false">
+          <source workflowInputPort="Topic"/>
+        </inputPort>
+      </processor>
+      <processor id="node_99" x="1552" y="204">
+        <function type="if"/>
+        <inputPort name="if_true" iterate="false">
+          <source processor="node_97"/>
+        </inputPort>
+        <inputPort name="then" iterate="false">
+          <source processor="node_100"/>
+        </inputPort>
+        <inputPort name="else" iterate="false">
+          <source processor="node_139"/>
+        </inputPort>
+      </processor>
+      <processor id="node_97" x="953" y="224">
+        <function type="custom-java">
+          <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.StringIsEqualTo</config>
+        </function>
+        <inputPort name="value1" iterate="false">
+          <source processor="node_98"/>
+        </inputPort>
+        <inputPort name="value2" iterate="false">
+          <source workflowInputPort="Topic"/>
+        </inputPort>
+      </processor>
+      <processor id="node_98" x="794" y="214">
+        <function type="constant">
+          <config param="value">"Culture"</config>
+        </function>
+      </processor>
+      <processor id="node_100" x="970" y="306">
+        <function type="custom-java">
+          <config param="implementation">workflow:imreal-usem-simple-uuidCulturalCompetencyLng</config>
+        </function>
+        <inputPort name="UUID" iterate="false">
+          <source workflowInputPort="UUID"/>
+        </inputPort>
+      </processor>
+      <processor id="node_139" x="1422" y="364">
+        <function type="if"/>
+        <inputPort name="if_true" iterate="false">
+          <source processor="node_127"/>
+        </inputPort>
+        <inputPort name="then" iterate="false">
+          <source processor="node_140"/>
+        </inputPort>
+        <inputPort name="else" iterate="false">
+          <source processor="node_141"/>
+        </inputPort>
+      </processor>
+      <processor id="node_127" x="1194" y="348">
+        <function type="custom-java">
+          <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.StringIsEqualTo</config>
+        </function>
+        <inputPort name="value1" iterate="false">
+          <source workflowInputPort="Topic"/>
+        </inputPort>
+        <inputPort name="value2" iterate="false">
+          <source processor="node_101"/>
+        </inputPort>
+      </processor>
+      <processor id="node_101" x="990" y="397">
+        <function type="constant">
+          <config param="value">"Emotion"</config>
+        </function>
+      </processor>
+      <processor id="node_140" x="853" y="464">
+        <function type="custom-java">
+          <config param="implementation">workflow:imreal-usem-simple-uuidTwitterSentiments</config>
+        </function>
+        <inputPort name="UUID" iterate="false">
+          <source workflowInputPort="UUID"/>
+        </inputPort>
+      </processor>
+      <processor id="node_141" x="903" y="545">
+        <function type="custom-java">
+          <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.userprofile.GetUserProfileEntryFunction</config>
+        </function>
+        <inputPort name="uuid" iterate="false">
+          <source workflowInputPort="UUID"/>
+        </inputPort>
+        <inputPort name="topic" iterate="false">
+          <source workflowInputPort="Topic"/>
+        </inputPort>
+      </processor>
+    </network>
+  </workflow>
 </rdfgears>

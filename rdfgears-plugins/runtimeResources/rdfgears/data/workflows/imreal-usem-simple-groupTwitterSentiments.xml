@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rdfgears>
+<?xml version="1.0" encoding="UTF-8"?><rdfgears>
   <metadata>
     <id>imreal-usem-simple-groupTwitterSentiments</id>
     <name>groupTwitterSentiments</name>
-    <description>The service takes as input a list of Twitter IDs (whitespace delimited, e.g. "twitterid1 twittered") and collects the users' past 200 tweets. It then determines for each tweet the conveyed emotion (positive, neutral, negative). The output lists all observed sentiments including their aggregated frequency across all users.
-    </description>
+    <description/>
     <category>imreal-usem-simple</category>
     <password/>
   </metadata>

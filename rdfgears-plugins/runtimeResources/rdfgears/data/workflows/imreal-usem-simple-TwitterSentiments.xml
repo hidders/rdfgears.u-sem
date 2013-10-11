@@ -2,7 +2,7 @@
   <metadata>
     <id>imreal-usem-simple-TwitterSentiments</id>
     <name>TwitterSentiments</name>
-    <description>The service collects the user&amp;apos;s past 200 tweets, filters out retweets and determines for each tweet the conveyed emotion (positive, neutral, negative). An aggregate score (between -1 and 1) is also computed which is an estimate of the overall emotion: a value close to 1 is heavily positive, close to 0 means mostly neutral and -1 indicates very negative sentiments.</description>
+    <description>The service collects the user&amp;apos;s past 200 tweets, filters out retweets and determines for each tweet the conveyed emotino (positive, neutral, negative). An aggregate score (between -1 and 1) is also computed which is an estimate of the overall emotion: a value close to 1 is heavily positive, close to 0 means mostly neutral and -1 indicates very negative sentiments.</description>
     <category>imreal-usem-simple</category>
     <password/>
   </metadata>
