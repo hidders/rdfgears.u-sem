@@ -7,4 +7,5 @@ syntax: glob
 rdfgears
 .project
 .DS_Store
-./rdfgears-rest/src/main/webapp/WEB-INF/rdfgears.config
+
+path:./rdfgears-core/src/main/resources/rdfgears.config
