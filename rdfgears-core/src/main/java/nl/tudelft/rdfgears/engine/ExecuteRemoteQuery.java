@@ -44,7 +44,7 @@ public class ExecuteRemoteQuery {
 	
 	/* Execute SELECT query in QUERY_FILE on ENDPOINT */
 	public static final String ENDPOINT = "http://dbpedia.org/sparql";
-	public static final String QUERY_FILE = "/home/af09017/Desktop/queries/dbpedia1.txt";
+	//public static final String QUERY_FILE = "/home/af09017/Desktop/queries/dbpedia1.txt";
 	
 	private static String readFile(String pathname) throws IOException {
 	    StringBuilder stringBuilder = new StringBuilder();
@@ -75,7 +75,10 @@ public class ExecuteRemoteQuery {
 		return null;
 	}
 	public static void main(String[] args){
-		Query query = getQuery(QUERY_FILE);
+		
+		String queryFile = args[0];
+		
+		Query query = getQuery(queryFile);
 		
 		QueryEngineHTTP serviceRequest = QueryExecutionFactory.createServiceRequest(ENDPOINT, query); 
 		ResultSet rs = serviceRequest.execSelect();

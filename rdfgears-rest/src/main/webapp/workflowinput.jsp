@@ -55,7 +55,7 @@
 <!-- 		response.setContentType("text/html;charset=utf-8"); -->
 <!-- 		response.setStatus(HttpServletResponse.SC_BAD_REQUEST); -->
 		
-<!--     	Engine.getLogger().debug("Request for workflow "+workflow.getFullName()); -->
+<!--     	Engine.getLogger().debug("Request for workflow "+workflow.getName()); -->
 		
 		
 		<%
@@ -89,7 +89,7 @@
 		
 		%>
 
-<%--     	Provide workflow input parameters for workflow <%= workflow.getFullName() %> <br/> --%>
+<%--     	Provide workflow input parameters for workflow <%= workflow.getName() %> <br/> --%>
 		
 		
 		<img src="<%= request.getContextPath() %>/img/rdf-gears-logo-tiny.png" />
