@@ -44,14 +44,14 @@
   </build>
         
   <dependencies>
-  
+<!--
     <dependency>
       <groupId>${project.parent.groupId}</groupId>
       <artifactId>rdfgears-core</artifactId>
       <version>${project.version}</version>
 	  <scope>compile</scope>
     </dependency>
-    
+-->
           <dependency>
            <groupId>org.twitter4j</groupId>
            <artifactId>twitter4j-core</artifactId>
@@ -98,25 +98,25 @@
       <artifactId>jsonic</artifactId>
       <version>1.2.0</version>
     </dependency>
-
     <dependency>
       <groupId>stax</groupId>
       <artifactId>stax-api</artifactId>
       <version>1.0.1</version>
     </dependency>
 
+<!--
 	
-<!--	<dependency>
+    <dependency>
     	<groupId>org.apache.jena</groupId>
     	<artifactId>jena-core</artifactId>
     	<version>2.7.3</version>
     </dependency>
 
--->
     <dependency>
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>
     	<version>5.1.21</version>
     </dependency>
+-->
   </dependencies>
 </project>
