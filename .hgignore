@@ -8,4 +8,4 @@ rdfgears
 .project
 .DS_Store
 
-path:./rdfgears-core/src/main/resources/rdfgears.config
+glob:./rdfgears-core/src/main/resources/rdfgears.config
