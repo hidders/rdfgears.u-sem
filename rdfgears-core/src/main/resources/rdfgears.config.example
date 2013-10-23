@@ -14,6 +14,8 @@ rdfgears.base.path = ../rdfgears/
 # An empty value of the parameter means it points to the base path
 #
 workflow.path = data/workflows
+processors.path = /data/processors
+functions.path = /data/functions
 lexicon.path = lexicon
 language.profile.path = imreal-language-profiles
 flickr.data.path = flickrdata
@@ -30,13 +32,13 @@ log.level = FATAL
 #
 # Credentials for the database and the Flickr APIs
 #
-flickr.api.key =
+flickr.api.key = 
 
-database =
-dbuser =
-dbpassword =
+database = localhost/imreal
+dbuser = 
+dbpassword = 
 
-twitter.OAuth.consumer.key =  
+twitter.OAuth.consumer.key = 
 twitter.OAuth.consumer.secret = 
 twitter.OAuth.access.token = 
 twitter.OAuth.access.secret = 

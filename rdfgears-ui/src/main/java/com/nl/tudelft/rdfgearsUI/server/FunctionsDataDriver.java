@@ -53,7 +53,7 @@ public class FunctionsDataDriver {
 	}
 	
 	public String getFunctionsDirContent(){
-		File functionsDir = new File(configurationDataDriver.getBasePath() + "/data/functions");
+		File functionsDir = new File(configurationDataDriver.getFunctionsDir());
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		Document doc = null;
@@ -133,7 +133,7 @@ public class FunctionsDataDriver {
 	public String getFunctionFile(String fId){
 		fId = fId.trim();
 		
-		File functionsDir = new File(configurationDataDriver.getBasePath() + "/data/functions");
+		File functionsDir = new File(configurationDataDriver.getFunctionsDir());
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		
