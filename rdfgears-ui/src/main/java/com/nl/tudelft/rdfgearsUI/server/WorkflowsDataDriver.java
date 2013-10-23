@@ -55,7 +55,7 @@ public class WorkflowsDataDriver {
 	
 	public WorkflowsDataDriver(ConfigurationDataDriver configurationDataDriver) {
 		this.configurationDataDriver = configurationDataDriver;
-		workflowsDir = configurationDataDriver.getBasePath() + "/data/workflows/";
+		workflowsDir = configurationDataDriver.getWorkflowsDir();
 	}
 	
 	 public String getWorkflowFileAsNode(String wfId){

@@ -46,13 +46,7 @@ public class ConfigurationDataDriver {
 		}
 	}
 
-	public String getBasePath() {
-		return basePath;
-	}
-
-	public File getDataDir() {
-		return dataDir;
-	}
+	
 
 	public boolean readConfigFile(ServletContext sc, String filepath) {
 
@@ -68,24 +62,24 @@ public class ConfigurationDataDriver {
 
 			basePath = rdfgearsProp.getProperty("rdfgears.base.path");
 			// test the content of the data dir on base path
-			File workflowDir = new File(basePath + "/data/workflows");
+			File workflowDir = new File(basePath + rdfgearsProp.getProperty("workflows.path"));
 			if (!workflowDir.exists()) {
 				System.out.println("Workflow directory do not exist, "
-						+ basePath + "/data/workflows");
+						+ basePath + rdfgearsProp.getProperty("workflows.path"));
 				r = false;
 			}
 
-			File processorDir = new File(basePath + "/data/processors");
+			File processorDir = new File(basePath + rdfgearsProp.getProperty("processors.path"));
 			if (!processorDir.exists()) {
 				System.out.println("Processor directory do not exist, "
-						+ basePath + "/data/processors");
+						+ basePath + rdfgearsProp.getProperty("processors.path"));
 				r = false;
 			}
 
-			File functionsDir = new File(basePath + "/data/functions");
+			File functionsDir = new File(basePath + rdfgearsProp.getProperty("functions.path"));
 			if (!functionsDir.exists()) {
 				System.out.println("Functions directory do not exist, "
-						+ basePath + "/data/functions");
+						+ basePath + rdfgearsProp.getProperty("functions.path"));
 				r = false;
 			}
 
@@ -97,7 +91,23 @@ public class ConfigurationDataDriver {
 
 		return r;
 	}
+	
+	public File getDataDir() {
+		return dataDir;
+	}
+	
+	public String getProcessorsDir(){
+		return basePath + rdfgearsProp.getProperty("processors.path");
+	}
+	
+	public String getFunctionsDir(){
+		return basePath + rdfgearsProp.getProperty("functions.path");
+	}
 
+	public String getWorkflowsDir(){
+		return basePath + rdfgearsProp.getProperty("workflows.path");
+	}
+	
 	public String getConfig(String key) {
 		return rdfgearsProp.getProperty(key);
 	}

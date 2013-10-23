@@ -53,21 +53,21 @@ public class ProcessorsDataDriver {
 	}
 
 	public String getProcessorFromFile(String filePath){
-		File p = new File(configurationDataDriver.getBasePath() + "/data/processors/" + filePath + ".xml");
+		File p = new File(configurationDataDriver.getProcessorsDir() + filePath + ".xml");
 		if(p.exists()){
 			try {
 				p = null;
-				return DataDriverUtils.readFileToString(configurationDataDriver.getBasePath() + "/data/processors/" + filePath + ".xml");
+				return DataDriverUtils.readFileToString(configurationDataDriver.getProcessorsDir() + filePath + ".xml");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return "<error> processor not found !!: "+ configurationDataDriver.getDataDir().getAbsolutePath() + "/processors/" + filePath + ".xml" +"</error>";
+		return "<error> processor not found !!: "+ configurationDataDriver.getProcessorsDir() + filePath + ".xml" +"</error>";
 	}
 	
 	public String getOperatorDirContent(){
-		File operatorDir = new File(configurationDataDriver.getBasePath() + "/data/processors");
+		File operatorDir = new File(configurationDataDriver.getProcessorsDir());
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		Document doc = null;
