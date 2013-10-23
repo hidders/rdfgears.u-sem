@@ -57,6 +57,11 @@
   <dependencies>
     <!-- also import the correct plugins --> 
     
+    <dependency>
+      <groupId>${project.parent.groupId}</groupId>
+      <artifactId>rdfgears-plugins</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 <!--
     <dependency>
       <groupId>${project.parent.groupId}</groupId>
@@ -70,11 +75,6 @@
       <version>2.8.8</version>
     </dependency>
 
-    <dependency>
-      <groupId>${project.parent.groupId}</groupId>
-      <artifactId>rdfgears-plugins</artifactId>
-      <version>${project.version}</version>
-    </dependency>
  -->
  
     <dependency>

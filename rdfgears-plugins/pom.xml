@@ -44,14 +44,12 @@
   </build>
         
   <dependencies>
-<!--
     <dependency>
       <groupId>${project.parent.groupId}</groupId>
       <artifactId>rdfgears-core</artifactId>
       <version>${project.version}</version>
 	  <scope>compile</scope>
     </dependency>
--->
           <dependency>
            <groupId>org.twitter4j</groupId>
            <artifactId>twitter4j-core</artifactId>
