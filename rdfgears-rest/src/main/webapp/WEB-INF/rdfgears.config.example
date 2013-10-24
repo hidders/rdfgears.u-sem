@@ -13,9 +13,9 @@ rdfgears.base.path = ../rdfgears/
 # (in case you can create them empty)
 # An empty value of the parameter means it points to the base path
 #
-workflow.path = data/workflows
-processors.path = /data/processors
-functions.path = /data/functions
+workflows.path = data/workflows
+processors.path = data/processors
+functions.path = data/functions
 lexicon.path = lexicon
 language.profile.path = imreal-language-profiles
 flickr.data.path = flickrdata

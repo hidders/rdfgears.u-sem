@@ -154,7 +154,7 @@ public class Config {
 	}
 
 	private void initConfig() {
-		configurePath(configMap.getProperty("workflow.path",
+		configurePath(configMap.getProperty("workflows.path",
 				DEFAULT_WORKFLOW_PATH));
 
 		/* pipelining enabled by default */
