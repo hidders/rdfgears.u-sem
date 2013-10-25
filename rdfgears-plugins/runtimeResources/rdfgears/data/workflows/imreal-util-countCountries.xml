@@ -14,7 +14,7 @@
       <network output="node_75" x="692" y="311">
          <processor id="node_75" x="724" y="98">
             <function type="record-create">
-               <config param="fields">country;count;</config>
+               <config param="bindVariables">country;count;</config>
             </function>
             <inputPort iterate="false" name="country">
                <source processor="node_74"/>

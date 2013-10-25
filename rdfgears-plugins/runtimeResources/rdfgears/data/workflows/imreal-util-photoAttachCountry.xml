@@ -14,7 +14,7 @@
       <network output="node_121" x="947" y="272">
          <processor id="node_121" x="855" y="64">
             <function type="record-create">
-               <config param="fields">photo;country;estimatedCountry;flickrAccuracy;</config>
+               <config param="bindVariables">photo;country;estimatedCountry;flickrAccuracy;</config>
             </function>
             <inputPort iterate="false" name="photo">
                <source workflowInputPort="photo"/>
