@@ -14,7 +14,7 @@
       <network output="node_120" x="817" y="542">
          <processor id="node_120" x="920" y="301">
             <function type="record-create">
-               <config param="fields">country;photo;</config>
+               <config param="bindVariables">country;photo;</config>
             </function>
             <inputPort iterate="false" name="country">
                <source processor="node_119"/>

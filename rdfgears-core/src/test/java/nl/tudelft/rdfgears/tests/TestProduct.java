@@ -74,7 +74,7 @@ public class TestProduct {
 
 		RGLFunction max = new RecordCreate();
 		try {
-			max.initialize(Collections.singletonMap("fields", "value1;value2;"));
+			max.initialize(Collections.singletonMap("bindVariables", "value1;value2;"));
 		} catch (WorkflowLoadingException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException(e.getMessage());

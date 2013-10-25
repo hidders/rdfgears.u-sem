@@ -46,15 +46,15 @@ import nl.tudelft.rdfgears.util.row.ValueRow;
 public class RecordCreate extends NNRCFunction {
 	
 	/**
-	 * The config map should contain the key "fields", and value should be a ';'-separated list of fieldnames.
+	 * The config map should contain the key "bindVariables", and value should be a ';'-separated list of fieldnames.
 	 * Example: 
-	 * config.get("fields") => "field1;field2;anotherField" 
+	 * config.get("bindVariables") => "field1;field2;anotherField" 
 	 */
 	@Override
 	public void initialize(Map<String, String> config) {
 		
 		/* configure the required inputs based on the ';' separated list of field names */
-		String fieldsStr = config.get("fields");
+		String fieldsStr = config.get("bindVariables");
 		String[] split = fieldsStr.split(";");
 		for (int i=0; i<split.length; i++){
 			if (split[i].length()>0)
