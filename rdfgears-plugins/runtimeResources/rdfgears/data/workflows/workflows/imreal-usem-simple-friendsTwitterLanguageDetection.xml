@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><rdfgears>
+  <metadata>
+    <id>imreal-usem-simple-friendsTwitterLanguageDetection</id>
+    <name>friendsTwitterLanguageDetection</name>
+    <description>The service collects the user's friends, randomly samples a small number and collects those friends&amp;apos&amp;semi; past 200 tweets. For each tweet, the language is determined. The output lists all observed languages including their frequency.</description>
+    <category>imreal-usem-simple</category>
+    <password/>
+  </metadata>
+  <workflow>
+    <workflowInputList x="40" y="83">
+      <workflowInputPort name="Twitter username">
+        <type>
+          <var name="a66"/>
+        </type>
+      </workflowInputPort>
+    </workflowInputList>
+    <network output="calcSimilarity" x="379" y="239">
+      <output-type>
+        <var name="a69"/>
+      </output-type>
+      <processor id="calcSimilarity" x="265" y="69">
+        <function type="custom-java">
+          <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.TwitterLanguageDetector</config>
+        </function>
+        <inputPort name="username" iterate="false">
+          <source workflowInputPort="Twitter username"/>
+        </inputPort>
+        <inputPort name="uuid" iterate="false">
+          <source processor="node_4"/>
+        </inputPort>
+        <inputPort name="friendsOfUser" iterate="false">
+          <source processor="node_25"/>
+        </inputPort>
+      </processor>
+      <processor id="node_4" x="36" y="185">
+        <function type="constant">
+          <config param="value">""</config>
+        </function>
+      </processor>
+      <processor id="node_25" x="39" y="262">
+        <function type="constant">
+          <config param="value">"true"</config>
+        </function>
+      </processor>
+    </network>
+  </workflow>
+</rdfgears>

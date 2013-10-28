@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+  <metadata>
+    <id>imreal-usem-simple-CulturalCompetency</id>
+    <name>CulturalCompetency</name>
+    <description>Given a Flickr and Twitter username, the language &amp; image based cultural competency are computed and an average score of the two (or a max or a sum) is returned.</description>
+    <category>imreal-usem-simple</category>
+    <password/>
+  </metadata>
+  <workflow>
+    <workflowInputList x="266" y="272">
+      <workflowInputPort name="Twitter username">
+        <type>
+          <var name="a26"/>
+        </type>
+      </workflowInputPort>
+    </workflowInputList>
+    <network output="node_13" x="1229" y="532">
+      <output-type>
+        <var name="a7"/>
+      </output-type>
+      <processor id="node_13" x="1077" y="496">
+        <function type="custom-java">
+          <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.UserProfileFunction</config>
+        </function>
+        <inputPort name="wo:weight" iterate="false">
+          <source processor="node_12"/>
+        </inputPort>
+        <inputPort name="wi:topic" iterate="false">
+          <source processor="node_14"/>
+        </inputPort>
+        <inputPort name="rdf:about" iterate="false">
+          <source workflowInputPort="Twitter username"/>
+        </inputPort>
+      </processor>
+      <processor id="node_14" x="890" y="405">
+        <function type="constant">
+          <config param="value">"http://dbpedia.org/resource/Cultural_competence"</config>
+        </function>
+      </processor>
+      <processor id="node_12" x="1099" y="159">
+        <function type="custom-java">
+          <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.ExpressionEvaluation</config>
+        </function>
+        <inputPort name="a" iterate="false">
+          <source processor="node_68"/>
+        </inputPort>
+        <inputPort name="b" iterate="false">
+          <source processor="node_67"/>
+        </inputPort>
+        <inputPort name="expression" iterate="false">
+          <source processor="node_13_"/>
+        </inputPort>
+      </processor>
+      <processor id="node_68" x="943" y="151">
+        <function type="record-project">
+          <config param="projectField">wv</config>
+        </function>
+        <inputPort name="record" iterate="false">
+          <source processor="node_66"/>
+        </inputPort>
+      </processor>
+      <processor id="node_66" x="761" y="149">
+        <function type="custom-java">
+          <config param="implementation">nl.tudelft.rdfgears.rgl.function.standard.ArbitraryBagElement</config>
+        </function>
+        <inputPort name="bag" iterate="false">
+          <source processor="node_3"/>
+        </inputPort>
+      </processor>
+      <processor id="node_3" x="605" y="152">
+        <function type="sparql">
+          <config param="bindVariables">input0;</config>
+          <config param="query"> PREFIX  wo:  &lt;http://purl.org/ontology/wo/core#&gt;
+SELECT ?wv
+WHERE { GRAPH ?input0 { ?x wo:weight_value ?wv . } }</config>
+        </function>
+        <inputPort name="input0" iterate="false">
+          <source processor="node_92"/>
+        </inputPort>
+      </processor>
+      <processor id="node_67" x="948" y="239">
+        <function type="record-project">
+          <config param="projectField">wv</config>
+        </function>
+        <inputPort name="record" iterate="false">
+          <source processor="node_65"/>
+        </inputPort>
+      </processor>
+      <processor id="node_65" x="740" y="278">
+        <function type="custom-java">
+          <config param="implementation">nl.tudelft.rdfgears.rgl.function.standard.ArbitraryBagElement</config>
+        </function>
+        <inputPort name="bag" iterate="false">
+          <source processor="node_5"/>
+        </inputPort>
+      </processor>
+      <processor id="node_5" x="608" y="259">
+        <function type="sparql">
+          <config param="bindVariables">input0;</config>
+          <config param="query"> PREFIX  wo:  &lt;http://purl.org/ontology/wo/core#&gt; SELECT ?wv
+WHERE { GRAPH ?input0 { ?x wo:weight_value ?wv . } }</config>
+        </function>
+        <inputPort name="input0" iterate="false">
+          <source processor="node_93"/>
+        </inputPort>
+      </processor>
+      <processor id="node_13_" x="943" y="315">
+        <function type="constant">
+          <config param="value">"(a+b)/2.0"</config>
+        </function>
+      </processor>
+      <processor id="node_92" x="399" y="200">
+        <function type="custom-java">
+          <config param="implementation">workflow:imreal-usem-simple-CulturalCompetencyImg</config>
+        </function>
+        <inputPort name="Flickr username" iterate="false">
+          <source workflowInputPort="Flick username"/>
+        </inputPort>
+        <inputPort name="Twitter username" iterate="false">
+          <source workflowInputPort="Twitter username"/>
+        </inputPort>
+      </processor>
+      <processor id="node_93" x="401" y="300">
+        <function type="custom-java">
+          <config param="implementation">workflow:imreal-usem-simple-CulturalCompetencyLng</config>
+        </function>
+        <inputPort name="Twitter username" iterate="false">
+          <source workflowInputPort="Twitter username"/>
+        </inputPort>
+      </processor>
+    </network>
+  </workflow>
+</rdfgears>
