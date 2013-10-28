@@ -3,7 +3,7 @@
 <description>Create Record</description>
 <inputs>
 <function type="record-create"> 
-<param name="fields" type="InputFields" label="Record Fields"/>
+<param name="bindVariables" type="InputFields" label="Record Fields"/>
 </function> 
 </inputs> 
 <output> 
