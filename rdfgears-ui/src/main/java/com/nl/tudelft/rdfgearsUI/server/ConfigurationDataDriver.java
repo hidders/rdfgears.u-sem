@@ -28,6 +28,7 @@ package com.nl.tudelft.rdfgearsUI.server;
 
 
 import javax.servlet.ServletContext;
+
 import java.io.*;
 import java.util.Properties;
 
@@ -42,7 +43,7 @@ public class ConfigurationDataDriver {
 		System.out.println("configFile basepath:" + sc.getRealPath("/"));
 		if (!readConfigFile(sc, configFile)) {
 			System.out
-					.println("Cannot read config file or it contain error.. fix it dude..!!");
+					.println("Cannot read config file or it contains errors!!");
 		}
 	}
 
@@ -53,6 +54,9 @@ public class ConfigurationDataDriver {
 		boolean r = true;
 		try {
 
+			//InputStream is = sc.getResourceAsStream(filepath);
+			System.out.println("Loading rdfgears-ui config file from WEB-INF " + filepath);
+			
 			InputStream is = sc.getResourceAsStream(filepath);
 			
 			rdfgearsProp.load(is);
@@ -97,19 +101,42 @@ public class ConfigurationDataDriver {
 	}
 	
 	public String getProcessorsDir(){
-		return basePath + rdfgearsProp.getProperty("processors.path");
+		
+		String dirName = basePath + rdfgearsProp.getProperty("processors.path");
+
+		dirName = addSlash(dirName);
+		
+		return dirName;
+
 	}
 	
 	public String getFunctionsDir(){
-		return basePath + rdfgearsProp.getProperty("functions.path");
+		String dirName = basePath + rdfgearsProp.getProperty("functions.path");
+
+		dirName = addSlash(dirName);
+		
+		return dirName;
 	}
 
 	public String getWorkflowsDir(){
-		return basePath + rdfgearsProp.getProperty("workflows.path");
+		String dirName = basePath + rdfgearsProp.getProperty("workflows.path");
+
+		dirName = addSlash(dirName);
+		
+		return dirName;
 	}
 	
 	public String getConfig(String key) {
 		return rdfgearsProp.getProperty(key);
 	}
 
+	private String addSlash(String dirName) {
+
+		if (dirName.lastIndexOf("/") != (dirName.length() - 1)) {
+			dirName = dirName + "/";
+		}
+
+		return dirName;
+
+	}
 }
