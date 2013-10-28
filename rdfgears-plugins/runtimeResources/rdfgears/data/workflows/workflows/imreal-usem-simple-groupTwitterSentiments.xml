@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdfgears>
+  <metadata>
+    <id>imreal-usem-simple-groupTwitterSentiments</id>
+    <name>groupTwitterSentiments</name>
+    <description>The service takes as input a list of Twitter IDs (whitespace delimited, e.g. "twitterid1 twittered") and collects the users' past 200 tweets. It then determines for each tweet the conveyed emotion (positive, neutral, negative). The output lists all observed sentiments including their aggregated frequency across all users.
+    </description>
+    <category>imreal-usem-simple</category>
+    <password/>
+  </metadata>
+  <workflow>
+    <workflowInputList x="474" y="92">
+      <workflowInputPort name="Twitter usernames">
+        <type>
+          <var name="a4"/>
+        </type>
+      </workflowInputPort>
+    </workflowInputList>
+    <network output="node_7" x="966" y="181">
+      <output-type>
+        <var name="a6"/>
+      </output-type>
+      <processor id="node_6" x="476" y="240">
+        <function type="constant">
+          <config param="value">""</config>
+        </function>
+      </processor>
+      <processor id="node_7" x="692" y="150">
+        <function type="custom-java">
+          <config param="implementation">nl.tudelft.rdfgears.rgl.function.imreal.TweetSentiments</config>
+        </function>
+        <inputPort name="username" iterate="false">
+          <source workflowInputPort="Twitter usernames"/>
+        </inputPort>
+        <inputPort name="uuid" iterate="false">
+          <source processor="node_6"/>
+        </inputPort>
+      </processor>
+    </network>
+  </workflow>
+</rdfgears>
