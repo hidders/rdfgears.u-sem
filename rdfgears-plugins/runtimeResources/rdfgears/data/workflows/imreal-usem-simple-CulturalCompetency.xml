@@ -11,13 +11,18 @@
     <workflowInputList x="266" y="272">
       <workflowInputPort name="Twitter username">
         <type>
-          <var name="a26"/>
+          <var name="a23"/>
+        </type>
+      </workflowInputPort>
+      <workflowInputPort name="Flick username">
+        <type>
+          <var name="a25"/>
         </type>
       </workflowInputPort>
     </workflowInputList>
     <network output="node_13" x="1229" y="532">
       <output-type>
-        <var name="a7"/>
+        <var name="a22"/>
       </output-type>
       <processor id="node_13" x="1077" y="496">
         <function type="custom-java">
